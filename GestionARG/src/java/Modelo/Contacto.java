@@ -3,7 +3,7 @@ package Modelo;
 public class Contacto {
 
     private int id_contacto;
-    private String telefono, mail;
+    private String telefono, correo;
 
     public Contacto() {
     }
@@ -11,7 +11,7 @@ public class Contacto {
     public Contacto(int id_contacto, String telefono, String mail) {
         this.id_contacto = id_contacto;
         this.telefono = telefono;
-        this.mail = mail;
+        this.correo = mail;
     }
 
     public int getId_contacto() {
@@ -30,12 +30,12 @@ public class Contacto {
         this.telefono = telefono;
     }
 
-    public String getMail() {
-        return mail;
+    public String getCorreo() {
+        return correo;
     }
 
-    public void setMail(String mail) {
-        this.mail = mail;
+    public void setCorreo(String correo) {
+        this.correo = correo;
     }
 
 }

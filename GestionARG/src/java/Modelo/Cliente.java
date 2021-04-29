@@ -3,13 +3,13 @@ package Modelo;
 public class Cliente {
 
     private int id_cliente, id_contacto, id_tipo_cliente;
-    private String nombre, apellido, fecha_nac;
+    private String nombre, apellido, fecha_nac, direccion;
     private double documento;
 
     public Cliente() {
     }
 
-    public Cliente(int id_cliente, int id_contacto, int id_tipo_cliente, String nombre, String apellido, String fecha_nac, double documento) {
+    public Cliente(int id_cliente, int id_contacto, int id_tipo_cliente, String nombre, String apellido, String fecha_nac, double documento, String direccion) {
         this.id_cliente = id_cliente;
         this.id_contacto = id_contacto;
         this.id_tipo_cliente = id_tipo_cliente;
@@ -17,6 +17,7 @@ public class Cliente {
         this.apellido = apellido;
         this.fecha_nac = fecha_nac;
         this.documento = documento;
+        this.direccion = direccion;
     }
 
     public int getId_cliente() {
@@ -73,6 +74,14 @@ public class Cliente {
 
     public void setDocumento(double documento) {
         this.documento = documento;
+    }
+
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
     }
 
 }
