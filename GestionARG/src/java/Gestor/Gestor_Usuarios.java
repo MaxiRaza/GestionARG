@@ -35,14 +35,16 @@ public class Gestor_Usuarios {
     public void agregarUsuario(Usuario u) {
         try {
             abrirConexion();
-            PreparedStatement ps = conexion.prepareStatement("INSERT INTO Usuarios (nombre, apellido, documento, fecha_nac, direccion, id_rol, id_contacto) VALUES (?,?,?,?,?,?,?)");
+            PreparedStatement ps = conexion.prepareStatement("INSERT INTO Usuarios (nombre, apellido, documento, fecha_nac, direccion, id_rol, id_contacto, contrasenia, alias) VALUES (?,?,?,?,?,?,?,?,?)");
             ps.setString(1, u.getNombre());
             ps.setString(2, u.getApellido());
             ps.setDouble(3, u.getDocumento());
             ps.setString(4, u.getFecha_nac());
             ps.setString(5, u.getDireccion());
-            ps.setInt(6, u.getId_rol());
+            ps.setInt(6, 1);
             ps.setInt(7, u.getId_contacto());
+            ps.setString(8, u.getContrasenia());
+            ps.setString(9, u.getAlias());
             ps.executeUpdate();
             ps.close();
         } catch (SQLException ex) {
@@ -57,7 +59,7 @@ public class Gestor_Usuarios {
         try {
             abrirConexion();
             Statement st = conexion.createStatement();
-            ResultSet rs = st.executeQuery("SELECT id_usuario, nombre, apellido, documento, fecha_nac, direccion, id_rol, id_contacto FROM Usuarios");
+            ResultSet rs = st.executeQuery("SELECT id_usuario, nombre, apellido, documento, fecha_nac, direccion, id_rol, id_contacto, contrasenia, alias FROM Usuarios");
             while (rs.next()) {
                 Usuario u = new Usuario();
                 u.setId_usuario(rs.getInt(1));
@@ -68,6 +70,8 @@ public class Gestor_Usuarios {
                 u.setDireccion(rs.getString(6));
                 u.setId_rol(rs.getInt(7));
                 u.setId_contacto(rs.getInt(8));
+                u.setContrasenia(rs.getString(9));
+                u.setAlias(rs.getString(10));
                 lista.add(u);
             }
             rs.close();
@@ -84,7 +88,7 @@ public class Gestor_Usuarios {
         Usuario u = null;
         try {
             abrirConexion();
-            PreparedStatement ps = conexion.prepareStatement("SELECT id_usuario, nombre, apellido, documento, fecha_nac, direccion, id_rol, id_contacto FROM Usuarios WHERE id_usuario = ?");
+            PreparedStatement ps = conexion.prepareStatement("SELECT id_usuario, nombre, apellido, documento, fecha_nac, direccion, id_rol, id_contacto, contrasenia, alias FROM Usuarios WHERE id_usuario = ?");
             ps.setInt(1, id_usuario);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -97,6 +101,8 @@ public class Gestor_Usuarios {
                 u.setDireccion(rs.getString(6));
                 u.setId_rol(rs.getInt(7));
                 u.setId_contacto(rs.getInt(8));
+                u.setContrasenia(rs.getString(9));
+                u.setAlias(rs.getString(10));
             }
             ps.close();
         } catch (SQLException ex) {
@@ -110,7 +116,7 @@ public class Gestor_Usuarios {
     public void actualizarUsuario(Usuario u) {
         try {
             abrirConexion();
-            PreparedStatement ps = conexion.prepareStatement("UPDATE Usuarios SET nombre = ?, apellido = ?, documento = ?, fecha_nac = ?, direccion = ?, id_rol = ?, id_contacto = ? WHERE id_usuario = ?");
+            PreparedStatement ps = conexion.prepareStatement("UPDATE Usuarios SET nombre = ?, apellido = ?, documento = ?, fecha_nac = ?, direccion = ?, id_rol = ?, id_contacto = ?, contrasenia = ?, alias = ? WHERE id_usuario = ?");
             ps.setString(1, u.getNombre());
             ps.setString(2, u.getApellido());
             ps.setDouble(3, u.getDocumento());
@@ -118,7 +124,9 @@ public class Gestor_Usuarios {
             ps.setString(5, u.getDireccion());
             ps.setInt(6, u.getId_rol());
             ps.setInt(7, u.getId_contacto());
-            ps.setInt(8, u.getId_usuario());
+            ps.setString(8, u.getContrasenia());
+            ps.setString(9, u.getAlias());
+            ps.setInt(10, u.getId_usuario());
             ps.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(Gestor_Usuarios.class.getName()).log(Level.SEVERE, null, ex);
@@ -138,6 +146,26 @@ public class Gestor_Usuarios {
         } finally {
             cerrarConexion();
         }
+    }
+
+    public boolean obtenerUsuario(String alias, String contrasenia) {
+        boolean existe = false;
+        try {
+            abrirConexion();
+            PreparedStatement ps = conexion.prepareStatement("SELECT alias, contrasenia FROM Usuarios WHERE alias = ? AND contrasenia = ?");
+            ps.setString(1, alias);
+            ps.setString(2, contrasenia);
+            ResultSet st = ps.executeQuery();
+            if (st.next()) {
+                existe = true;
+            }
+            ps.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Gestor_Usuarios.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            cerrarConexion();
+        }
+        return existe;
     }
 
 }

@@ -124,4 +124,24 @@ public class Gestor_Contactos {
             cerrarConexion();
         }
     }
+    
+    public int obtenerIdContacto(String correo, String telefono) {
+        int c = 0;
+        try {
+            abrirConexion();
+            PreparedStatement ps = conexion.prepareStatement("SELECT id_contacto FROM Contactos WHERE correo = ? AND telefono = ?");
+            ps.setString(1, correo);
+            ps.setString(2,telefono);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                c = rs.getInt(1);
+            }
+            ps.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Gestor_Contactos.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            cerrarConexion();
+        }
+        return c;
+    }
 }

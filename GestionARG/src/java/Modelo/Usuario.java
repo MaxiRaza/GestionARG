@@ -3,13 +3,13 @@ package Modelo;
 public class Usuario {
 
     private int id_usuario, id_rol, id_contacto;
-    private String nombre, apellido, fecha_nac, direccion;
+    private String nombre, apellido, fecha_nac, direccion, contrasenia, alias;
     private double documento;
 
     public Usuario() {
     }
 
-    public Usuario(int id_usuario, int id_rol, int id_contacto, String nombre, String apellido, String fecha_nac, String direccion, double documento) {
+    public Usuario(int id_usuario, int id_rol, int id_contacto, String nombre, String apellido, String fecha_nac, String direccion, String contrasenian, String alias, double documento) {
         this.id_usuario = id_usuario;
         this.id_rol = id_rol;
         this.id_contacto = id_contacto;
@@ -17,6 +17,8 @@ public class Usuario {
         this.apellido = apellido;
         this.fecha_nac = fecha_nac;
         this.direccion = direccion;
+        this.contrasenia = contrasenian;
+        this.alias = alias;
         this.documento = documento;
     }
 
@@ -76,6 +78,22 @@ public class Usuario {
         this.direccion = direccion;
     }
 
+    public String getContrasenia() {
+        return contrasenia;
+    }
+
+    public void setContrasenia(String contrasenia) {
+        this.contrasenia = contrasenia;
+    }
+
+    public String getAlias() {
+        return alias;
+    }
+
+    public void setAlias(String alias) {
+        this.alias = alias;
+    }
+
     public double getDocumento() {
         return documento;
     }
@@ -84,4 +102,5 @@ public class Usuario {
         this.documento = documento;
     }
 
+    
 }

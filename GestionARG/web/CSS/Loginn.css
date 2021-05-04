@@ -55,8 +55,8 @@ body{
 
 .header{
     position: absolute;
-    top: calc(50% - 45px);
-    left: calc(50% - 300px);
+    top: calc(50% - 55px);
+    left: calc(50% - 450px);
     z-index: 2;
 }
 
@@ -65,7 +65,7 @@ body{
     color: #fff;
     font-family: 'Exo 2', sans-serif;
     font-size: 65px;
-    font-weight: 380;
+    font-weight: 400;
     text-shadow: 5px 7px 5px black;
 }
 

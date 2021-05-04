@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(name = "Clientes", urlPatterns = {"Clientes"})
+@WebServlet(name = "Clientes", urlPatterns = {"/Clientes"})
 public class Servelet_Clientes extends HttpServlet {
 
     Gestor_Clientes gc = new Gestor_Clientes();
