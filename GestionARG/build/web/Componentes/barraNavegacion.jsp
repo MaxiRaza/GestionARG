@@ -5,7 +5,7 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <a class="nav-link <c:if test="${activar == 1}">active</c:if>" href="Login">Inicio <span class="sr-only">(current)</span></a>
+                <a class="nav-link <c:if test="${activar == 1}">active</c:if>" href="Loginn">Inicio <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link <c:if test="${activar == 2}">active</c:if>" href="Productos">Productos</a>
@@ -20,10 +20,13 @@
                     <a class="nav-link <c:if test="${activar == 5}">active</c:if>" href="Encargos">Encargos</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link <c:if test="${activar == 5}">active</c:if>" href="Sucursales">Sucursales</a>
+                    <a class="nav-link <c:if test="${activar == 6}">active</c:if>" href="Sucursales">Sucursales</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link <c:if test="${activar == 6}">active</c:if>" href="Facturación">Facturación</a>
+                    <a class="nav-link <c:if test="${activar == 7}">active</c:if>" href="Facturación">Facturación</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link <c:if test="${activar == 8}">active</c:if>" href="Usuarios">Usuarios</a>
                 </li>                
             </ul>               
         </div>

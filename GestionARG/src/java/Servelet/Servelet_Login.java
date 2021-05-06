@@ -25,7 +25,7 @@ public class Servelet_Login extends HttpServlet {
                 RequestDispatcher rd = getServletContext().getRequestDispatcher("/Login/login.jsp");
                 rd.forward(request, response);
             } else if (modo.equals("registrarse")) {
-                RequestDispatcher rd = getServletContext().getRequestDispatcher("/Usuarios/usuario.jsp");
+                RequestDispatcher rd = getServletContext().getRequestDispatcher("/Usuarios/registrarUsuario.jsp");
                 rd.forward(request, response);
             }
         } else {

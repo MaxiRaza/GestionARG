@@ -1,5 +1,6 @@
 package Gestor;
 
+import Modelo.DTO.DTO_Usuario;
 import Modelo.Usuario;
 import java.sql.*;
 import java.util.ArrayList;
@@ -38,10 +39,10 @@ public class Gestor_Usuarios {
             PreparedStatement ps = conexion.prepareStatement("INSERT INTO Usuarios (nombre, apellido, documento, fecha_nac, direccion, id_rol, id_contacto, contrasenia, alias) VALUES (?,?,?,?,?,?,?,?,?)");
             ps.setString(1, u.getNombre());
             ps.setString(2, u.getApellido());
-            ps.setDouble(3, u.getDocumento());
+            ps.setString(3, u.getDocumento());
             ps.setString(4, u.getFecha_nac());
             ps.setString(5, u.getDireccion());
-            ps.setInt(6, 1);
+            ps.setInt(6, u.getId_rol());
             ps.setInt(7, u.getId_contacto());
             ps.setString(8, u.getContrasenia());
             ps.setString(9, u.getAlias());
@@ -65,7 +66,7 @@ public class Gestor_Usuarios {
                 u.setId_usuario(rs.getInt(1));
                 u.setNombre(rs.getString(2));
                 u.setApellido(rs.getString(3));
-                u.setDocumento(rs.getDouble(4));
+                u.setDocumento(rs.getString(4));
                 u.setFecha_nac(rs.getString(5));
                 u.setDireccion(rs.getString(6));
                 u.setId_rol(rs.getInt(7));
@@ -96,7 +97,7 @@ public class Gestor_Usuarios {
                 u.setId_usuario(rs.getInt(1));
                 u.setNombre(rs.getString(2));
                 u.setApellido(rs.getString(3));
-                u.setDocumento(rs.getDouble(4));
+                u.setDocumento(rs.getString(4));
                 u.setFecha_nac(rs.getString(5));
                 u.setDireccion(rs.getString(6));
                 u.setId_rol(rs.getInt(7));
@@ -119,7 +120,7 @@ public class Gestor_Usuarios {
             PreparedStatement ps = conexion.prepareStatement("UPDATE Usuarios SET nombre = ?, apellido = ?, documento = ?, fecha_nac = ?, direccion = ?, id_rol = ?, id_contacto = ?, contrasenia = ?, alias = ? WHERE id_usuario = ?");
             ps.setString(1, u.getNombre());
             ps.setString(2, u.getApellido());
-            ps.setDouble(3, u.getDocumento());
+            ps.setString(3, u.getDocumento());
             ps.setString(4, u.getFecha_nac());
             ps.setString(5, u.getDireccion());
             ps.setInt(6, u.getId_rol());
@@ -166,6 +167,68 @@ public class Gestor_Usuarios {
             cerrarConexion();
         }
         return existe;
+    }
+
+    public DTO_Usuario obtenerUsuarioDTO(int id_usuario) {
+        DTO_Usuario u = null;
+        try {
+            abrirConexion();
+            PreparedStatement ps = conexion.prepareStatement("SELECT u.id_usuario, u.nombre, u.apellido, u.documento, u.fecha_nac, u.direccion, r.nombre, c.correo, c.telefono, u.contrasenia, u.alias, u.id_rol, u.id_contacto FROM Usuarios u JOIN Contactos c ON u.id_contacto = c.id_contacto JOIN Roles r ON u.id_rol = r.id_rol WHERE u.id_usuario = ?");
+            ps.setInt(1, id_usuario);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                u = new DTO_Usuario();
+                u.setId_usuario(rs.getInt(1));
+                u.setNombre(rs.getString(2));
+                u.setApellido(rs.getString(3));
+                u.setDocumento(rs.getString(4));
+                u.setFecha_nac(rs.getString(5));
+                u.setDireccion(rs.getString(6));
+                u.setRol(rs.getString(7));
+                u.setCorreo(rs.getString(8));
+                u.setTelefono(rs.getString(9));
+                u.setContrasenia(rs.getString(10));
+                u.setAlias(rs.getString(11));
+                u.setId_rol(rs.getInt(12));
+                u.setId_contacto(rs.getInt(13));
+            }
+            ps.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Gestor_Usuarios.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            cerrarConexion();
+        }
+        return u;
+    }
+
+    public ArrayList<DTO_Usuario> obtenerUsuariosDTO() {
+        ArrayList<DTO_Usuario> lista = new ArrayList<>();
+        try {
+            abrirConexion();
+            PreparedStatement ps = conexion.prepareStatement("SELECT u.id_usuario, u.nombre, u.apellido, u.documento, u.fecha_nac, u.direccion, r.nombre, c.correo, c.telefono, contrasenia, alias FROM Usuarios u JOIN Contactos c ON u.id_contacto = c.id_contacto JOIN Roles r ON u.id_rol = r.id_rol");
+            ResultSet rs = ps.executeQuery();
+             while (rs.next()) {
+                DTO_Usuario u = new DTO_Usuario();
+                u.setId_usuario(rs.getInt(1));
+                u.setNombre(rs.getString(2));
+                u.setApellido(rs.getString(3));
+                u.setDocumento(rs.getString(4));
+                u.setFecha_nac(rs.getString(5));
+                u.setDireccion(rs.getString(6));
+                u.setRol(rs.getString(7));
+                u.setCorreo(rs.getString(8));
+                u.setTelefono(rs.getString(9));
+                u.setContrasenia(rs.getString(10));
+                u.setAlias(rs.getString(11));
+                lista.add(u);
+            }
+            ps.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Gestor_Usuarios.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            cerrarConexion();
+        }
+        return lista;
     }
 
 }

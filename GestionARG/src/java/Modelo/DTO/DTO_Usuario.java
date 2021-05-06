@@ -1,14 +1,14 @@
-package Modelo;
+package Modelo.DTO;
 
-public class Usuario {
-
+public class DTO_Usuario {
+    
     private int id_usuario, id_rol, id_contacto;
-    private String nombre, apellido, fecha_nac, direccion, contrasenia, alias, documento;
+    private String nombre, apellido, fecha_nac, direccion, contrasenia, alias, rol, correo, telefono, documento;
 
-    public Usuario() {
+    public DTO_Usuario() {
     }
 
-    public Usuario(int id_usuario, int id_rol, int id_contacto, String nombre, String apellido, String fecha_nac, String direccion, String contrasenian, String alias, String documento) {
+    public DTO_Usuario(int id_usuario, int id_rol, int id_contacto, String nombre, String apellido, String fecha_nac, String direccion, String contrasenia, String alias, String rol, String correo, String telefono, String documento) {
         this.id_usuario = id_usuario;
         this.id_rol = id_rol;
         this.id_contacto = id_contacto;
@@ -16,8 +16,11 @@ public class Usuario {
         this.apellido = apellido;
         this.fecha_nac = fecha_nac;
         this.direccion = direccion;
-        this.contrasenia = contrasenian;
+        this.contrasenia = contrasenia;
         this.alias = alias;
+        this.rol = rol;
+        this.correo = correo;
+        this.telefono = telefono;
         this.documento = documento;
     }
 
@@ -93,6 +96,30 @@ public class Usuario {
         this.alias = alias;
     }
 
+    public String getRol() {
+        return rol;
+    }
+
+    public void setRol(String rol) {
+        this.rol = rol;
+    }
+
+    public String getCorreo() {
+        return correo;
+    }
+
+    public void setCorreo(String correo) {
+        this.correo = correo;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+
     public String getDocumento() {
         return documento;
     }
@@ -100,6 +127,5 @@ public class Usuario {
     public void setDocumento(String documento) {
         this.documento = documento;
     }
-
     
 }
