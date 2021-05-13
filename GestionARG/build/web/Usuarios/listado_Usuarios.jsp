@@ -11,8 +11,10 @@
         <title>GestionARG - Listado Usuarios</title>     
     </head>
     <body>             
-        <br><h1  class="row justify-content-md-center">Listado de Usuarios</h1><br>           
-        <a href="Usuarios?modo=AM" class="btn btn-info float-right">Registrar Usuario</a><br><br><br>             
+        <br><h1  class="row justify-content-md-center">Listado de Usuarios</h1><br>
+        <div style="padding-right: 75px" align = "right">
+            <a href="Usuarios?modo=AM" class="btn btn-info">Registrar Usuario</a><br><br><br>
+        </div>
         <div class="container-fluid">   
             <table class="table table-striped table-dark">
                 <thead> 

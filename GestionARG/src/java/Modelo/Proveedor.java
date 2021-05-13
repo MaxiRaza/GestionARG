@@ -3,13 +3,12 @@ package Modelo;
 public class Proveedor {
 
     private int id_proveedor, id_contacto, id_tipo_proveedor, id_clasificacion;
-    private String nombre, direccion;
-    private double cuit;
+    private String nombre, direccion, cuit;
 
     public Proveedor() {
     }
 
-    public Proveedor(int id_proveedor, int id_contacto, int id_tipo_proveedor, int id_clasificacion, String nombre, String direccion, double cuit) {
+    public Proveedor(int id_proveedor, int id_contacto, int id_tipo_proveedor, int id_clasificacion, String nombre, String direccion, String cuit) {
         this.id_proveedor = id_proveedor;
         this.id_contacto = id_contacto;
         this.id_tipo_proveedor = id_tipo_proveedor;
@@ -67,11 +66,11 @@ public class Proveedor {
         this.direccion = direccion;
     }
 
-    public double getCuit() {
+    public String getCuit() {
         return cuit;
     }
 
-    public void setCuit(double cuit) {
+    public void setCuit(String cuit) {
         this.cuit = cuit;
     }
 

@@ -42,18 +42,26 @@ public class Servelet_Login extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        
         String alias = request.getParameter("txtAlias");
         String contrasenia = request.getParameter("txtContrasenia");
 
         if (gu.obtenerUsuario(alias, contrasenia)) {
-            request.getSession().setAttribute("admin", true);
-            request.getSession().setAttribute("alias", alias);
-            request.getSession().setAttribute("contrasenia", contrasenia);
-            request.getSession().setAttribute("mostrar", "Bienvenido " + alias);
-            request.getSession().setAttribute("activar", 1);
-            RequestDispatcher rd = getServletContext().getRequestDispatcher("/Inicio/inicio.jsp");
-            rd.forward(request, response);
+            if (request.getParameter("admin").equals("true")){
+                request.getSession().setAttribute("admin", false);
+                request.getSession().setAttribute("alias", "");
+                request.getSession().setAttribute("contrasenia", "");
+                RequestDispatcher rd = getServletContext().getRequestDispatcher("/Login/login.jsp");
+                rd.forward(request, response);
+            } else {
+                request.getSession().setAttribute("admin", true);
+                request.getSession().setAttribute("alias", alias);
+                request.getSession().setAttribute("contrasenia", contrasenia);
+                request.getSession().setAttribute("mostrar", "Bienvenido " + alias);
+                request.getSession().setAttribute("activar", 1);
+                RequestDispatcher rd = getServletContext().getRequestDispatcher("/Inicio/inicio.jsp");
+                rd.forward(request, response);
+            }
         } else {
             request.setAttribute("mensajeError", "Usuario o contraseña incorrectos");
             RequestDispatcher rd = getServletContext().getRequestDispatcher("/Login/login.jsp");

@@ -11,8 +11,10 @@
         <title>GestionARG - Listado Clientes</title>     
     </head>
     <body>             
-        <br><h1  class="row justify-content-md-center">Listado de Clientes</h1><br>           
-        <a href="Clientes?modo=AM" class="btn btn-info float-right">Registrar Cliente</a><br><br><br>             
+        <br><h1  class="row justify-content-md-center">Listado de Clientes</h1><br>
+        <div style="padding-right: 75px" align = "right">
+            <a href="Clientes?modo=AM" class="btn btn-info">Registrar Cliente</a><br><br><br>
+        </div>
         <div class="container-fluid">   
             <table class="table table-striped table-dark">
                 <thead>

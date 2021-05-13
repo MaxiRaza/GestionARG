@@ -9,7 +9,7 @@
                     <a class="nav-link <c:if test="${activar == 1}">active</c:if>" href="Loginn">Inicio <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link <c:if test="${activar == 2}">active</c:if>" href="Productos">Productos</a>
+                        <a class="nav-link <c:if test="${activar == 2}">active</c:if>" href="">Productos</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link <c:if test="${activar == 3}">active</c:if>" href="Proveedores">Proveedores</a>
@@ -18,16 +18,22 @@
                         <a class="nav-link <c:if test="${activar == 4}">active</c:if>" href="Clientes">Clientes</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link <c:if test="${activar == 5}">active</c:if>" href="Encargos">Encargos</a>
+                        <a class="nav-link <c:if test="${activar == 5}">active</c:if>" href="">Encargos</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link <c:if test="${activar == 6}">active</c:if>" href="Sucursales">Sucursales</a>
+                        <a class="nav-link <c:if test="${activar == 6}">active</c:if>" href="">Sucursales</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link <c:if test="${activar == 7}">active</c:if>" href="Facturación">Facturación</a>
+                        <a class="nav-link <c:if test="${activar == 7}">active</c:if>" href="">Facturación</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link <c:if test="${activar == 8}">active</c:if>" href="Usuarios">Usuarios</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <c:if test="${activar == 9}">active</c:if>" href="">Reportes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <c:if test="${activar == 9}">active</c:if>" href="">Comprar</a>
                     </li>
             </c:if>                
         </ul>               
