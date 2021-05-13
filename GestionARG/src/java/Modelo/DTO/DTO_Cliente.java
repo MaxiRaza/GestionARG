@@ -1,21 +1,24 @@
-package Modelo;
+package Modelo.DTO;
 
-public class Cliente {
+public class DTO_Cliente {
 
-    private int id_cliente, id_contacto, id_tipo_cliente;
-    private String nombre, apellido, fecha_nac, direccion, documento;
+    private int id_cliente, id_tipo_cliente, id_contacto;
+    private String nombre, apellido, fecha_nac, direccion, tipo_cliente, correo, telefono, documento;
 
-    public Cliente() {
+    public DTO_Cliente() {
     }
 
-    public Cliente(int id_cliente, int id_contacto, int id_tipo_cliente, String nombre, String apellido, String fecha_nac, String direccion, String documento) {
-        this.id_cliente = id_cliente;
-        this.id_contacto = id_contacto;
+    public DTO_Cliente(int id_usuario, int id_tipo_cliente, int id_contacto, String nombre, String apellido, String fecha_nac, String direccion, String tipo_cliente, String correo, String telefono, String documento) {
+        this.id_cliente = id_usuario;
         this.id_tipo_cliente = id_tipo_cliente;
+        this.id_contacto = id_contacto;
         this.nombre = nombre;
         this.apellido = apellido;
         this.fecha_nac = fecha_nac;
         this.direccion = direccion;
+        this.tipo_cliente = tipo_cliente;
+        this.correo = correo;
+        this.telefono = telefono;
         this.documento = documento;
     }
 
@@ -27,20 +30,20 @@ public class Cliente {
         this.id_cliente = id_cliente;
     }
 
-    public int getId_contacto() {
-        return id_contacto;
-    }
-
-    public void setId_contacto(int id_contacto) {
-        this.id_contacto = id_contacto;
-    }
-
     public int getId_tipo_cliente() {
         return id_tipo_cliente;
     }
 
     public void setId_tipo_cliente(int id_tipo_cliente) {
         this.id_tipo_cliente = id_tipo_cliente;
+    }
+
+    public int getId_contacto() {
+        return id_contacto;
+    }
+
+    public void setId_contacto(int id_contacto) {
+        this.id_contacto = id_contacto;
     }
 
     public String getNombre() {
@@ -75,6 +78,30 @@ public class Cliente {
         this.direccion = direccion;
     }
 
+    public String getTipo_cliente() {
+        return tipo_cliente;
+    }
+
+    public void setTipo_cliente(String tipo_cliente) {
+        this.tipo_cliente = tipo_cliente;
+    }
+
+    public String getCorreo() {
+        return correo;
+    }
+
+    public void setCorreo(String correo) {
+        this.correo = correo;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+
     public String getDocumento() {
         return documento;
     }
@@ -82,5 +109,5 @@ public class Cliente {
     public void setDocumento(String documento) {
         this.documento = documento;
     }
-   
+
 }

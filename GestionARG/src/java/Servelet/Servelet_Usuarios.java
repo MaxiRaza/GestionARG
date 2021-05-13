@@ -26,35 +26,32 @@ public class Servelet_Usuarios extends HttpServlet {
             throws ServletException, IOException {
 
         String modo = request.getParameter("modo");
+        request.getSession().setAttribute("modificar", false);
+        request.getSession().setAttribute("accion", "Registrar");  
 
         if (modo == null) {
 
             if (request.getSession().getAttribute("admin") != null) {
-
                 request.getSession().setAttribute("activar", 8);
                 request.setAttribute("listadoUsuarios", gu.obtenerUsuariosDTO());
-                RequestDispatcher rd = getServletContext().getRequestDispatcher("/Usuarios/listadoUsuarios.jsp");
+                RequestDispatcher rd = getServletContext().getRequestDispatcher("/Usuarios/listado_Usuarios.jsp");
                 rd.forward(request, response);
-
             } else {
-
                 RequestDispatcher rd = getServletContext().getRequestDispatcher("/Login/login.jsp");
                 rd.forward(request, response);
-
             }
-        } else if (modo.equals("registrar")) {
 
+        } else if (modo.equals("AM")) {
+            
+            if (request.getParameter("id_usuario") != null) {
+                request.getSession().setAttribute("modificar", true);
+                 request.getSession().setAttribute("accion", "Editar");  
+                int id_usuario = Integer.parseInt(request.getParameter("id_usuario"));
+                DTO_Usuario u = gu.obtenerUsuarioDTO(id_usuario);
+                request.setAttribute("usuario", u);
+            }
             request.setAttribute("listadoRoles", gr.obtenerRoles());
-            RequestDispatcher rd = getServletContext().getRequestDispatcher("/Usuarios/registrarUsuario.jsp");
-            rd.forward(request, response);
-
-        } else if (modo.equals("modificar")) {
-
-            request.setAttribute("listadoRoles", gr.obtenerRoles());
-            int id_usuario = Integer.parseInt(request.getParameter("id_usuario"));
-            DTO_Usuario u = gu.obtenerUsuarioDTO(id_usuario);
-            request.setAttribute("usuario", u);
-            RequestDispatcher rd = getServletContext().getRequestDispatcher("/Usuarios/modificarUsuario.jsp");
+            RequestDispatcher rd = getServletContext().getRequestDispatcher("/Usuarios/AM_Usuario.jsp");
             rd.forward(request, response);
 
         } else if (modo.equals("eliminar")) {
@@ -62,7 +59,7 @@ public class Servelet_Usuarios extends HttpServlet {
             int id_usuario = Integer.parseInt(request.getParameter("id_usuario"));
             gu.eliminarUsuario(id_usuario);
             request.setAttribute("listadoUsuarios", gu.obtenerUsuariosDTO());
-            RequestDispatcher rd = getServletContext().getRequestDispatcher("/Usuarios/listadoUsuarios.jsp");
+            RequestDispatcher rd = getServletContext().getRequestDispatcher("/Usuarios/listado_Usuarios.jsp");
             rd.forward(request, response);
 
         }
@@ -88,29 +85,27 @@ public class Servelet_Usuarios extends HttpServlet {
         c.setTelefono(request.getParameter("txtTelefono"));
         u.setAlias(request.getParameter("txtAlias"));
         u.setContrasenia(request.getParameter("txtContrasenia"));
-            u.setId_rol(Integer.parseInt(request.getParameter("cmbRoles")));
+        u.setId_rol(Integer.parseInt(request.getParameter("cmbRoles")));
 
         if (u.getId_usuario() == 0) {
-
             if (gc.obtenerIdContacto(c.getCorreo(), c.getTelefono()) == 0) {
-
                 gc.agregarContacto(c);
-
             }
-
             u.setId_contacto(gc.obtenerIdContacto(c.getCorreo(), c.getTelefono()));
             gu.agregarUsuario(u);
-
         } else {
-
             gc.actualizarContacto(c);
             gu.actualizarUsuario(u);
-
         }
 
-        request.setAttribute("listadoUsuarios", gu.obtenerUsuariosDTO());
-        RequestDispatcher rd = getServletContext().getRequestDispatcher("/Usuarios/listadoUsuarios.jsp");
-        rd.forward(request, response);
+        if (request.getSession().getAttribute("admin") != null) {
+            request.setAttribute("listadoUsuarios", gu.obtenerUsuariosDTO());
+            RequestDispatcher rd = getServletContext().getRequestDispatcher("/Usuarios/listado_Usuarios.jsp");
+            rd.forward(request, response);
+        } else {
+            RequestDispatcher rd = getServletContext().getRequestDispatcher("/Login/login.jsp");
+            rd.forward(request, response);
+        }
 
     }
 

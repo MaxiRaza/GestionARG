@@ -1,6 +1,7 @@
 package Gestor;
 
 import Modelo.Cliente;
+import Modelo.DTO.DTO_Cliente;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -44,7 +45,7 @@ public class Gestor_Clientes {
             ps.setString(1, c.getNombre());
             ps.setString(2, c.getApellido());
             ps.setString(3, c.getFecha_nac());
-            ps.setDouble(4, c.getDocumento());
+            ps.setString(4, c.getDocumento());
             ps.setInt(5, c.getId_contacto());
             ps.setInt(6, c.getId_tipo_cliente());
             ps.setString(7, c.getDireccion());
@@ -69,7 +70,7 @@ public class Gestor_Clientes {
                 c.setNombre(rs.getString(2));
                 c.setApellido(rs.getString(3));
                 c.setFecha_nac(rs.getString(4));
-                c.setDocumento(rs.getDouble(5));
+                c.setDocumento(rs.getString(5));
                 c.setId_contacto(rs.getInt(6));
                 c.setId_tipo_cliente(rs.getInt(7));
                 c.setDireccion(rs.getString(8));
@@ -98,7 +99,7 @@ public class Gestor_Clientes {
                 c.setNombre(rs.getString(2));
                 c.setApellido(rs.getString(3));
                 c.setFecha_nac(rs.getString(4));
-                c.setDocumento(rs.getDouble(5));
+                c.setDocumento(rs.getString(5));
                 c.setId_contacto(rs.getInt(6));
                 c.setId_tipo_cliente(rs.getInt(7));
                 c.setDireccion(rs.getString(8));
@@ -119,7 +120,7 @@ public class Gestor_Clientes {
             ps.setString(1, c.getNombre());
             ps.setString(2, c.getApellido());
             ps.setString(3, c.getFecha_nac());
-            ps.setDouble(4, c.getDocumento());
+            ps.setString(4, c.getDocumento());
             ps.setInt(5, c.getId_contacto());
             ps.setInt(6, c.getId_tipo_cliente());
             ps.setString(7, c.getDireccion());
@@ -144,4 +145,63 @@ public class Gestor_Clientes {
             cerrarConexion();
         }
     }
+    
+    public DTO_Cliente obtenerClienteDTO(int id_cliente) {
+        DTO_Cliente c = null;
+        try {
+            abrirConexion();
+            PreparedStatement ps = conexion.prepareStatement("SELECT c.id_cliente, c.nombre, c.apellido, c.documento, c.fecha_nac, c.direccion, t.nombre, co.correo, co.telefono, c.id_tipo_cliente, c.id_contacto FROM Clientes c JOIN Contactos co ON c.id_contacto = co.id_contacto JOIN Tipo_Clientes t ON c.id_tipo_cliente = t.id_tipo_cliente WHERE c.id_cliente = ?");
+            ps.setInt(1, id_cliente);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                c = new DTO_Cliente();
+                c.setId_cliente(rs.getInt(1));
+                c.setNombre(rs.getString(2));
+                c.setApellido(rs.getString(3));
+                c.setDocumento(rs.getString(4));
+                c.setFecha_nac(rs.getString(5));
+                c.setDireccion(rs.getString(6));
+                c.setTipo_cliente(rs.getString(7));
+                c.setCorreo(rs.getString(8));
+                c.setTelefono(rs.getString(9));
+                c.setId_tipo_cliente(rs.getInt(10));
+                c.setId_contacto(rs.getInt(11));
+            }
+            ps.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Gestor_Clientes.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            cerrarConexion();
+        }
+        return c;
+    }
+
+    public ArrayList<DTO_Cliente> obtenerClientesDTO() {
+        ArrayList<DTO_Cliente> lista = new ArrayList<>();
+        try {
+            abrirConexion();
+            PreparedStatement ps = conexion.prepareStatement("SELECT c.id_cliente, c.nombre, c.apellido, c.documento, c.fecha_nac, c.direccion, t.nombre, co.correo, co.telefono FROM Clientes c JOIN Contactos co ON c.id_contacto = co.id_contacto JOIN Tipo_Clientes t ON c.id_tipo_cliente = t.id_tipo_cliente");
+            ResultSet rs = ps.executeQuery();
+             while (rs.next()) {
+                DTO_Cliente c = new DTO_Cliente();
+                c.setId_cliente(rs.getInt(1));
+                c.setNombre(rs.getString(2));
+                c.setApellido(rs.getString(3));
+                c.setDocumento(rs.getString(4));
+                c.setFecha_nac(rs.getString(5));
+                c.setDireccion(rs.getString(6));
+                c.setTipo_cliente(rs.getString(7));
+                c.setCorreo(rs.getString(8));
+                c.setTelefono(rs.getString(9));
+                lista.add(c);
+            }
+            ps.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Gestor_Clientes.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            cerrarConexion();
+        }
+        return lista;
+    }
+    
 }

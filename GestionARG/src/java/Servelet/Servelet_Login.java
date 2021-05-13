@@ -1,5 +1,6 @@
 package Servelet;
 
+import Gestor.Gestor_Roles;
 import Gestor.Gestor_Usuarios;
 import java.io.IOException;
 import javax.servlet.RequestDispatcher;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 public class Servelet_Login extends HttpServlet {
 
     Gestor_Usuarios gu = new Gestor_Usuarios();
+    Gestor_Roles gr = new Gestor_Roles();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -25,11 +27,14 @@ public class Servelet_Login extends HttpServlet {
                 RequestDispatcher rd = getServletContext().getRequestDispatcher("/Login/login.jsp");
                 rd.forward(request, response);
             } else if (modo.equals("registrarse")) {
-                RequestDispatcher rd = getServletContext().getRequestDispatcher("/Usuarios/registrarUsuario.jsp");
+                request.setAttribute("listadoRoles", gr.obtenerRoles());
+                request.getSession().setAttribute("accion", "Registrar");
+                RequestDispatcher rd = getServletContext().getRequestDispatcher("/Usuarios/AM_Usuario.jsp");
                 rd.forward(request, response);
             }
         } else {
-            RequestDispatcher rd = getServletContext().getRequestDispatcher("/Login/login.jsp");
+            request.getSession().setAttribute("activar", 1);
+            RequestDispatcher rd = getServletContext().getRequestDispatcher("/Inicio/inicio.jsp");
             rd.forward(request, response);
         }
     }
