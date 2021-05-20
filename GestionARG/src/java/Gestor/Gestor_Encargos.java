@@ -1,5 +1,6 @@
 package Gestor;
 
+import Modelo.DTO.DTO_Encargo;
 import Modelo.Encargo;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -40,9 +41,8 @@ public class Gestor_Encargos {
     public void agregarEncargo(Encargo e) {
         try {
             abrirConexion();
-            PreparedStatement ps = conexion.prepareStatement("INSERT INTO Encargos (fecha, id_proveedor) VALUES (?,?)");
+            PreparedStatement ps = conexion.prepareStatement("INSERT INTO Encargos (fecha) VALUES (?)");
             ps.setString(1, e.getFecha());
-            ps.setInt(2, e.getId_proveedor());
             ps.executeUpdate();
             ps.close();
         } catch (SQLException ex) {
@@ -57,12 +57,11 @@ public class Gestor_Encargos {
         try {
             abrirConexion();
             Statement st = conexion.createStatement();
-            ResultSet rs = st.executeQuery("SELECT id_encargo, fecha, id_proveedor FROM Encargos");
+            ResultSet rs = st.executeQuery("SELECT id_encargo, fecha FROM Encargos");
             while (rs.next()) {
                 Encargo e = new Encargo();
                 e.setId_encargo(rs.getInt(1));
                 e.setFecha(rs.getString(2));
-                e.setId_proveedor(rs.getInt(3));
                 lista.add(e);
             }
             rs.close();
@@ -79,14 +78,13 @@ public class Gestor_Encargos {
         Encargo e = null;
         try {
             abrirConexion();
-            PreparedStatement ps = conexion.prepareStatement("SELECT id_encargo, fecha, id_proveedor FROM Encargos WHERE id_encargo = ?");
+            PreparedStatement ps = conexion.prepareStatement("SELECT id_encargo, fecha FROM Encargos WHERE id_encargo = ?");
             ps.setInt(1, id_encargo);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 e = new Encargo();
                 e.setId_encargo(rs.getInt(1));
                 e.setFecha(rs.getString(2));
-                e.setId_proveedor(rs.getInt(3));
             }
             ps.close();
         } catch (SQLException ex) {
@@ -100,10 +98,9 @@ public class Gestor_Encargos {
     public void actualizarEncargo(Encargo e) {
         try {
             abrirConexion();
-            PreparedStatement ps = conexion.prepareStatement("UPDATE Encargos SET fecha = ?, id_proveedor = ?  WHERE id_encargo = ?");
+            PreparedStatement ps = conexion.prepareStatement("UPDATE Encargos SET fecha = ? WHERE id_encargo = ?");
             ps.setString(1, e.getFecha());
-            ps.setInt(2, e.getId_proveedor());
-            ps.setInt(3, e.getId_encargo());
+            ps.setInt(2, e.getId_encargo());
             ps.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(Gestor_Encargos.class.getName()).log(Level.SEVERE, null, ex);
@@ -115,8 +112,9 @@ public class Gestor_Encargos {
     public void eliminarEncargo(int id_encargo) {
         try {
             abrirConexion();
-            PreparedStatement ps = conexion.prepareStatement("DELETE Encargos WHERE id_encargo = ?");
+            PreparedStatement ps = conexion.prepareStatement("DELETE Detalle_Encargos WHERE id_encargo = ?  DELETE Encargos WHERE id_encargo = ?");
             ps.setInt(1, id_encargo);
+            ps.setInt(2, id_encargo);
             ps.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(Gestor_Encargos.class.getName()).log(Level.SEVERE, null, ex);
@@ -124,4 +122,23 @@ public class Gestor_Encargos {
             cerrarConexion();
         }
     }
+
+    public int obtenerUltimoIdEncargo() {
+        int id = 0;
+        try {
+            abrirConexion();
+            PreparedStatement ps = conexion.prepareStatement("SELECT TOP 1 id_encargo FROM Encargos ORDER BY 1 DESC");
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                id = rs.getInt(1);
+            }
+            ps.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Gestor_Encargos.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            cerrarConexion();
+        }
+        return id;
+    }
+
 }

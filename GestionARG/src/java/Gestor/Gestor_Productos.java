@@ -1,5 +1,6 @@
 package Gestor;
 
+import Modelo.DTO.DTO_Producto;
 import Modelo.Producto;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -40,7 +41,7 @@ public class Gestor_Productos {
     public void agregarProducto(Producto p) {
         try {
             abrirConexion();
-            PreparedStatement ps = conexion.prepareStatement("INSERT INTO Productos (codigo, nombre, fecha_fab, fecha_ven, precio, descripcion, id_categoria, stock, id_marca, id_deposito) VALUES (?,?,?,?,?,?,?,?,?.?)");
+            PreparedStatement ps = conexion.prepareStatement("INSERT INTO Productos (codigo, nombre, fecha_fab, fecha_ven, precio, descripcion, id_categoria, stock, id_marca, id_deposito) VALUES (?,?,?,?,?,?,?,?,?,?)");
             ps.setString(1, p.getCodigo());
             ps.setString(2, p.getNombre());
             ps.setString(3, p.getFecha_fab());
@@ -155,5 +156,65 @@ public class Gestor_Productos {
         } finally {
             cerrarConexion();
         }
+    }
+    
+    public DTO_Producto obtenerProductoDTO(int id_producto) {
+        DTO_Producto p = null;
+        try {
+            abrirConexion();
+            PreparedStatement ps = conexion.prepareStatement("SELECT p.id_producto, p.codigo, p.nombre, p.fecha_fab, p.fecha_ven, p.precio, p.descripcion, p.stock, p.id_categoria, p.id_marca, p.id_deposito FROM Productos p JOIN Categorias c ON p.id_categoria = c.id_categoria JOIN Marcas m ON p.id_marca = m.id_marca JOIN Depositos d ON p.id_deposito = d.id_deposito WHERE p.id_producto = ?");
+            ps.setInt(1, id_producto);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                p = new DTO_Producto();
+                p.setId_producto(rs.getInt(1));
+                p.setCodigo(rs.getString(2));
+                p.setNombre(rs.getString(3));                
+                p.setFecha_fab(rs.getString(4));
+                p.setFecha_ven(rs.getString(5));
+                p.setPrecio(rs.getFloat(6));
+                p.setDescripcion(rs.getString(7));
+                p.setStock(rs.getFloat(8));
+                p.setId_categoria(rs.getInt(9));
+                p.setId_marca(rs.getInt(10));
+                p.setId_deposito(rs.getInt(11));
+            }
+            ps.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Gestor_Productos.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            cerrarConexion();
+        }
+        return p;
+    }
+
+    public ArrayList<DTO_Producto> obtenerProductosDTO() {
+        ArrayList<DTO_Producto> lista = new ArrayList<>();
+        try {
+            abrirConexion();
+            PreparedStatement ps = conexion.prepareStatement("SELECT p.id_producto, p.codigo, p.nombre, p.fecha_fab, p.fecha_ven, p.precio, p.descripcion, p.stock, c.nombre, m.nombre, d.ubicacion FROM Productos p JOIN Categorias c ON p.id_categoria = c.id_categoria JOIN Marcas m ON p.id_marca = m.id_marca JOIN Depositos d ON p.id_deposito = d.id_deposito");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                DTO_Producto p = new DTO_Producto();
+                p.setId_producto(rs.getInt(1));
+                p.setCodigo(rs.getString(2));
+                p.setNombre(rs.getString(3));                
+                p.setFecha_fab(rs.getString(4));
+                p.setFecha_ven(rs.getString(5));
+                p.setPrecio(rs.getFloat(6));
+                p.setDescripcion(rs.getString(7));
+                p.setStock(rs.getFloat(8));
+                p.setCategoria(rs.getString(9));
+                p.setMarca(rs.getString(10));
+                p.setDeposito(rs.getString(11));
+                lista.add(p);
+            }
+            ps.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Gestor_Productos.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            cerrarConexion();
+        }
+        return lista;
     }
 }

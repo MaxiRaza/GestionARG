@@ -40,7 +40,7 @@ public class Gestor_Depositos {
     public void agregarDeposito(Deposito d) {
         try {
             abrirConexion();
-            PreparedStatement ps = conexion.prepareStatement("INSERT INTO Depositos (nombre) VALUES (?)");
+            PreparedStatement ps = conexion.prepareStatement("INSERT INTO Depositos (ubicacion) VALUES (?)");
             ps.setString(1, d.getUbicacion());
             ps.executeUpdate();
             ps.close();
@@ -56,7 +56,7 @@ public class Gestor_Depositos {
         try {
             abrirConexion();
             Statement st = conexion.createStatement();
-            ResultSet rs = st.executeQuery("SELECT id_deposito, nombre FROM Depositos");
+            ResultSet rs = st.executeQuery("SELECT id_deposito, ubicacion FROM Depositos");
             while (rs.next()) {
                 Deposito d = new Deposito();
                 d.setId_deposito(rs.getInt(1));
@@ -77,7 +77,7 @@ public class Gestor_Depositos {
         Deposito d = null;
         try {
             abrirConexion();
-            PreparedStatement ps = conexion.prepareStatement("SELECT id_deposito, nombre FROM Depositos WHERE id_deposito = ?");
+            PreparedStatement ps = conexion.prepareStatement("SELECT id_deposito, ubicacion FROM Depositos WHERE id_deposito = ?");
             ps.setInt(1, id_deposito);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -97,7 +97,7 @@ public class Gestor_Depositos {
     public void actualizarDeposito(Deposito d) {
         try {
             abrirConexion();
-            PreparedStatement ps = conexion.prepareStatement("UPDATE Depositos SET nombre = ? WHERE id_deposito = ?");
+            PreparedStatement ps = conexion.prepareStatement("UPDATE Depositos SET ubicacion = ? WHERE id_deposito = ?");
             ps.setString(1, d.getUbicacion());
             ps.setInt(2, d.getId_deposito());
             ps.executeUpdate();

@@ -16,7 +16,6 @@
             <div class="container">
                 <div class="row">
                     <div class="col col-md-6 ">
-
                         <input type="hidden" name="txtIdProveedor" value="<jsp:getProperty name="proveedor" property="id_proveedor"></jsp:getProperty>" />
                         <input type="hidden" name="txtIdContacto" value="<jsp:getProperty name="proveedor" property="id_contacto"></jsp:getProperty>" />
                             <div class="form-group">
@@ -36,7 +35,7 @@
                                     <input type="text" name="txtCorreo" required="required" class="form-control" id="recipient-name" <c:if test="${modificar}"> value="<jsp:getProperty name="proveedor" property="correo"></jsp:getProperty>" </c:if>>
                                 </div>
                             </div>
-                            <div class="col col-md-6">
+                            <div class="col col-md-4">
                                 <div class="form-group">
                                     <label class="col-form-label">Teléfono (*)</label>
                                     <input type="number" name="txtTelefono" required="required" class="form-control" id="recipient-name" <c:if test="${modificar}"> value="<jsp:getProperty name="proveedor" property="telefono"></jsp:getProperty>" </c:if>>

@@ -1,5 +1,6 @@
 package Gestor;
 
+import Modelo.DTO.DTO_Encargo;
 import Modelo.Detalle_Encargo;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -40,11 +41,12 @@ public class Gestor_Detalle_Encargos {
     public void agregarDetalleEncargo(Detalle_Encargo de) {
         try {
             abrirConexion();
-            PreparedStatement ps = conexion.prepareStatement("INSERT INTO Detalle_Encargos (cantidad, importe, id_producto, id_encargo) VALUES (?,?,?,?)");
+            PreparedStatement ps = conexion.prepareStatement("INSERT INTO Detalle_Encargos (cantidad, importe, id_producto, id_encargo, id_proveedor) VALUES (?,?,?,?,?)");
             ps.setFloat(1, de.getCantidad());
             ps.setFloat(2, de.getImporte());
             ps.setInt(3, de.getId_producto());
             ps.setInt(4, de.getId_encargo());
+            ps.setInt(5, de.getId_proveedor());
             ps.executeUpdate();
             ps.close();
         } catch (SQLException ex) {
@@ -59,7 +61,7 @@ public class Gestor_Detalle_Encargos {
         try {
             abrirConexion();
             Statement st = conexion.createStatement();
-            ResultSet rs = st.executeQuery("SELECT id_detalle_encargo, cantidad, importe, id_producto, id_encargo FROM Detalle_Encargos");
+            ResultSet rs = st.executeQuery("SELECT id_detalle_encargo, cantidad, importe, id_producto, id_encargo, id_proveedor FROM Detalle_Encargos");
             while (rs.next()) {
                 Detalle_Encargo de = new Detalle_Encargo();
                 de.setId_detalle_encargo(rs.getInt(1));
@@ -67,6 +69,7 @@ public class Gestor_Detalle_Encargos {
                 de.setImporte(rs.getFloat(3));
                 de.setId_producto(rs.getInt(4));
                 de.setId_encargo(rs.getInt(5));
+                de.setId_proveedor(rs.getInt(6));
                 lista.add(de);
             }
             rs.close();
@@ -83,7 +86,7 @@ public class Gestor_Detalle_Encargos {
         Detalle_Encargo de = null;
         try {
             abrirConexion();
-            PreparedStatement ps = conexion.prepareStatement("SELECT id_detalle_encargo, cantidad, importe, id_producto, id_encargo FROM Detalle_Encargos WHERE id_detalle_encargo = ?");
+            PreparedStatement ps = conexion.prepareStatement("SELECT id_detalle_encargo, cantidad, importe, id_producto, id_proveedor, id_encargo  FROM Detalle_Encargos WHERE id_detalle_encargo = ?");
             ps.setInt(1, id_detalle_encargo);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -92,7 +95,8 @@ public class Gestor_Detalle_Encargos {
                 de.setCantidad(rs.getFloat(2));
                 de.setImporte(rs.getFloat(3));
                 de.setId_producto(rs.getInt(4));
-                de.setId_encargo(rs.getInt(5));
+                de.setId_proveedor(rs.getInt(5));
+                de.setId_encargo(rs.getInt(6));
             }
             ps.close();
         } catch (SQLException ex) {
@@ -106,12 +110,13 @@ public class Gestor_Detalle_Encargos {
     public void actualizarDetalleEncargo(Detalle_Encargo de) {
         try {
             abrirConexion();
-            PreparedStatement ps = conexion.prepareStatement("UPDATE Detalle_Encargos SET cantidad = ?, importe = ?, id_producto = ?, id_encargo = ?  WHERE id_detalle_encargo = ?");
+            PreparedStatement ps = conexion.prepareStatement("UPDATE Detalle_Encargos SET cantidad = ?, importe = ?, id_producto = ?, id_encargo = ?, id_proveedor = ?  WHERE id_detalle_encargo = ?");
             ps.setFloat(1, de.getCantidad());
             ps.setFloat(2, de.getImporte());
             ps.setInt(3, de.getId_producto());
             ps.setInt(4, de.getId_encargo());
-            ps.setInt(5, de.getId_detalle_encargo());
+            ps.setInt(5, de.getId_proveedor());
+            ps.setInt(6, de.getId_detalle_encargo());
             ps.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(Gestor_Detalle_Encargos.class.getName()).log(Level.SEVERE, null, ex);
@@ -132,4 +137,29 @@ public class Gestor_Detalle_Encargos {
             cerrarConexion();
         }
     }
+
+    public ArrayList<DTO_Encargo> obtenerDetalleEncargosDTO() {
+        ArrayList<DTO_Encargo> lista = new ArrayList<>();
+        try {
+            abrirConexion();
+            PreparedStatement ps = conexion.prepareStatement("SELECT d.id_detalle_encargo, d.cantidad, p.nombre, pr.nombre, d.id_encargo  FROM Detalle_Encargos d JOIN Productos p ON p.id_producto = d.id_producto JOIN Proveedores pr ON pr.id_proveedor = d.id_proveedor");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                DTO_Encargo de = new DTO_Encargo();
+                de.setId_detalle_encargo(rs.getInt(1));
+                de.setCantidad(rs.getFloat(2));
+                de.setProducto(rs.getString(3));
+                de.setProveedor(rs.getString(4));
+                de.setId_encargo(rs.getInt(5));
+                lista.add(de);
+            }
+            ps.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Gestor_Detalle_Encargos.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            cerrarConexion();
+        }
+        return lista;
+    }
+
 }
