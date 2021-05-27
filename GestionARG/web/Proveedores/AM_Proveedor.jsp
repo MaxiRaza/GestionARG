@@ -13,9 +13,9 @@
     <body>      
         <br><h1 class="row justify-content-md-center">${accion} Proveedor</h1><br>
         <form method="Post" action="Proveedores">
-            <div class="container">
-                <div class="row">
-                    <div class="col col-md-6 ">
+            <div class="container ">
+                <div class="row justify-content-md-center">
+                    <div class="col col-md-4 ">
                         <input type="hidden" name="txtIdProveedor" value="<jsp:getProperty name="proveedor" property="id_proveedor"></jsp:getProperty>" />
                         <input type="hidden" name="txtIdContacto" value="<jsp:getProperty name="proveedor" property="id_contacto"></jsp:getProperty>" />
                             <div class="form-group">
@@ -55,12 +55,20 @@
                                     <option value="${c.id_clasificacion}" <c:if test="${c.id_clasificacion == proveedor.id_clasificacion}"> selected </c:if> > ${c.nombre} </option>
                                 </c:forEach>             
                             </select>
-                        </div>  
+                        </div>
+                                <div class="form-group">
+                            <label for="recipient-name" class="col-form-label">Marca (*)</label>
+                            <select name="cmbMarcas" required="required" class="form-control" id="recipient-name" >
+                                <c:forEach items="${listadoMarcas}" var="m">
+                                    <option value="${m.id_marca}" <c:if test="${m.id_marca == proveedor.id_marca}"> selected </c:if> > ${m.nombre} </option>
+                                </c:forEach>             
+                            </select>
+                        </div>
                     </div>
                 </div>
             </div><br>
             <div class="row justify-content-md-center" >
-                <a href="Proveedores" class="btn btn-primary">Volver al listado</a>
+                <a href="Proveedores?modo=AM&id_proveedor=${proveedor.id_proveedor}" class="btn btn-primary">Volver</a>
                 <button type="submit" class="btn btn-success">${accion} Proveedor</button>  
             </div>
         </form>

@@ -14,8 +14,8 @@
         <br><h1 class="row justify-content-md-center">${accion} </h1><br>
         <form method="Post" action="Encargos">
             <div class="container">
-                <div class="row">
-                    <div class="col col-md-6 ">
+                <div class="row justify-content-md-center">
+                    <div class="col col-md-4">
                         <input type="hidden" name="txtIdEncargo" value="<c:if test="${b}" >${id}</c:if><jsp:getProperty name="detalle_encargo" property="id_encargo"></jsp:getProperty>" />
                         <input type="hidden" name="txtIdDetalleEncargo"  value="<jsp:getProperty name="detalle_encargo" property="id_detalle_encargo"></jsp:getProperty>" />
                             <div class="form-group">
@@ -31,7 +31,7 @@
                             <input type="number" name="txtCantidad" required="required" class="form-control" id="recipient-name" <c:if test="${modificar}"> value="<jsp:getProperty name="detalle_encargo" property="cantidad"></jsp:getProperty>" </c:if>>
                                 </div>
                             </div>
-                            <div class="col col-md-6">                                                                                               
+                            <div class="col col-md-4">                                                                                               
                                 <div class="form-group">
                                     <label for="recipient-name" class="col-form-label">Proveedor (*)</label>
                                     <select name="cmbProveedores" required="required" class="form-control" id="recipient-name" >

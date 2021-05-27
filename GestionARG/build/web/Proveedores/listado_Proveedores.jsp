@@ -27,6 +27,8 @@
                         <th scope="col">Teléfono</th>
                         <th scope="col">Tipo Proveedor</th>
                         <th scope="col">Clasificación</th>
+                        <th scope="col">Marca</th>
+                        <th scope="col">Categoría</th>                     
                     </tr>
                 </thead>
                 <tbody>
@@ -40,6 +42,8 @@
                             <td> ${p.telefono}  </td>
                             <td> ${p.tipo}  </td>
                             <td> ${p.clasificacion}  </td>
+                            <td> ${p.marca}  </td>                            
+                            <td> ${p.categoria}  </td>
                             <td><a href="Proveedores?modo=AM&id_proveedor=${p.id_proveedor}" class="btn btn-warning">Editar</a></td>
                             <td><a class="btn btn-danger" data-toggle="modal" data-target="#confirmacion">Eliminar</a>
                                 <div class="modal fade" id="confirmacion" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

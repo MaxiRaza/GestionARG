@@ -1,7 +1,9 @@
 package Servelet;
 
+import Gestor.Gestor_Categorias;
 import Gestor.Gestor_Clasificaciones;
 import Gestor.Gestor_Contactos;
+import Gestor.Gestor_Marcas;
 import Gestor.Gestor_Proveedores;
 import Gestor.Gestor_Tipo_Proveedores;
 import Modelo.Contacto;
@@ -22,11 +24,13 @@ public class Servelet_Proveedores extends HttpServlet {
     Gestor_Contactos gc = new Gestor_Contactos();
     Gestor_Tipo_Proveedores gtc = new Gestor_Tipo_Proveedores();
     Gestor_Clasificaciones gcl = new Gestor_Clasificaciones();
+    Gestor_Marcas gm = new Gestor_Marcas();
+    Gestor_Categorias ga = new Gestor_Categorias();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         String modo = request.getParameter("modo");
         request.getSession().setAttribute("modificar", false);
         request.getSession().setAttribute("accion", "Registrar");
@@ -46,15 +50,13 @@ public class Servelet_Proveedores extends HttpServlet {
         } else if (modo.equals("AM")) {
 
             if (request.getParameter("id_proveedor") != null) {
-                request.getSession().setAttribute("modificar", true);
+                 request.getSession().setAttribute("modificar", true);
                 request.getSession().setAttribute("accion", "Editar");
-                int id_proveedor = Integer.parseInt(request.getParameter("id_proveedor"));
-                DTO_Proveedor p = gp.obtenerProveedorDTO(id_proveedor);
+                DTO_Proveedor p = gp.obtenerProveedorDTO(Integer.parseInt(request.getParameter("id_proveedor")));
                 request.setAttribute("proveedor", p);
             }
-            request.setAttribute("listadoTipos", gtc.obtenerTipoProveedores());
-            request.setAttribute("listadoClasificaciones", gcl.obtenerClasificaciones());
-            RequestDispatcher rd = getServletContext().getRequestDispatcher("/Proveedores/AM_Proveedor.jsp");
+            request.setAttribute("listadoCategorias", ga.obtenerCategorias());
+            RequestDispatcher rd = getServletContext().getRequestDispatcher("/Proveedores/FiltroProveedores.jsp");
             rd.forward(request, response);
 
         } else if (modo.equals("eliminar")) {
@@ -66,12 +68,27 @@ public class Servelet_Proveedores extends HttpServlet {
             rd.forward(request, response);
 
         }
-        
+
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+        if (request.getParameter("cmbCategorias") != null) {
+            if (request.getParameter("txtIdProveedor") != null && !request.getParameter("txtIdProveedor").equals("0")) {
+                request.getSession().setAttribute("modificar", true);
+                request.getSession().setAttribute("accion", "Editar");
+                DTO_Proveedor p = gp.obtenerProveedorDTO(Integer.parseInt(request.getParameter("txtIdProveedor")));
+                request.setAttribute("proveedor", p);
+            }
+            request.setAttribute("listadoTipos", gtc.obtenerTipoProveedores());
+            request.setAttribute("listadoClasificaciones", gcl.obtenerClasificaciones());
+            request.setAttribute("listadoMarcas", gm.obtenerMarcasFiltro(Integer.parseInt(request.getParameter("cmbCategorias"))));
+            RequestDispatcher rd = getServletContext().getRequestDispatcher("/Proveedores/AM_Proveedor.jsp");
+            rd.forward(request, response);
+            return;
+        }
 
         Proveedor p = new Proveedor();
         Contacto c = new Contacto();
@@ -86,6 +103,7 @@ public class Servelet_Proveedores extends HttpServlet {
         c.setTelefono(request.getParameter("txtTelefono"));
         p.setId_tipo_proveedor(Integer.parseInt(request.getParameter("cmbTipos")));
         p.setId_clasificacion(Integer.parseInt(request.getParameter("cmbClasificaciones")));
+        p.setId_marca(Integer.parseInt(request.getParameter("cmbMarcas")));
 
         if (p.getId_proveedor() == 0) {
             if (gc.obtenerIdContacto(c.getCorreo(), c.getTelefono()) == 0) {

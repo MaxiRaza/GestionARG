@@ -14,8 +14,8 @@
         <br><h1 class="row justify-content-md-center">${accion} Usuario</h1><br>        
         <form method="Post" action="Usuarios">
             <div class="container">
-                <div class="row">
-                    <div class="col col-md-6 ">
+                <div class="row justify-content-md-center">
+                    <div class="col col-md-4">
                         <input type="hidden" name="txtIdUsuario" value="<jsp:getProperty name="usuario" property="id_usuario"></jsp:getProperty>" />
                         <input type="hidden" name="txtIdContacto" value="<jsp:getProperty name="usuario" property="id_contacto"></jsp:getProperty>" />
                             <div class="form-group">
@@ -39,7 +39,7 @@
                                     <input type="text" name="txtDireccion" class="form-control" id="recipient-name" <c:if test="${modificar}"> value="<jsp:getProperty name="usuario" property="direccion"></jsp:getProperty>" </c:if>>
                                 </div>
                             </div>
-                            <div class="col col-md-6 ">
+                            <div class="col col-md-4">
                                 <div class="form-group">
                                     <label class="col-form-label">Correo (*)</label>
                                     <input type="text" name="txtCorreo" required="required" class="form-control" id="recipient-name" <c:if test="${modificar}"> value="<jsp:getProperty name="usuario" property="correo"></jsp:getProperty>" </c:if>>

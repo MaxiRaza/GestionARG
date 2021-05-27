@@ -2,16 +2,15 @@ package Modelo;
 
 public class Producto {
 
-    private int id_producto, id_categoria, id_marca, id_deposito;
+    private int id_producto, id_marca, id_deposito;
     private String codigo, nombre, fecha_fab, fecha_ven, descripcion;
     private float precio, stock;
 
     public Producto() {
     }
 
-    public Producto(int id_producto, int id_categoria, int id_marca, int id_deposito, String codigo, String nombre, String fecha_fab, String fecha_ven, String descripcion, float precio, float stock) {
+    public Producto(int id_producto, int id_marca, int id_deposito, String codigo, String nombre, String fecha_fab, String fecha_ven, String descripcion, float precio, float stock) {
         this.id_producto = id_producto;
-        this.id_categoria = id_categoria;
         this.id_marca = id_marca;
         this.id_deposito = id_deposito;
         this.codigo = codigo;
@@ -29,14 +28,6 @@ public class Producto {
 
     public void setId_producto(int id_producto) {
         this.id_producto = id_producto;
-    }
-
-    public int getId_categoria() {
-        return id_categoria;
-    }
-
-    public void setId_categoria(int id_categoria) {
-        this.id_categoria = id_categoria;
     }
 
     public int getId_marca() {
@@ -110,5 +101,5 @@ public class Producto {
     public void setStock(float stock) {
         this.stock = stock;
     }
-    
+
 }

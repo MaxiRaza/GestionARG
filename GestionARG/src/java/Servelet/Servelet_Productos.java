@@ -21,6 +21,7 @@ public class Servelet_Productos extends HttpServlet {
     Gestor_Categorias gc = new Gestor_Categorias();
     Gestor_Marcas gm = new Gestor_Marcas();
     Gestor_Depositos gd = new Gestor_Depositos();
+    Gestor_Categorias ga = new Gestor_Categorias();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -47,14 +48,12 @@ public class Servelet_Productos extends HttpServlet {
             if (request.getParameter("id_producto") != null) {
                 request.getSession().setAttribute("modificar", true);
                 request.getSession().setAttribute("accion", "Editar");
-                int id_producto = Integer.parseInt(request.getParameter("id_producto"));
-                DTO_Producto p = gp.obtenerProductoDTO(id_producto);
+                DTO_Producto p = gp.obtenerProductoDTO( Integer.parseInt(request.getParameter("id_producto")));
                 request.setAttribute("producto", p);
             }
-            request.setAttribute("listadoCategorias", gc.obtenerCategorias());
-            request.setAttribute("listadoMarcas", gm.obtenerMarcas());
-            request.setAttribute("listadoDepositos", gd.obtenerDepositos());
-            RequestDispatcher rd = getServletContext().getRequestDispatcher("/Productos/AM_Producto.jsp");
+
+            request.setAttribute("listadoCategorias", ga.obtenerCategorias());
+            RequestDispatcher rd = getServletContext().getRequestDispatcher("/Productos/FiltroProductos.jsp");
             rd.forward(request, response);
 
         } else if (modo.equals("eliminar")) {
@@ -73,17 +72,30 @@ public class Servelet_Productos extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        if (request.getParameter("cmbCategorias") != null) {
+            if (request.getParameter("txtIdProducto") != null && !request.getParameter("txtIdProducto").equals("0")) {
+                request.getSession().setAttribute("modificar", true);
+                request.getSession().setAttribute("accion", "Editar");
+                DTO_Producto p = gp.obtenerProductoDTO(Integer.parseInt(request.getParameter("txtIdProducto")));
+                request.setAttribute("producto", p);
+            }
+            request.setAttribute("listadoMarcas", gm.obtenerMarcasFiltro(Integer.parseInt(request.getParameter("cmbCategorias"))));
+            request.setAttribute("listadoDepositos", gd.obtenerDepositos());
+            RequestDispatcher rd = getServletContext().getRequestDispatcher("/Productos/AM_Producto.jsp");
+            rd.forward(request, response);
+            return;
+        }
+
         Producto p = new Producto();
-        
+
         p.setId_producto(Integer.parseInt(request.getParameter("txtIdProducto")));
         p.setCodigo(request.getParameter("txtCodigo"));
         p.setNombre(request.getParameter("txtNombre"));
         p.setFecha_fab(request.getParameter("txtFechaElaboracion"));
         p.setFecha_ven(request.getParameter("txtFechaVencimiento"));
         p.setPrecio(Float.parseFloat(request.getParameter("txtPrecio")));
-        p.setDescripcion(request.getParameter("txtDescripcion"));     
+        p.setDescripcion(request.getParameter("txtDescripcion"));
         p.setStock(Float.parseFloat(request.getParameter("txtCantidad")));
-        p.setId_categoria(Integer.parseInt(request.getParameter("cmbCategorias")));
         p.setId_marca(Integer.parseInt(request.getParameter("cmbMarcas")));
         p.setId_deposito(Integer.parseInt(request.getParameter("cmbDepositos")));
 

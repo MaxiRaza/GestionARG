@@ -14,8 +14,8 @@
         <br><h1 class="row justify-content-md-center">${accion} Producto</h1><br>
         <form method="Post" action="Productos">
             <div class="container">
-                <div class="row">
-                    <div class="col col-md-6 ">
+                <div class="row justify-content-md-center">
+                    <div class="col col-md-4 ">
                         <input type="hidden" name="txtIdProducto" value="<jsp:getProperty name="producto" property="id_producto"></jsp:getProperty>" />
                             <div class="form-group">
                                 <div class="form-group">
@@ -38,7 +38,7 @@
                                     <input type="number" name="txtPrecio" required="required" class="form-control" id="recipient-name" <c:if test="${modificar}"> value="<jsp:getProperty name="producto" property="precio"></jsp:getProperty>" </c:if>>
                                 </div>
                             </div>
-                            <div class="col col-md-6">
+                            <div class="col col-md-4">
                                 <div class="form-group">
                                     <label class="col-form-label">Descripción </label>
                                     <input type="text" name="txtDescripcion" class="form-control" id="recipient-name" <c:if test="${modificar}"> value="<jsp:getProperty name="producto" property="descripcion"></jsp:getProperty>" </c:if>>
@@ -48,16 +48,8 @@
                                     <input type="number" name="txtCantidad" required="required" class="form-control" id="recipient-name" <c:if test="${modificar}"> value="<jsp:getProperty name="producto" property="stock"></jsp:getProperty>" </c:if>>
                                 </div>                                                                   
                                 <div class="form-group">
-                                    <label for="recipient-name" class="col-form-label">Categoria (*)</label>
-                                    <select name="cmbCategorias" required="required" class="form-control" id="recipient-name" >
-                                    <c:forEach items="${listadoCategorias}" var="c">
-                                    <option value="${c.id_categoria}" <c:if test="${c.id_categoria == producto.id_categoria}"> selected </c:if> > ${c.nombre} </option>
-                                </c:forEach>             
-                            </select>                                   
-                        </div>
-                        <div class="form-group">
-                            <label for="recipient-name" class="col-form-label">Marca (*)</label>
-                            <select name="cmbMarcas" required="required" class="form-control" id="recipient-name" >
+                                    <label for="recipient-name" class="col-form-label">Marca (*)</label>
+                                    <select name="cmbMarcas" required="required" class="form-control" id="recipient-name" >
                                 <c:forEach items="${listadoMarcas}" var="m">
                                     <option value="${m.id_marca}" <c:if test="${m.id_marca == producto.id_marca}"> selected </c:if> > ${m.nombre} </option>
                                 </c:forEach>             
@@ -75,7 +67,7 @@
                 </div>
             </div><br>
             <div class="row justify-content-md-center" >
-                <a href="Productos" class="btn btn-primary">Volver al listado</a>
+                <a href="Productos?modo=AM&id_producto=${producto.id_producto}" class="btn btn-primary">Volver</a>
                 <button type="submit" class="btn btn-success">${accion} Producto</button>  
             </div>
         </form>

@@ -2,17 +2,18 @@ package Modelo;
 
 public class Proveedor {
 
-    private int id_proveedor, id_contacto, id_tipo_proveedor, id_clasificacion;
+    private int id_proveedor, id_contacto, id_tipo_proveedor, id_clasificacion, id_marca;
     private String nombre, direccion, cuit;
 
     public Proveedor() {
     }
 
-    public Proveedor(int id_proveedor, int id_contacto, int id_tipo_proveedor, int id_clasificacion, String nombre, String direccion, String cuit) {
+    public Proveedor(int id_proveedor, int id_contacto, int id_tipo_proveedor, int id_clasificacion, int id_marca, String nombre, String direccion, String cuit) {
         this.id_proveedor = id_proveedor;
         this.id_contacto = id_contacto;
         this.id_tipo_proveedor = id_tipo_proveedor;
         this.id_clasificacion = id_clasificacion;
+        this.id_marca = id_marca;
         this.nombre = nombre;
         this.direccion = direccion;
         this.cuit = cuit;
@@ -50,6 +51,14 @@ public class Proveedor {
         this.id_clasificacion = id_clasificacion;
     }
 
+    public int getId_marca() {
+        return id_marca;
+    }
+
+    public void setId_marca(int id_marca) {
+        this.id_marca = id_marca;
+    }
+
     public String getNombre() {
         return nombre;
     }
@@ -73,5 +82,5 @@ public class Proveedor {
     public void setCuit(String cuit) {
         this.cuit = cuit;
     }
-
+    
 }

@@ -14,8 +14,8 @@
         <br><h1 class="row justify-content-md-center">${accion} Cliente</h1><br>
         <form method="Post" action="Clientes">        
             <div class="container">
-                <div class="row">
-                    <div class="col col-md-6 ">
+                <div class="row justify-content-md-center">
+                    <div class="col col-md-4">
                         <input type="hidden" name="txtIdCliente" value="<jsp:getProperty name="cliente" property="id_cliente"></jsp:getProperty>" />
                         <input type="hidden" name="txtIdContacto" value="<jsp:getProperty name="cliente" property="id_contacto"></jsp:getProperty>" />
                             <div class="form-group">
@@ -35,7 +35,7 @@
                                     <input type="date" name="txtFechaNac" required="required" class="form-control" id="recipient-name" <c:if test="${modificar}"> value="<jsp:getProperty name="cliente" property="fecha_nac"></jsp:getProperty>" </c:if>>
                                 </div>
                             </div>
-                            <div class="col col-md-6 ">
+                            <div class="col col-md-4">
                                 <div class="form-group">
                                     <label class="col-form-label">Dirección </label>
                                     <input type="text" name="txtDireccion" class="form-control" id="recipient-name" <c:if test="${modificar}"> value="<jsp:getProperty name="cliente" property="direccion"></jsp:getProperty>" </c:if>>

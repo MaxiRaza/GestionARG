@@ -40,8 +40,9 @@ public class Gestor_Marcas {
     public void agregarMarca(Marca m) {
         try {
             abrirConexion();
-            PreparedStatement ps = conexion.prepareStatement("INSERT INTO Marcas (nombre) VALUES (?)");
+            PreparedStatement ps = conexion.prepareStatement("INSERT INTO Marcas (nombre, id_categoria) VALUES (?, ?)");
             ps.setString(1, m.getNombre());
+            ps.setInt(2, m.getId_categoria());
             ps.executeUpdate();
             ps.close();
         } catch (SQLException ex) {
@@ -56,11 +57,12 @@ public class Gestor_Marcas {
         try {
             abrirConexion();
             Statement st = conexion.createStatement();
-            ResultSet rs = st.executeQuery("SELECT id_marca, nombre FROM Marcas");
+            ResultSet rs = st.executeQuery("SELECT id_marca, nombre, id_categoria FROM Marcas");
             while (rs.next()) {
                 Marca m = new Marca();
                 m.setId_marca(rs.getInt(1));
                 m.setNombre(rs.getString(2));
+                m.setId_categoria(rs.getInt(3));
                 lista.add(m);
             }
             rs.close();
@@ -77,13 +79,14 @@ public class Gestor_Marcas {
         Marca m = null;
         try {
             abrirConexion();
-            PreparedStatement ps = conexion.prepareStatement("SELECT id_marca, nombre FROM Marcas WHERE id_marca = ?");
+            PreparedStatement ps = conexion.prepareStatement("SELECT id_marca, nombre, id_categoria FROM Marcas WHERE id_marca = ?");
             ps.setInt(1, id_marca);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 m = new Marca();
                 m.setId_marca(rs.getInt(1));
                 m.setNombre(rs.getString(2));
+                m.setId_categoria(rs.getInt(3));
             }
             ps.close();
         } catch (SQLException ex) {
@@ -97,9 +100,10 @@ public class Gestor_Marcas {
     public void actualizarMarca(Marca m) {
         try {
             abrirConexion();
-            PreparedStatement ps = conexion.prepareStatement("UPDATE Marcas SET nombre = ? WHERE id_marca = ?");
+            PreparedStatement ps = conexion.prepareStatement("UPDATE Marcas SET nombre = ?, id_categoria = ? WHERE id_marca = ?");
             ps.setString(1, m.getNombre());
-            ps.setInt(2, m.getId_marca());
+            ps.setInt(2, m.getId_categoria());
+            ps.setInt(3, m.getId_marca());
             ps.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(Gestor_Marcas.class.getName()).log(Level.SEVERE, null, ex);
@@ -119,5 +123,29 @@ public class Gestor_Marcas {
         } finally {
             cerrarConexion();
         }
+    }
+    
+    public ArrayList<Marca> obtenerMarcasFiltro(int id_categoria) {
+        ArrayList<Marca> lista = new ArrayList<>();
+        try {
+            abrirConexion();
+            PreparedStatement ps = conexion.prepareStatement("SELECT id_marca, nombre, id_categoria FROM Marcas WHERE id_categoria = ?");
+            ps.setInt(1, id_categoria);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Marca m = new Marca();
+                m.setId_marca(rs.getInt(1));
+                m.setNombre(rs.getString(2));
+                m.setId_categoria(rs.getInt(3));
+                lista.add(m);
+            }
+            rs.close();
+            ps.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Gestor_Marcas.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            cerrarConexion();
+        }
+        return lista;
     }
 }

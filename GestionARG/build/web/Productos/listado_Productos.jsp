@@ -28,8 +28,8 @@
                         <th scope="col">Precio </th>
                         <th scope="col">Descripción</th>
                         <th scope="col">Stock</th>
-                        <th scope="col">Categoria</th>
-                        <th scope="col">Marca</th>                        
+                        <th scope="col">Marca</th>
+                        <th scope="col">Categoria</th>                        
                         <th scope="col">Depósito</th>
                     </tr>
                 </thead>
@@ -42,9 +42,10 @@
                             <td> ${p.fecha_fab}  </td>
                             <td> ${p.fecha_ven}  </td>
                             <td> ${p.precio}  </td>
-                            <td> ${p.stock}  </td>
-                            <td> ${p.categoria}  </td>
+                            <td> ${p.descripcion}  </td>
+                            <td> ${p.stock}  </td>                        
                             <td> ${p.marca}  </td>
+                            <td> ${p.categoria}  </td>
                             <td> ${p.deposito}  </td>
                             <td><a href="Productos?modo=AM&id_producto=${p.id_producto}" class="btn btn-warning">Editar</a></td>
                             <td><a class="btn btn-danger" data-toggle="modal" data-target="#confirmacion">Eliminar</a></td>

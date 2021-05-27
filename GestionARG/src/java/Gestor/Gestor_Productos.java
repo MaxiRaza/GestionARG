@@ -41,17 +41,16 @@ public class Gestor_Productos {
     public void agregarProducto(Producto p) {
         try {
             abrirConexion();
-            PreparedStatement ps = conexion.prepareStatement("INSERT INTO Productos (codigo, nombre, fecha_fab, fecha_ven, precio, descripcion, id_categoria, stock, id_marca, id_deposito) VALUES (?,?,?,?,?,?,?,?,?,?)");
+            PreparedStatement ps = conexion.prepareStatement("INSERT INTO Productos (codigo, nombre, fecha_fab, fecha_ven, precio, descripcion, stock, id_marca, id_deposito) VALUES (?,?,?,?,?,?,?,?,?)");
             ps.setString(1, p.getCodigo());
             ps.setString(2, p.getNombre());
             ps.setString(3, p.getFecha_fab());
             ps.setString(4, p.getFecha_ven());
             ps.setFloat(5, p.getPrecio());
             ps.setString(6, p.getDescripcion());
-            ps.setInt(7, p.getId_categoria());
-            ps.setFloat(8, p.getStock());
-            ps.setInt(9, p.getId_marca());
-            ps.setInt(10, p.getId_deposito());
+            ps.setFloat(7, p.getStock());
+            ps.setInt(8, p.getId_marca());
+            ps.setInt(9, p.getId_deposito());
             ps.executeUpdate();
             ps.close();
         } catch (SQLException ex) {
@@ -66,7 +65,7 @@ public class Gestor_Productos {
         try {
             abrirConexion();
             Statement st = conexion.createStatement();
-            ResultSet rs = st.executeQuery("SELECT id_producto, codigo, nombre, fecha_fab, fecha_ven, precio, descripcion, id_categoria, stock, id_marca, id_deposito FROM Productos");
+            ResultSet rs = st.executeQuery("SELECT id_producto, codigo, nombre, fecha_fab, fecha_ven, precio, descripcion, stock, id_marca, id_deposito FROM Productos");
             while (rs.next()) {
                 Producto p = new Producto();
                 p.setId_producto(rs.getInt(1));
@@ -76,10 +75,9 @@ public class Gestor_Productos {
                 p.setFecha_ven(rs.getString(5));
                 p.setPrecio(rs.getFloat(6));
                 p.setDescripcion(rs.getString(7));
-                p.setId_categoria(rs.getInt(8));
-                p.setStock(rs.getFloat(9));
-                p.setId_marca(rs.getInt(10));
-                p.setId_deposito(rs.getInt(11));
+                p.setStock(rs.getFloat(8));
+                p.setId_marca(rs.getInt(9));
+                p.setId_deposito(rs.getInt(10));
                 lista.add(p);
             }
             rs.close();
@@ -96,7 +94,7 @@ public class Gestor_Productos {
         Producto p = null;
         try {
             abrirConexion();
-            PreparedStatement ps = conexion.prepareStatement("SELECT id_producto, codigo, nombre, fecha_fab, fecha_ven, precio, descripcion, id_categoria, stock, id_marca, id_deposito FROM Productos WHERE id_producto = ?");
+            PreparedStatement ps = conexion.prepareStatement("SELECT id_producto, codigo, nombre, fecha_fab, fecha_ven, precio, descripcion, stock, id_marca, id_deposito FROM Productos WHERE id_producto = ?");
             ps.setInt(1, id_producto);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -108,10 +106,9 @@ public class Gestor_Productos {
                 p.setFecha_ven(rs.getString(5));
                 p.setPrecio(rs.getFloat(6));
                 p.setDescripcion(rs.getString(7));
-                p.setId_categoria(rs.getInt(8));
-                p.setStock(rs.getFloat(9));
-                p.setId_marca(rs.getInt(10));
-                p.setId_deposito(rs.getInt(11));
+                p.setStock(rs.getFloat(8));
+                p.setId_marca(rs.getInt(9));
+                p.setId_deposito(rs.getInt(10));
             }
             ps.close();
         } catch (SQLException ex) {
@@ -125,18 +122,17 @@ public class Gestor_Productos {
     public void actualizarProducto(Producto p) {
         try {
             abrirConexion();
-            PreparedStatement ps = conexion.prepareStatement("UPDATE Productos SET codigo = ?, nombre = ?, fecha_fab = ?, fecha_ven = ?, precio = ?, descripcion = ?, id_categoria = ?, stock = ?, id_marca = ?, id_deposito = ? WHERE id_producto = ?");
+            PreparedStatement ps = conexion.prepareStatement("UPDATE Productos SET codigo = ?, nombre = ?, fecha_fab = ?, fecha_ven = ?, precio = ?, descripcion = ?, stock = ?, id_marca = ?, id_deposito = ? WHERE id_producto = ?");
             ps.setString(1, p.getCodigo());
             ps.setString(2, p.getNombre());
             ps.setString(3, p.getFecha_fab());
             ps.setString(4, p.getFecha_ven());
             ps.setFloat(5, p.getPrecio());
             ps.setString(6, p.getDescripcion());
-            ps.setInt(7, p.getId_categoria());
-            ps.setFloat(8, p.getStock());
-            ps.setInt(9, p.getId_marca());
-            ps.setInt(10, p.getId_deposito());
-            ps.setInt(11, p.getId_producto());
+            ps.setFloat(7, p.getStock());
+            ps.setInt(8, p.getId_marca());
+            ps.setInt(9, p.getId_deposito());
+            ps.setInt(10, p.getId_producto());
             ps.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(Gestor_Productos.class.getName()).log(Level.SEVERE, null, ex);
@@ -162,7 +158,7 @@ public class Gestor_Productos {
         DTO_Producto p = null;
         try {
             abrirConexion();
-            PreparedStatement ps = conexion.prepareStatement("SELECT p.id_producto, p.codigo, p.nombre, p.fecha_fab, p.fecha_ven, p.precio, p.descripcion, p.stock, p.id_categoria, p.id_marca, p.id_deposito FROM Productos p JOIN Categorias c ON p.id_categoria = c.id_categoria JOIN Marcas m ON p.id_marca = m.id_marca JOIN Depositos d ON p.id_deposito = d.id_deposito WHERE p.id_producto = ?");
+            PreparedStatement ps = conexion.prepareStatement("SELECT p.id_producto, p.codigo, p.nombre, p.fecha_fab, p.fecha_ven, p.precio, p.descripcion, p.stock, m.id_categoria, p.id_marca, p.id_deposito FROM Productos p JOIN Marcas m ON p.id_marca = m.id_marca JOIN Depositos d ON p.id_deposito = d.id_deposito JOIN Categorias c ON m.id_categoria = c.id_categoria WHERE p.id_producto = ?");
             ps.setInt(1, id_producto);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -192,7 +188,7 @@ public class Gestor_Productos {
         ArrayList<DTO_Producto> lista = new ArrayList<>();
         try {
             abrirConexion();
-            PreparedStatement ps = conexion.prepareStatement("SELECT p.id_producto, p.codigo, p.nombre, p.fecha_fab, p.fecha_ven, p.precio, p.descripcion, p.stock, c.nombre, m.nombre, d.ubicacion FROM Productos p JOIN Categorias c ON p.id_categoria = c.id_categoria JOIN Marcas m ON p.id_marca = m.id_marca JOIN Depositos d ON p.id_deposito = d.id_deposito");
+            PreparedStatement ps = conexion.prepareStatement("SELECT p.id_producto, p.codigo, p.nombre, p.fecha_fab, p.fecha_ven, p.precio, p.descripcion, p.stock, c.nombre, m.nombre, d.ubicacion FROM Productos p JOIN Marcas m ON p.id_marca = m.id_marca JOIN Depositos d ON p.id_deposito = d.id_deposito JOIN Categorias c ON m.id_categoria = c.id_categoria");
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 DTO_Producto p = new DTO_Producto();
