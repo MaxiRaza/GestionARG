@@ -41,7 +41,7 @@ public class Gestor_Clientes {
     public void agregarCliente(Cliente c) {
         try {
             abrirConexion();
-            PreparedStatement ps = conexion.prepareStatement("INSERT INTO Clientes (nombre, apellido, fecha_nac,  documento, id_contacto, id_tipo_cliente, direccion) VALUES (?,?,?,?,?,?,?)");
+            PreparedStatement ps = conexion.prepareStatement("INSERT INTO Clientes (nombre, apellido, fecha_nac,  documento, id_contacto, id_tipo_cliente, direccion, vigencia) VALUES (?,?,?,?,?,?,?,1)");
             ps.setString(1, c.getNombre());
             ps.setString(2, c.getApellido());
             ps.setString(3, c.getFecha_nac());
@@ -63,7 +63,7 @@ public class Gestor_Clientes {
         try {
             abrirConexion();
             Statement st = conexion.createStatement();
-            ResultSet rs = st.executeQuery("SELECT id_cliente, nombre, apellido, fecha_nac, documento, id_contacto, id_tipo_cliente, direccion FROM Clientes");
+            ResultSet rs = st.executeQuery("SELECT id_cliente, nombre, apellido, fecha_nac, documento, id_contacto, id_tipo_cliente, direccion FROM Clientes WHERE vigencia = 1");
             while (rs.next()) {
                 Cliente c = new Cliente();
                 c.setId_cliente(rs.getInt(1));
@@ -136,7 +136,7 @@ public class Gestor_Clientes {
     public void eliminarCliente(int id_cliente) {
         try {
             abrirConexion();
-            PreparedStatement ps = conexion.prepareStatement("DELETE Clientes WHERE id_cliente = ?");
+            PreparedStatement ps = conexion.prepareStatement("UPDATE Clientes SET vigencia = 0 WHERE id_cliente = ?");
             ps.setInt(1, id_cliente);
             ps.executeUpdate();
         } catch (SQLException ex) {
@@ -150,7 +150,7 @@ public class Gestor_Clientes {
         DTO_Cliente c = null;
         try {
             abrirConexion();
-            PreparedStatement ps = conexion.prepareStatement("SELECT c.id_cliente, c.nombre, c.apellido, c.documento, c.fecha_nac, c.direccion, t.nombre, co.correo, co.telefono, c.id_tipo_cliente, c.id_contacto FROM Clientes c JOIN Contactos co ON c.id_contacto = co.id_contacto JOIN Tipo_Clientes t ON c.id_tipo_cliente = t.id_tipo_cliente WHERE c.id_cliente = ?");
+            PreparedStatement ps = conexion.prepareStatement("SELECT c.id_cliente, c.nombre, c.apellido, c.documento, c.fecha_nac, c.direccion, t.nombre, co.correo, co.telefono, c.id_tipo_cliente, c.id_contacto FROM Clientes c JOIN Contactos co ON c.id_contacto = co.id_contacto JOIN Tipo_Clientes t ON c.id_tipo_cliente = t.id_tipo_cliente WHERE c.id_cliente = ? ");
             ps.setInt(1, id_cliente);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -180,7 +180,7 @@ public class Gestor_Clientes {
         ArrayList<DTO_Cliente> lista = new ArrayList<>();
         try {
             abrirConexion();
-            PreparedStatement ps = conexion.prepareStatement("SELECT c.id_cliente, c.nombre, c.apellido, c.documento, c.fecha_nac, c.direccion, t.nombre, co.correo, co.telefono FROM Clientes c JOIN Contactos co ON c.id_contacto = co.id_contacto JOIN Tipo_Clientes t ON c.id_tipo_cliente = t.id_tipo_cliente");
+            PreparedStatement ps = conexion.prepareStatement("SELECT c.id_cliente, c.nombre, c.apellido, c.documento, c.fecha_nac, c.direccion, t.nombre, co.correo, co.telefono FROM Clientes c JOIN Contactos co ON c.id_contacto = co.id_contacto JOIN Tipo_Clientes t ON c.id_tipo_cliente = t.id_tipo_cliente WHERE c.vigencia = 1");
             ResultSet rs = ps.executeQuery();
              while (rs.next()) {
                 DTO_Cliente c = new DTO_Cliente();

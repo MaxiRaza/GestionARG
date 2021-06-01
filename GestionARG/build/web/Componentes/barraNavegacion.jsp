@@ -24,24 +24,23 @@
                         <a class="nav-link <c:if test="${activar == 6}">active</c:if>" href="Sucursales">Sucursales</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link <c:if test="${activar == 7}">active</c:if>" href="">Facturación</a>
+                        <a class="nav-link disabled <c:if test="${activar == 7}">active</c:if>" href="">Facturación</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link <c:if test="${activar == 8}">active</c:if>" href="Usuarios">Usuarios</a>
                     </li>                    
                     <li class="nav-item">
-                        <a class="nav-link <c:if test="${activar == 9}">active</c:if>" href="">Comprar</a>
+                        <a class="nav-link disabled <c:if test="${activar == 9}">active</c:if>" href="">Comprar</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link <c:if test="${activar == 10}">active</c:if>" href="">Reportes</a>
+                        <a class="nav-link disabled <c:if test="${activar == 10}">active</c:if>" href="">Reportes</a>
                     </li>
-
                 </ul>               
             </div>
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item"> 
                     <a class="nav-link" href="Loginn?modo=iniciarSesion">${mostrar}</a>
-            </li>
+            </li>          
         </ul>
     </c:if>
 </nav>

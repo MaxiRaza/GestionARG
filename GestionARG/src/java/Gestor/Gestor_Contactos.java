@@ -40,7 +40,7 @@ public class Gestor_Contactos {
     public void agregarContacto(Contacto c) {
         try {
             abrirConexion();
-            PreparedStatement ps = conexion.prepareStatement("INSERT INTO Contactos (telefono, correo) VALUES (?,?)");
+            PreparedStatement ps = conexion.prepareStatement("INSERT INTO Contactos (telefono, correo, vigencia) VALUES (?,?,1)");
             ps.setString(1, c.getTelefono());
             ps.setString(2, c.getCorreo());
             ps.executeUpdate();
@@ -57,7 +57,7 @@ public class Gestor_Contactos {
         try {
             abrirConexion();
             Statement st = conexion.createStatement();
-            ResultSet rs = st.executeQuery("SELECT id_contacto, telefono, correo FROM Contactos");
+            ResultSet rs = st.executeQuery("SELECT id_contacto, telefono, correo FROM Contactos WHERE vigencia = 1");
             while (rs.next()) {
                 Contacto c = new Contacto();
                 c.setId_contacto(rs.getInt(1));
@@ -115,7 +115,7 @@ public class Gestor_Contactos {
     public void eliminarContacto(int id_contacto) {
         try {
             abrirConexion();
-            PreparedStatement ps = conexion.prepareStatement("DELETE Contactos WHERE id_contacto = ?");
+            PreparedStatement ps = conexion.prepareStatement("UPDATE Contactos SET vigencia = 0 WHERE id_contacto = ?");
             ps.setInt(1, id_contacto);
             ps.executeUpdate();
         } catch (SQLException ex) {
@@ -129,7 +129,7 @@ public class Gestor_Contactos {
         int c = 0;
         try {
             abrirConexion();
-            PreparedStatement ps = conexion.prepareStatement("SELECT id_contacto FROM Contactos WHERE correo = ? AND telefono = ?");
+            PreparedStatement ps = conexion.prepareStatement("SELECT id_contacto FROM Contactos WHERE correo = ? AND telefono = ? AND vigencia = 1");
             ps.setString(1, correo);
             ps.setString(2,telefono);
             ResultSet rs = ps.executeQuery();

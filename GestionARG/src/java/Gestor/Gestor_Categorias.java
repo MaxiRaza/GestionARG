@@ -40,7 +40,7 @@ public class Gestor_Categorias {
     public void agregarCategorias(Categoria c) {
         try {
             abrirConexion();
-            PreparedStatement ps = conexion.prepareStatement("INSERT INTO Categorias (nombre) VALUES (?)");
+            PreparedStatement ps = conexion.prepareStatement("INSERT INTO Categorias (nombre, vigencia) VALUES (?,1)");
             ps.setString(1, c.getNombre());
             ps.executeUpdate();
             ps.close();
@@ -56,7 +56,7 @@ public class Gestor_Categorias {
         try {
             abrirConexion();
             Statement st = conexion.createStatement();
-            ResultSet rs = st.executeQuery("SELECT id_categoria, nombre FROM Categorias");
+            ResultSet rs = st.executeQuery("SELECT id_categoria, nombre FROM Categorias WHERE vigencia = 1");
             while (rs.next()) {
                 Categoria c = new Categoria();
                 c.setId_categoria(rs.getInt(1));
@@ -77,7 +77,7 @@ public class Gestor_Categorias {
         Categoria c = null;
         try {
             abrirConexion();
-            PreparedStatement ps = conexion.prepareStatement("SELECT id_categoria, nombre FROM Categorias WHERE id_categoria = ?");
+            PreparedStatement ps = conexion.prepareStatement("SELECT id_categoria, nombre FROM Categorias WHERE id_categoria = ? ");
             ps.setInt(1, id_categoria);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -111,7 +111,7 @@ public class Gestor_Categorias {
     public void eliminarCategoria(int id_categoria) {
         try {
             abrirConexion();
-            PreparedStatement ps = conexion.prepareStatement("DELETE Categorias WHERE id_categoria = ?");
+            PreparedStatement ps = conexion.prepareStatement("UPDATE Categorias SET vigencia = 0 WHERE id_categoria =  ?");
             ps.setInt(1, id_categoria);
             ps.executeUpdate();
         } catch (SQLException ex) {

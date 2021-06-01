@@ -40,7 +40,7 @@ public class Gestor_Tipo_Clientes {
     public void agregarTipoCliente(Tipo_Cliente tc) {
         try {
             abrirConexion();
-            PreparedStatement ps = conexion.prepareStatement("INSERT INTO Tipo_Clientes (nombre) VALUES (?)");
+            PreparedStatement ps = conexion.prepareStatement("INSERT INTO Tipo_Clientes (nombre, vigencia) VALUES (?,1)");
             ps.setString(1, tc.getNombre());
             ps.executeUpdate();
             ps.close();
@@ -56,7 +56,7 @@ public class Gestor_Tipo_Clientes {
         try {
             abrirConexion();
             Statement st = conexion.createStatement();
-            ResultSet rs = st.executeQuery("SELECT id_tipo_cliente, nombre FROM Tipo_Clientes");
+            ResultSet rs = st.executeQuery("SELECT id_tipo_cliente, nombre FROM Tipo_Clientes WHERE vigencia = 1");
             while (rs.next()) {
                 Tipo_Cliente tc = new Tipo_Cliente();
                 tc.setId_tipo_cliente(rs.getInt(1));
@@ -111,7 +111,7 @@ public class Gestor_Tipo_Clientes {
     public void eliminarTipoCliente(int id_tipo_cliente) {
         try {
             abrirConexion();
-            PreparedStatement ps = conexion.prepareStatement("DELETE Tipo_Clientes WHERE id_tipo_cliente = ?");
+            PreparedStatement ps = conexion.prepareStatement("UPDATE Tipo_Clientes SET vigencia = 0 WHERE id_tipo_cliente = ?");
             ps.setInt(1, id_tipo_cliente);
             ps.executeUpdate();
         } catch (SQLException ex) {

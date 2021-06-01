@@ -36,7 +36,7 @@ public class Gestor_Usuarios {
     public void agregarUsuario(Usuario u) {
         try {
             abrirConexion();
-            PreparedStatement ps = conexion.prepareStatement("INSERT INTO Usuarios (nombre, apellido, documento, fecha_nac, direccion, id_rol, id_contacto, contrasenia, alias) VALUES (?,?,?,?,?,?,?,?,?)");
+            PreparedStatement ps = conexion.prepareStatement("INSERT INTO Usuarios (nombre, apellido, documento, fecha_nac, direccion, id_rol, id_contacto, contrasenia, alias, vigencia) VALUES (?,?,?,?,?,?,?,?,?,1)");
             ps.setString(1, u.getNombre());
             ps.setString(2, u.getApellido());
             ps.setString(3, u.getDocumento());
@@ -60,7 +60,7 @@ public class Gestor_Usuarios {
         try {
             abrirConexion();
             Statement st = conexion.createStatement();
-            ResultSet rs = st.executeQuery("SELECT id_usuario, nombre, apellido, documento, fecha_nac, direccion, id_rol, id_contacto, contrasenia, alias FROM Usuarios");
+            ResultSet rs = st.executeQuery("SELECT id_usuario, nombre, apellido, documento, fecha_nac, direccion, id_rol, id_contacto, contrasenia, alias FROM Usuarios WHERE vigencia = 1");
             while (rs.next()) {
                 Usuario u = new Usuario();
                 u.setId_usuario(rs.getInt(1));
@@ -139,7 +139,7 @@ public class Gestor_Usuarios {
     public void eliminarUsuario(int id_usuario) {
         try {
             abrirConexion();
-            PreparedStatement ps = conexion.prepareStatement("DELETE Usuarios WHERE id_usuario = ?");
+            PreparedStatement ps = conexion.prepareStatement("UPDATE Usuarios SET vigencia = 0 WHERE id_usuario = ?");
             ps.setInt(1, id_usuario);
             ps.executeUpdate();
         } catch (SQLException ex) {
@@ -153,7 +153,7 @@ public class Gestor_Usuarios {
         boolean existe = false;
         try {
             abrirConexion();
-            PreparedStatement ps = conexion.prepareStatement("SELECT alias, contrasenia FROM Usuarios WHERE alias = ? AND contrasenia = ?");
+            PreparedStatement ps = conexion.prepareStatement("SELECT alias, contrasenia FROM Usuarios WHERE alias = ? AND contrasenia = ? AND vigencia = 1");
             ps.setString(1, alias);
             ps.setString(2, contrasenia);
             ResultSet st = ps.executeQuery();
@@ -205,7 +205,7 @@ public class Gestor_Usuarios {
         ArrayList<DTO_Usuario> lista = new ArrayList<>();
         try {
             abrirConexion();
-            PreparedStatement ps = conexion.prepareStatement("SELECT u.id_usuario, u.nombre, u.apellido, u.documento, u.fecha_nac, u.direccion, r.nombre, c.correo, c.telefono, contrasenia, alias FROM Usuarios u JOIN Contactos c ON u.id_contacto = c.id_contacto JOIN Roles r ON u.id_rol = r.id_rol");
+            PreparedStatement ps = conexion.prepareStatement("SELECT u.id_usuario, u.nombre, u.apellido, u.documento, u.fecha_nac, u.direccion, r.nombre, c.correo, c.telefono, contrasenia, alias FROM Usuarios u JOIN Contactos c ON u.id_contacto = c.id_contacto JOIN Roles r ON u.id_rol = r.id_rol WHERE u.vigencia = 1");
             ResultSet rs = ps.executeQuery();
              while (rs.next()) {
                 DTO_Usuario u = new DTO_Usuario();

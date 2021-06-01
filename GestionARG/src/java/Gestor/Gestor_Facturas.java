@@ -40,7 +40,7 @@ public class Gestor_Facturas {
     public void agregarFactura(Factura f) {
         try {
             abrirConexion();
-            PreparedStatement ps = conexion.prepareStatement("INSERT INTO Facturas (fecha, descuento, id_sucursal, id_cliente, id_usuario, id_forma_de_pago) VALUES (?,?,?,?,?,?)");
+            PreparedStatement ps = conexion.prepareStatement("INSERT INTO Facturas (fecha, descuento, id_sucursal, id_cliente, id_usuario, id_forma_de_pago, vigencia) VALUES (?,?,?,?,?,?,1)");
             ps.setString(1, f.getFecha());
             ps.setFloat(2, f.getDescuento());
             ps.setInt(3, f.getId_sucursal());
@@ -61,7 +61,7 @@ public class Gestor_Facturas {
         try {
             abrirConexion();
             Statement st = conexion.createStatement();
-            ResultSet rs = st.executeQuery("SELECT id_factura, fecha, descuento, id_sucursal, id_cliente, id_usuario, id_forma_de_pago FROM Facturas");
+            ResultSet rs = st.executeQuery("SELECT id_factura, fecha, descuento, id_sucursal, id_cliente, id_usuario, id_forma_de_pago FROM Facturas WHERE vigencia = 1");
             while (rs.next()) {
                 Factura f = new Factura();
                 f.setId_factura(rs.getInt(1));
@@ -131,7 +131,7 @@ public class Gestor_Facturas {
     public void eliminarFactura(int id_factura) {
         try {
             abrirConexion();
-            PreparedStatement ps = conexion.prepareStatement("DELETE Facturas WHERE id_factura = ?");
+            PreparedStatement ps = conexion.prepareStatement("UPDATE Facturas SET vigencia = 0 WHERE id_factura = ?");
             ps.setInt(1, id_factura);
             ps.executeUpdate();
         } catch (SQLException ex) {

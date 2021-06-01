@@ -40,7 +40,7 @@ public class Gestor_Sucursales {
     public void agregarSucursal(Sucursal s) {
         try {
             abrirConexion();
-            PreparedStatement ps = conexion.prepareStatement("INSERT INTO Sucursales (nombre, direccion) VALUES (?,?)");
+            PreparedStatement ps = conexion.prepareStatement("INSERT INTO Sucursales (nombre, direccion, vigencia) VALUES (?,?,1)");
             ps.setString(1, s.getNombre());
             ps.setString(2, s.getDireccion());
             ps.executeUpdate();
@@ -57,7 +57,7 @@ public class Gestor_Sucursales {
         try {
             abrirConexion();
             Statement st = conexion.createStatement();
-            ResultSet rs = st.executeQuery("SELECT id_sucursal, nombre, direccion FROM Sucursales");
+            ResultSet rs = st.executeQuery("SELECT id_sucursal, nombre, direccion FROM Sucursales WHERE vigencia = 1");
             while (rs.next()) {
                 Sucursal s = new Sucursal();
                 s.setId_sucursal(rs.getInt(1));
@@ -115,7 +115,7 @@ public class Gestor_Sucursales {
     public void eliminarSucursal(int id_sucursal) {
         try {
             abrirConexion();
-            PreparedStatement ps = conexion.prepareStatement("DELETE Sucursales WHERE id_sucursal = ?");
+            PreparedStatement ps = conexion.prepareStatement("UPDATE Sucursales SET vigencia = 0 WHERE id_sucursal = ?");
             ps.setInt(1, id_sucursal);
             ps.executeUpdate();
         } catch (SQLException ex) {

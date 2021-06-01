@@ -40,7 +40,7 @@ public class Gestor_Marcas {
     public void agregarMarca(Marca m) {
         try {
             abrirConexion();
-            PreparedStatement ps = conexion.prepareStatement("INSERT INTO Marcas (nombre, id_categoria) VALUES (?, ?)");
+            PreparedStatement ps = conexion.prepareStatement("INSERT INTO Marcas (nombre, id_categoria, vigencia) VALUES (?, ?,1)");
             ps.setString(1, m.getNombre());
             ps.setInt(2, m.getId_categoria());
             ps.executeUpdate();
@@ -57,7 +57,7 @@ public class Gestor_Marcas {
         try {
             abrirConexion();
             Statement st = conexion.createStatement();
-            ResultSet rs = st.executeQuery("SELECT id_marca, nombre, id_categoria FROM Marcas");
+            ResultSet rs = st.executeQuery("SELECT id_marca, nombre, id_categoria FROM Marcas WHERE vigencia = 1");
             while (rs.next()) {
                 Marca m = new Marca();
                 m.setId_marca(rs.getInt(1));
@@ -115,7 +115,7 @@ public class Gestor_Marcas {
     public void eliminarMarca(int id_marca) {
         try {
             abrirConexion();
-            PreparedStatement ps = conexion.prepareStatement("DELETE Marcas WHERE id_marca = ?");
+            PreparedStatement ps = conexion.prepareStatement("UPDATE Marcas SET vigencia = 0 WHERE id_marca = ?");
             ps.setInt(1, id_marca);
             ps.executeUpdate();
         } catch (SQLException ex) {
@@ -129,7 +129,7 @@ public class Gestor_Marcas {
         ArrayList<Marca> lista = new ArrayList<>();
         try {
             abrirConexion();
-            PreparedStatement ps = conexion.prepareStatement("SELECT id_marca, nombre, id_categoria FROM Marcas WHERE id_categoria = ?");
+            PreparedStatement ps = conexion.prepareStatement("SELECT id_marca, nombre, id_categoria FROM Marcas WHERE id_categoria = ? AND vigencia = 1");
             ps.setInt(1, id_categoria);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {

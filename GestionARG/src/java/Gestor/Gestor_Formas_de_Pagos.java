@@ -40,7 +40,7 @@ public class Gestor_Formas_de_Pagos {
     public void agregarFormaDePago(Forma_de_Pago fdp) {
         try {
             abrirConexion();
-            PreparedStatement ps = conexion.prepareStatement("INSERT INTO Formas_de_Pagos (nombre) VALUES (?)");
+            PreparedStatement ps = conexion.prepareStatement("INSERT INTO Formas_de_Pagos (nombre, vigencia) VALUES (?,1)");
             ps.setString(1, fdp.getNombre());
             ps.executeUpdate();
             ps.close();
@@ -56,7 +56,7 @@ public class Gestor_Formas_de_Pagos {
         try {
             abrirConexion();
             Statement st = conexion.createStatement();
-            ResultSet rs = st.executeQuery("SELECT id_forma_de_pago, nombre FROM Formas_de_Pagos");
+            ResultSet rs = st.executeQuery("SELECT id_forma_de_pago, nombre FROM Formas_de_Pagos WHERE vigencia = 1");
             while (rs.next()) {
                 Forma_de_Pago fdp = new Forma_de_Pago();
                 fdp.setId_forma_de_pago(rs.getInt(1));
@@ -111,7 +111,7 @@ public class Gestor_Formas_de_Pagos {
     public void eliminarFormaDePago(int id_forma_de_pago) {
         try {
             abrirConexion();
-            PreparedStatement ps = conexion.prepareStatement("DELETE Formas_de_Pagos WHERE id_forma_de_pago = ?");
+            PreparedStatement ps = conexion.prepareStatement("UPDATE Formas_de_Pagos SET vigencia = 0 WHERE id_forma_de_pago = ?");
             ps.setInt(1, id_forma_de_pago);
             ps.executeUpdate();
         } catch (SQLException ex) {

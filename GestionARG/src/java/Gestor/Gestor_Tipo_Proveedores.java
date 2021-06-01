@@ -40,7 +40,7 @@ public class Gestor_Tipo_Proveedores {
     public void agregarTipoProveedor(Tipo_Proveedor tp) {
         try {
             abrirConexion();
-            PreparedStatement ps = conexion.prepareStatement("INSERT INTO Tipo_Proveedores (nombre) VALUES (?)");
+            PreparedStatement ps = conexion.prepareStatement("INSERT INTO Tipo_Proveedores (nombre, vigencia) VALUES (?,1)");
             ps.setString(1, tp.getNombre());
             ps.executeUpdate();
             ps.close();
@@ -56,7 +56,7 @@ public class Gestor_Tipo_Proveedores {
         try {
             abrirConexion();
             Statement st = conexion.createStatement();
-            ResultSet rs = st.executeQuery("SELECT id_tipo_proveedor, nombre FROM Tipo_Proveedores");
+            ResultSet rs = st.executeQuery("SELECT id_tipo_proveedor, nombre FROM Tipo_Proveedores WHERE vigencia = 1");
             while (rs.next()) {
                 Tipo_Proveedor tp = new Tipo_Proveedor();
                 tp.setId_tipo_proveedor(rs.getInt(1));
@@ -111,7 +111,7 @@ public class Gestor_Tipo_Proveedores {
     public void eliminarTipoProveedor(int id_tipo_proveedor) {
         try {
             abrirConexion();
-            PreparedStatement ps = conexion.prepareStatement("DELETE Tipo_Proveedores WHERE id_tipo_proveedor = ?");
+            PreparedStatement ps = conexion.prepareStatement("UPDATE Tipo_Proveedores SET vigencia = 0 WHERE id_tipo_proveedor = ?");
             ps.setInt(1, id_tipo_proveedor);
             ps.executeUpdate();
         } catch (SQLException ex) {

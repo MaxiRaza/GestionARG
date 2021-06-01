@@ -40,7 +40,7 @@ public class Gestor_Detalle_Facturas {
     public void agregarDetalleFactura(Detalle_Factura df) {
         try {
             abrirConexion();
-            PreparedStatement ps = conexion.prepareStatement("INSERT INTO Detalle_Facturas (cantidad, importe, id_factura, id_producto) VALUES (?,?,?,?)");
+            PreparedStatement ps = conexion.prepareStatement("INSERT INTO Detalle_Facturas (cantidad, importe, id_factura, id_producto, vigencia) VALUES (?,?,?,?,1)");
             ps.setFloat(1, df.getCantidad());
             ps.setFloat(2, df.getImporte());
             ps.setInt(3, df.getId_factura());
@@ -59,7 +59,7 @@ public class Gestor_Detalle_Facturas {
         try {
             abrirConexion();
             Statement st = conexion.createStatement();
-            ResultSet rs = st.executeQuery("SELECT id_detalle_factura, fecha, cantidad, importe, id_factura, id_producto FROM Detalle_Facturas");
+            ResultSet rs = st.executeQuery("SELECT id_detalle_factura, fecha, cantidad, importe, id_factura, id_producto FROM Detalle_Facturas WHERE vigencia = 1");
             while (rs.next()) {
                 Detalle_Factura df = new Detalle_Factura();
                 df.setId_deatalle_factura(rs.getInt(1));
@@ -123,7 +123,7 @@ public class Gestor_Detalle_Facturas {
     public void eliminarDetalleFactura(int id_detalle_factura) {
         try {
             abrirConexion();
-            PreparedStatement ps = conexion.prepareStatement("DELETE Detalle_Facturas WHERE id_detalle_factura = ?");
+            PreparedStatement ps = conexion.prepareStatement("UPDATE Detalle_Facturas SET vigencia = 0 WHERE id_detalle_factura = ?");
             ps.setInt(1, id_detalle_factura);
             ps.executeUpdate();
         } catch (SQLException ex) {

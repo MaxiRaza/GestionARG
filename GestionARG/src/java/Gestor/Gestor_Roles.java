@@ -40,7 +40,7 @@ public class Gestor_Roles {
     public void agregarRol(Rol r) {
         try {
             abrirConexion();
-            PreparedStatement ps = conexion.prepareStatement("INSERT INTO Roles (nombre) VALUES (?)");
+            PreparedStatement ps = conexion.prepareStatement("INSERT INTO Roles (nombre, vigencia) VALUES (?,1)");
             ps.setString(1, r.getNombre());
             ps.executeUpdate();
             ps.close();
@@ -56,7 +56,7 @@ public class Gestor_Roles {
         try {
             abrirConexion();
             Statement st = conexion.createStatement();
-            ResultSet rs = st.executeQuery("SELECT id_rol, nombre FROM Roles");
+            ResultSet rs = st.executeQuery("SELECT id_rol, nombre FROM Roles WHERE vigencia = 1");
             while (rs.next()) {
                 Rol r = new Rol();
                 r.setId_rol(rs.getInt(1));
@@ -111,7 +111,7 @@ public class Gestor_Roles {
     public void eliminarRol(int id_rol) {
         try {
             abrirConexion();
-            PreparedStatement ps = conexion.prepareStatement("DELETE Roles WHERE id_rol = ?");
+            PreparedStatement ps = conexion.prepareStatement("UPDATE Roles SET vigencia = 0 WHERE id_rol = ?");
             ps.setInt(1, id_rol);
             ps.executeUpdate();
         } catch (SQLException ex) {

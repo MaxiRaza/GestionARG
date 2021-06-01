@@ -40,7 +40,7 @@ public class Gestor_Depositos {
     public void agregarDeposito(Deposito d) {
         try {
             abrirConexion();
-            PreparedStatement ps = conexion.prepareStatement("INSERT INTO Depositos (ubicacion) VALUES (?)");
+            PreparedStatement ps = conexion.prepareStatement("INSERT INTO Depositos (ubicacion, vigencia) VALUES (?,1)");
             ps.setString(1, d.getUbicacion());
             ps.executeUpdate();
             ps.close();
@@ -56,7 +56,7 @@ public class Gestor_Depositos {
         try {
             abrirConexion();
             Statement st = conexion.createStatement();
-            ResultSet rs = st.executeQuery("SELECT id_deposito, ubicacion FROM Depositos");
+            ResultSet rs = st.executeQuery("SELECT id_deposito, ubicacion FROM Depositos WHERE vigencia = 1");
             while (rs.next()) {
                 Deposito d = new Deposito();
                 d.setId_deposito(rs.getInt(1));
@@ -111,7 +111,7 @@ public class Gestor_Depositos {
     public void eliminarDeposito(int id_deposito) {
         try {
             abrirConexion();
-            PreparedStatement ps = conexion.prepareStatement("DELETE Depositos WHERE id_deposito = ?");
+            PreparedStatement ps = conexion.prepareStatement("UPDATE Depositos SET vigencia = 0 WHERE id_deposito = ?");
             ps.setInt(1, id_deposito);
             ps.executeUpdate();
         } catch (SQLException ex) {

@@ -1,9 +1,11 @@
 package Servelet;
 
+import Gestor.Gestor_Categorias;
 import Gestor.Gestor_Encargos;
 import Gestor.Gestor_Productos;
 import Gestor.Gestor_Proveedores;
 import Gestor.Gestor_Detalle_Encargos;
+import Gestor.Gestor_Marcas;
 import Modelo.Detalle_Encargo;
 import Modelo.Encargo;
 import java.io.IOException;
@@ -24,6 +26,8 @@ public class Servelet_Encargos extends HttpServlet {
     Gestor_Proveedores gpr = new Gestor_Proveedores();
     Gestor_Detalle_Encargos gde = new Gestor_Detalle_Encargos();
     Gestor_Productos gpro = new Gestor_Productos();
+    Gestor_Marcas gm = new Gestor_Marcas();
+    Gestor_Categorias gc = new Gestor_Categorias();
     boolean b = false;
 
     @Override
@@ -69,6 +73,8 @@ public class Servelet_Encargos extends HttpServlet {
 
             request.setAttribute("listadoProductos", gp.obtenerProductos());
             request.setAttribute("listadoProveedores", gpr.obtenerProveedores());
+            request.setAttribute("listadoMarcas", gm.obtenerMarcas());
+            request.setAttribute("listadoCategorias", gc.obtenerCategorias());
             RequestDispatcher rd = getServletContext().getRequestDispatcher("/Encargos/AM_Encargo.jsp");
             rd.forward(request, response);
 

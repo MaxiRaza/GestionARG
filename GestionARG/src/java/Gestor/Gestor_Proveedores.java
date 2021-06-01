@@ -41,7 +41,7 @@ public class Gestor_Proveedores {
     public void agregarProveedor(Proveedor p) {
         try {
             abrirConexion();
-            PreparedStatement ps = conexion.prepareStatement("INSERT INTO Proveedores (nombre, cuit, direccion, id_contacto, id_tipo_proveedor, id_clasificacion, id_marca) VALUES (?,?,?,?,?,?,?)");
+            PreparedStatement ps = conexion.prepareStatement("INSERT INTO Proveedores (nombre, cuit, direccion, id_contacto, id_tipo_proveedor, id_clasificacion, id_marca, vigencia) VALUES (?,?,?,?,?,?,?,1)");
             ps.setString(1, p.getNombre());
             ps.setString(2, p.getCuit());
             ps.setString(3, p.getDireccion());
@@ -63,7 +63,7 @@ public class Gestor_Proveedores {
         try {
             abrirConexion();
             Statement st = conexion.createStatement();
-            ResultSet rs = st.executeQuery("SELECT id_proveedor, nombre, cuit, direccion, id_contacto, id_tipo_proveedor, id_clasificacion, id_marca FROM Proveedores");
+            ResultSet rs = st.executeQuery("SELECT id_proveedor, nombre, cuit, direccion, id_contacto, id_tipo_proveedor, id_clasificacion, id_marca FROM Proveedores WHERE vigencia = 1");
             while (rs.next()) {
                 Proveedor p = new Proveedor();
                 p.setId_proveedor(rs.getInt(1));
@@ -136,7 +136,7 @@ public class Gestor_Proveedores {
     public void eliminarProveedor(int id_proveedor) {
         try {
             abrirConexion();
-            PreparedStatement ps = conexion.prepareStatement("DELETE Proveedores WHERE id_proveedor = ?");
+            PreparedStatement ps = conexion.prepareStatement("UPDATE Proveedores SET vigencia = 0 WHERE id_proveedor = ?");
             ps.setInt(1, id_proveedor);
             ps.executeUpdate();
         } catch (SQLException ex) {
@@ -180,7 +180,7 @@ public class Gestor_Proveedores {
         ArrayList<DTO_Proveedor> lista = new ArrayList<>();
         try {
             abrirConexion();
-            PreparedStatement ps = conexion.prepareStatement("SELECT p.id_proveedor, p.nombre, p.cuit, p.direccion, c.correo, c.telefono, t.nombre, a.nombre, m.nombre, ca.nombre FROM Proveedores p JOIN Contactos c ON p.id_contacto = c.id_contacto JOIN Tipo_Proveedores t ON p.id_tipo_proveedor = t.id_tipo_proveedor JOIN Clasificaciones a ON p.id_clasificacion = a.id_clasificacion JOIN Marcas m ON p.id_marca = m.id_marca JOIN Categorias ca ON m.id_categoria = ca.id_categoria");
+            PreparedStatement ps = conexion.prepareStatement("SELECT p.id_proveedor, p.nombre, p.cuit, p.direccion, c.correo, c.telefono, t.nombre, a.nombre, m.nombre, ca.nombre FROM Proveedores p JOIN Contactos c ON p.id_contacto = c.id_contacto JOIN Tipo_Proveedores t ON p.id_tipo_proveedor = t.id_tipo_proveedor JOIN Clasificaciones a ON p.id_clasificacion = a.id_clasificacion JOIN Marcas m ON p.id_marca = m.id_marca JOIN Categorias ca ON m.id_categoria = ca.id_categoria WHERE p.vigencia = 1");
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 DTO_Proveedor p = new DTO_Proveedor();

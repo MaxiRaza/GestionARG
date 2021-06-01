@@ -40,7 +40,7 @@ public class Gestor_Clasificaciones {
     public void agregarClasificacion(Clasificacion c) {
         try {
             abrirConexion();
-            PreparedStatement ps = conexion.prepareStatement("INSERT INTO Clasificaciones (nombre) VALUES (?)");
+            PreparedStatement ps = conexion.prepareStatement("INSERT INTO Clasificaciones (nombre, vigencia) VALUES (?,1)");
             ps.setString(1, c.getNombre());
             ps.executeUpdate();
             ps.close();
@@ -56,7 +56,7 @@ public class Gestor_Clasificaciones {
         try {
             abrirConexion();
             Statement st = conexion.createStatement();
-            ResultSet rs = st.executeQuery("SELECT id_clasificacion, nombre FROM Clasificaciones");
+            ResultSet rs = st.executeQuery("SELECT id_clasificacion, nombre FROM Clasificaciones WHERE vigencia = 1");
             while (rs.next()) {
                 Clasificacion c = new Clasificacion();
                 c.setId_clasificacion(rs.getInt(1));
@@ -111,7 +111,7 @@ public class Gestor_Clasificaciones {
     public void eliminarClasificacion(int id_clasificacion) {
         try {
             abrirConexion();
-            PreparedStatement ps = conexion.prepareStatement("DELETE Clasificaciones WHERE id_clasificacion = ?");
+            PreparedStatement ps = conexion.prepareStatement("UPDATE Clasificaciones SET vigencia = 0  WHERE id_clasificacion = ?");
             ps.setInt(1, id_clasificacion);
             ps.executeUpdate();
         } catch (SQLException ex) {

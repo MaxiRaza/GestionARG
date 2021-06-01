@@ -41,7 +41,7 @@ public class Gestor_Encargos {
     public void agregarEncargo(Encargo e) {
         try {
             abrirConexion();
-            PreparedStatement ps = conexion.prepareStatement("INSERT INTO Encargos (fecha) VALUES (?)");
+            PreparedStatement ps = conexion.prepareStatement("INSERT INTO Encargos (fecha, vigencia) VALUES (?,1)");
             ps.setString(1, e.getFecha());
             ps.executeUpdate();
             ps.close();
@@ -57,7 +57,7 @@ public class Gestor_Encargos {
         try {
             abrirConexion();
             Statement st = conexion.createStatement();
-            ResultSet rs = st.executeQuery("SELECT id_encargo, fecha FROM Encargos");
+            ResultSet rs = st.executeQuery("SELECT id_encargo, fecha FROM Encargos WHERE vigencia = 1");
             while (rs.next()) {
                 Encargo e = new Encargo();
                 e.setId_encargo(rs.getInt(1));
@@ -112,7 +112,7 @@ public class Gestor_Encargos {
     public void eliminarEncargo(int id_encargo) {
         try {
             abrirConexion();
-            PreparedStatement ps = conexion.prepareStatement("DELETE Detalle_Encargos WHERE id_encargo = ?  DELETE Encargos WHERE id_encargo = ?");
+            PreparedStatement ps = conexion.prepareStatement("UPDATE Detalle_Encargos SET vigencia = 0 WHERE id_encargo = ?  UPDATE Encargos SET vigencia = 0 WHERE id_encargo = ?");
             ps.setInt(1, id_encargo);
             ps.setInt(2, id_encargo);
             ps.executeUpdate();
