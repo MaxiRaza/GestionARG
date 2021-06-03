@@ -21,7 +21,6 @@ public class Servelet_Productos extends HttpServlet {
     Gestor_Categorias gc = new Gestor_Categorias();
     Gestor_Marcas gm = new Gestor_Marcas();
     Gestor_Depositos gd = new Gestor_Depositos();
-    Gestor_Categorias ga = new Gestor_Categorias();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -52,7 +51,7 @@ public class Servelet_Productos extends HttpServlet {
                 request.setAttribute("producto", p);
             }
 
-            request.setAttribute("listadoCategorias", ga.obtenerCategorias());
+            request.setAttribute("listadoCategorias", gc.obtenerCategorias());
             RequestDispatcher rd = getServletContext().getRequestDispatcher("/Productos/FiltroProductos.jsp");
             rd.forward(request, response);
 

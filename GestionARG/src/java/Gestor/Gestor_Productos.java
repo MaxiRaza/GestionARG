@@ -213,4 +213,67 @@ public class Gestor_Productos {
         }
         return lista;
     }
+    
+    public ArrayList<DTO_Producto> obtenerProductosCategoriaDTO(int id_categoria) {
+        ArrayList<DTO_Producto> lista = new ArrayList<>();
+        try {
+            abrirConexion();
+            PreparedStatement ps = conexion.prepareStatement("SELECT p.id_producto, p.codigo, p.nombre, p.fecha_fab, p.fecha_ven, p.precio, p.descripcion, p.stock, c.nombre, m.nombre, d.ubicacion FROM Productos p JOIN Marcas m ON p.id_marca = m.id_marca JOIN Depositos d ON p.id_deposito = d.id_deposito JOIN Categorias c ON m.id_categoria = c.id_categoria WHERE p. vigencia = 1 AND m.id_categoria = ?");
+           ps.setInt(1, id_categoria);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                DTO_Producto p = new DTO_Producto();
+                p.setId_producto(rs.getInt(1));
+                p.setCodigo(rs.getString(2));
+                p.setNombre(rs.getString(3));                
+                p.setFecha_fab(rs.getString(4));
+                p.setFecha_ven(rs.getString(5));
+                p.setPrecio(rs.getFloat(6));
+                p.setDescripcion(rs.getString(7));
+                p.setStock(rs.getFloat(8));
+                p.setCategoria(rs.getString(9));
+                p.setMarca(rs.getString(10));
+                p.setDeposito(rs.getString(11));
+                lista.add(p);
+            }
+            ps.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Gestor_Productos.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            cerrarConexion();
+        }
+        return lista;
+    }
+    
+        public ArrayList<DTO_Producto> obtenerProductosMarcaDTO(int id_marca) {
+        ArrayList<DTO_Producto> lista = new ArrayList<>();
+        try {
+            abrirConexion();
+            PreparedStatement ps = conexion.prepareStatement("SELECT p.id_producto, p.codigo, p.nombre, p.fecha_fab, p.fecha_ven, p.precio, p.descripcion, p.stock, c.nombre, m.nombre, d.ubicacion FROM Productos p JOIN Marcas m ON p.id_marca = m.id_marca JOIN Depositos d ON p.id_deposito = d.id_deposito JOIN Categorias c ON m.id_categoria = c.id_categoria WHERE p. vigencia = 1 AND m.id_marca = ?");
+           ps.setInt(1, id_marca);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                DTO_Producto p = new DTO_Producto();
+                p.setId_producto(rs.getInt(1));
+                p.setCodigo(rs.getString(2));
+                p.setNombre(rs.getString(3));                
+                p.setFecha_fab(rs.getString(4));
+                p.setFecha_ven(rs.getString(5));
+                p.setPrecio(rs.getFloat(6));
+                p.setDescripcion(rs.getString(7));
+                p.setStock(rs.getFloat(8));
+                p.setCategoria(rs.getString(9));
+                p.setMarca(rs.getString(10));
+                p.setDeposito(rs.getString(11));
+                lista.add(p);
+            }
+            ps.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Gestor_Productos.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            cerrarConexion();
+        }
+        return lista;
+    }
+    
 }

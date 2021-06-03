@@ -49,6 +49,9 @@ public class Servelet_Sucursales extends HttpServlet {
 
         } else if (modo.equals("eliminar")) {
 
+            if (!request.getParameter("b").equals("1")) {
+                
+            }
             int id_sucursal = Integer.parseInt(request.getParameter("id_sucursal"));
             gs.eliminarSucursal(id_sucursal);
             request.setAttribute("listadoSucursales", gs.obtenerSucursales());

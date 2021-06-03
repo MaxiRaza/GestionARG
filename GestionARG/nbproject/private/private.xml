@@ -3,12 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/Carpeta%20%20Datos/Documentos/GitHub/GestionARG/GestionARG/web/Encargos/FiltroEncargos.jsp</file>
-            <file>file:/D:/Carpeta%20%20Datos/Documentos/GitHub/GestionARG/GestionARG/src/java/Gestor/Gestor_Detalle_Encargos.java</file>
+            <file>file:/D:/Carpeta%20%20Datos/Documentos/GitHub/GestionARG/GestionARG/web/Ventas/listado_articulos.jsp</file>
+            <file>file:/D:/Carpeta%20%20Datos/Documentos/GitHub/GestionARG/GestionARG/src/java/Servelet/Servelet_Facturas.java</file>
             <file>file:/D:/Carpeta%20%20Datos/Documentos/GitHub/GestionARG/GestionARG/src/java/Gestor/Gestor_Productos.java</file>
-            <file>file:/D:/Carpeta%20%20Datos/Documentos/GitHub/GestionARG/GestionARG/web/Encargos/AM_Encargo.jsp</file>
-            <file>file:/D:/Carpeta%20%20Datos/Documentos/GitHub/GestionARG/GestionARG/src/java/Servelet/Servelet_Encargos.java</file>
-            <file>file:/D:/Carpeta%20%20Datos/Documentos/GitHub/GestionARG/GestionARG/src/java/Modelo/DTO/DTO_Encargo.java</file>
         </group>
     </open-files>
 </project-private>

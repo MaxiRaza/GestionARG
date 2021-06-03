@@ -30,29 +30,27 @@
                             <td> ${s.id_sucursal}  </td>
                             <td> ${s.nombre}  </td>
                             <td> ${s.direccion}  </td>
- 
                             <td><a href="Sucursales?modo=AM&id_sucursal=${s.id_sucursal}" class="btn btn-warning">Editar</a></td>
-                            <td><a class="btn btn-danger" data-toggle="modal" data-target="#confirmacion">Eliminar</a>
-                                <div class="modal fade" id="confirmacion" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">Confirmar</h5>
-                                                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                ¿ Seguro que desea eliminar la sucursal ${s.nombre} ?
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                                                <a href="Sucursales?modo=eliminar&id_sucursal=${s.id_sucursal}" class="btn btn-danger" >Eliminar</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
+                            <td><a href="Sucursales?modo=eliminar&id_sucursal=${s.id_sucursal}" class="btn btn-danger" data-toggle="modal" data-target="#confirmacion" >Eliminar</a></td>                                                                                                 
                         </tr> 
-                    </c:forEach>                              
+                    <div class="modal fade" id="confirmacion" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Confirmar</h5>
+                                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    ¿ Seguro que desea eliminar la sucursal ?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                    <a href="Sucursales?modo=eliminar&b=1" class= "btn btn-danger" >Eliminar</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </c:forEach>                    
                 </tbody>
             </table>   
         </div>
