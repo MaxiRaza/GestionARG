@@ -1,5 +1,6 @@
 package Gestor;
 
+import Modelo.DTO.DTO_Marca;
 import Modelo.Marca;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -141,6 +142,29 @@ public class Gestor_Marcas {
             }
             rs.close();
             ps.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Gestor_Marcas.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            cerrarConexion();
+        }
+        return lista;
+    }
+    
+    public ArrayList<DTO_Marca> obtenerMarcasDTO() {
+        ArrayList<DTO_Marca> lista = new ArrayList<>();
+        try {
+            abrirConexion();
+            Statement st = conexion.createStatement();
+            ResultSet rs = st.executeQuery("SELECT m.id_marca, m.nombre, c.nombre FROM Marcas m JOIN Categorias c  ON m.id_categoria = c.id_categoria  WHERE m.vigencia = 1");
+            while (rs.next()) {
+                DTO_Marca m = new DTO_Marca();
+                m.setId_marca(rs.getInt(1));
+                m.setMarca(rs.getString(2));
+                m.setCategoria(rs.getString(3));
+                lista.add(m);
+            }
+            rs.close();
+            st.close();
         } catch (SQLException ex) {
             Logger.getLogger(Gestor_Marcas.class.getName()).log(Level.SEVERE, null, ex);
         } finally {

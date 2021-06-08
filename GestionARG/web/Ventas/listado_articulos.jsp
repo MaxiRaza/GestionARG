@@ -64,7 +64,7 @@
                                         <li> ${p.descripcion}</li>                                        
                                         <li>Cantidad: ${p.stock}</li>
                                     </ul>
-                                    <button type="button" class="btn btn-lg btn-block btn-primary">Comprar</button>
+                                    <a class="btn btn-lg btn-block btn-primary" data-toggle="modal" data-target="#carrito">Comprar</a>                                    
                                 </div>
                             </div>                            
                         </div>
@@ -74,6 +74,25 @@
         </div>
         <div class="row justify-content-md-center">
             <a href="Facturas?modo=sumar&cantidad=${cantidad + 7}" class="btn btn-info">Ver mas</a>
+        </div> 
+
+        <div class="modal fade" id="carrito" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Mi Carrito</h5>
+                        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        ¿ Desea agregar este poducto a su carrito ?                       
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-lg btn-block btn-primary">Agregar</button>
+                        <button type="button" class="btn btn-lg btn-block btn-secondary" data-dismiss="modal">Cancelar</button>                     
+                    </div>
+                </div>
+            </div>
         </div>
+                    
     </body>
 </html>

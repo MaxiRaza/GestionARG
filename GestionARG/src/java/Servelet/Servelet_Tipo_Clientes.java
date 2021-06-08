@@ -3,6 +3,7 @@ package Servelet;
 import Gestor.Gestor_Tipo_Clientes;
 import Modelo.Tipo_Cliente;
 import java.io.IOException;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -12,18 +13,77 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "Tipo_Clientes", urlPatterns = {"/Tipo_Clientes"})
 public class Servelet_Tipo_Clientes extends HttpServlet {
 
-    Gestor_Tipo_Clientes gtp = new Gestor_Tipo_Clientes();
+    Gestor_Tipo_Clientes gtc = new Gestor_Tipo_Clientes();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+        String modo = request.getParameter("modo");
+        request.getSession().setAttribute("modificar", false);
+        request.getSession().setAttribute("accion", "Registrar");
+
+        if (modo == null) {
+
+            if (request.getSession().getAttribute("admin") != null) {
+
+                request.getSession().setAttribute("activar", 10);
+                request.setAttribute("listadoTiposClientes", gtc.obtenerTipoClientes());
+                RequestDispatcher rd = getServletContext().getRequestDispatcher("/Tipo_Clientes/listado_Tipo_Clientes.jsp");
+                rd.forward(request, response);
+
+            } else {
+
+                RequestDispatcher rd = getServletContext().getRequestDispatcher("/Login/login.jsp");
+                rd.forward(request, response);
+
+            }
+
+        } else if (modo.equals("AM")) {
+
+            if (request.getParameter("id_tipo_cliente") != null) {
+
+                request.getSession().setAttribute("modificar", true);
+                request.getSession().setAttribute("accion", "Editar");
+                int id_tipo_cliente = Integer.parseInt(request.getParameter("id_tipo_cliente"));
+                Tipo_Cliente tc = gtc.obtenerTipoCliente(id_tipo_cliente);
+                request.setAttribute("tipo_cliente", tc);
+
+            }
+
+            RequestDispatcher rd = getServletContext().getRequestDispatcher("/Tipo_Clientes/AM_Tipo_Cliente.jsp");
+            rd.forward(request, response);
+
+        } else if (modo.equals("eliminar")) {
+
+            int id_tipo_cliente = Integer.parseInt(request.getParameter("id_tipo_cliente"));
+            gtc.eliminarTipoCliente(id_tipo_cliente);
+            request.setAttribute("listadoTiposClientes", gtc.obtenerTipoClientes());
+            RequestDispatcher rd = getServletContext().getRequestDispatcher("/Tipo_Clientes/listado_Tipo_Clientes.jsp");
+            rd.forward(request, response);
+
+        }
+
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        Tipo_Cliente tp = new Tipo_Cliente();
+        Tipo_Cliente tc = new Tipo_Cliente();
+
+        tc.setId_tipo_cliente(Integer.parseInt(request.getParameter("txtIdTipoCliente")));
+        tc.setNombre(request.getParameter("txtNombre"));
+
+        if (tc.getId_tipo_cliente() == 0) {
+            gtc.agregarTipoCliente(tc);
+        } else {
+            gtc.actualizarTipoCliente(tc);
+        }
+
+        request.setAttribute("listadoTiposClientes", gtc.obtenerTipoClientes());
+        RequestDispatcher rd = getServletContext().getRequestDispatcher("/Tipo_Clientes/listado_Tipo_Clientes.jsp");
+        rd.forward(request, response);
 
     }
 

@@ -119,7 +119,7 @@ public class Servelet_Facturas extends HttpServlet {
 
         }
 
-        Factura f = new Factura();
+//        Factura f = new Factura();
 
     }
 

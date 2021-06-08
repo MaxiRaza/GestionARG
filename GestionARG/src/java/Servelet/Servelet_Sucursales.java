@@ -26,32 +26,36 @@ public class Servelet_Sucursales extends HttpServlet {
         if (modo == null) {
 
             if (request.getSession().getAttribute("admin") != null) {
+                
                 request.getSession().setAttribute("activar", 6);
                 request.setAttribute("listadoSucursales", gs.obtenerSucursales());
                 RequestDispatcher rd = getServletContext().getRequestDispatcher("/Sucursales/listado_Sucursales.jsp");
                 rd.forward(request, response);
+                
             } else {
+                
                 RequestDispatcher rd = getServletContext().getRequestDispatcher("/Login/login.jsp");
                 rd.forward(request, response);
+                
             }
 
         } else if (modo.equals("AM")) {
 
             if (request.getParameter("id_sucursal") != null) {
+                
                 request.getSession().setAttribute("modificar", true);
                 request.getSession().setAttribute("accion", "Editar");
                 int id_sucursal = Integer.parseInt(request.getParameter("id_sucursal"));
                 Sucursal s = gs.obtenerSucursal(id_sucursal);
                 request.setAttribute("sucursal", s);
+                
             }
+            
             RequestDispatcher rd = getServletContext().getRequestDispatcher("/Sucursales/AM_Sucursal.jsp");
             rd.forward(request, response);
 
         } else if (modo.equals("eliminar")) {
-
-            if (!request.getParameter("b").equals("1")) {
-                
-            }
+            
             int id_sucursal = Integer.parseInt(request.getParameter("id_sucursal"));
             gs.eliminarSucursal(id_sucursal);
             request.setAttribute("listadoSucursales", gs.obtenerSucursales());
