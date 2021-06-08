@@ -18,14 +18,19 @@
         </div>
         <div class="container-fluid">   
             <table class="table table-striped table-dark">
-                <thead>
-                    <tr>
-                        <th scope="col" style="display: "> # </th>
-                        <th scope="col">Fecha </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <c:forEach items="${listadoEncargos}" var="e">                      
+                <c:forEach items="${listadoEncargos}" var="e">
+                    <thead>            
+                        <tr class="table-primary">
+                            <th scope="col" style="display: "> # </th>
+                            <th scope="col">Fecha </th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>                                       
                         <tr>
                             <c:set var="id" scope = "session" value="${e.id_encargo}"/>
                             <td style="display: "> ${e.id_encargo}  </td>
@@ -34,7 +39,7 @@
                             <td> Producto  </td>
                             <td> Cantidad  </td>
                             <td style="display: none"> </td>
-                            <td><a href="Encargos?modo=AM&id_encargo=${e.id_encargo}" class="btn btn-success">Agregar</a></td>
+                            <td><a href="Encargos?modo=AM&id_encargo=${e.id_encargo}" class="btn btn-success">Agregar Detalle</a></td>
                             <td><a class="btn btn-danger" data-toggle="modal" data-target="#confirmacionE">Eliminar Encargo</a></td>
                     <div class="modal fade" id="confirmacionE" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         </tr>                   
@@ -49,7 +54,7 @@
                                     <td> ${d.producto}  </td>
                                     <td> ${d.cantidad}  </td>
                                     <td style="display: none "> ${d.id_detalle_encargo} </td>
-                                    <td><a href="Encargos?modo=AM&id_detalle_encargo=${d.id_detalle_encargo}" class="btn btn-warning"> Editar </a></td>
+                                    <td><a href="Encargos?modo=AM&id_detalle_encargo=${d.id_detalle_encargo}" class="btn btn-warning"> Editar Detalle</a></td>
                                     <td><a class="btn btn-danger" data-toggle="modal" data-target="#confirmacionD">Eliminar Detalle</a></td>                               
                                 </tr>   
                             </c:if>                       
@@ -59,19 +64,21 @@
                 </tbody>
             </table>   
         </div>
-        
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Confirmar</h5>
-                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    ¿ Seguro que desea eliminar el encargo con sus detalles ${id} ${e.id_encargo}?
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                    <a href="Encargos?modo=eliminar&id_encargo=${id}" class="btn btn-danger" >Eliminar</a>
+
+        <div class="modal fade" id="confirmacionE" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Confirmar</h5>
+                        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        ¿ Seguro que desea eliminar el encargo con sus detalles ${id} ${e.id_encargo}?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <a href="Encargos?modo=eliminar&id_encargo=${id}" class="btn btn-danger" >Eliminar</a>
+                    </div>
                 </div>
             </div>
         </div>

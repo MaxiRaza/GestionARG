@@ -1,5 +1,6 @@
 package Gestor;
 
+import Modelo.DTO.DTO_Factura;
 import Modelo.Factura;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -139,5 +140,32 @@ public class Gestor_Facturas {
         } finally {
             cerrarConexion();
         }
+    }
+    
+    public ArrayList<DTO_Factura> obtenerFacturasDTO() {
+        ArrayList<DTO_Factura> lista = new ArrayList<>();
+        try {
+            abrirConexion();
+            Statement st = conexion.createStatement();
+            ResultSet rs = st.executeQuery("SELECT id_factura, fecha, descuento, s.nombre, c.nombre +' '+ c.apellido, u.nombre +' '+ u.apellido, fp.nombre FROM Facturas f JOIN Sucursales s ON f.id_sucursal = s.id_sucursal JOIN Clientes c ON f.id_cliente = c.id_cliente JOIN Formas_de_Pagos fp ON f.id_forma_de_pago = fp.id_forma_de_pago JOIN Usuarios u ON f.id_usuario = u.id_usuario WHERE f.vigencia = 1");
+            while (rs.next()) {
+                DTO_Factura f = new DTO_Factura();
+                f.setId_factura(rs.getInt(1));
+                f.setFecha(rs.getString(2));
+                f.setDescuento(rs.getFloat(3));
+                f.setSucursal(rs.getString(4));
+                f.setCliente(rs.getString(5));
+                f.setUsuario(rs.getString(6));
+                f.setForma_de_pago(rs.getString(7));
+                lista.add(f);
+            }
+            rs.close();
+            st.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Gestor_Facturas.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            cerrarConexion();
+        }
+        return lista;
     }
 }

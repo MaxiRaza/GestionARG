@@ -18,7 +18,7 @@
         <div class="container-fluid">   
             <table class="table table-striped table-dark">
                 <thead>
-                    <tr>
+                    <tr class="table-primary">
                         <th scope="col">#</th>
                         <th scope="col">Nombre</th>
                         <th scope="col">Cuit</th>
@@ -28,7 +28,9 @@
                         <th scope="col">Tipo Proveedor</th>
                         <th scope="col">Clasificación</th>
                         <th scope="col">Marca</th>
-                        <th scope="col">Categoría</th>                     
+                        <th scope="col">Categoría</th>        
+                        <th></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>

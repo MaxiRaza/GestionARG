@@ -18,7 +18,7 @@
         <div class="container-fluid">   
             <table class="table table-striped table-dark">
                 <thead> 
-                    <tr>
+                    <tr class="table-primary">
                         <th scope="col">#</th>
                         <th scope="col">Nombre</th>
                         <th scope="col">Apellido</th>
@@ -30,6 +30,8 @@
                         <th scope="col">Usuario</th>
                         <th scope="col">Contraseña</th>
                         <th scope="col">Rol</th>
+                        <th></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>

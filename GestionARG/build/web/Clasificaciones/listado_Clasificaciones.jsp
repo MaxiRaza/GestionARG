@@ -18,7 +18,7 @@
         <div class="container-fluid">   
             <table class="table table-striped table-dark">
                 <thead>
-                    <tr>
+                    <tr class="table-primary">
                         <th scope="col">#</th>
                         <th scope="col">Nombre</th>
                     </tr>

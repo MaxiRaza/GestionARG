@@ -19,7 +19,7 @@
         <div class="container-fluid">   
             <table class="table table-striped table-dark">
                 <thead>
-                    <tr>
+                    <tr class="table-primary">
                         <th scope="col">#</th>
                         <th scope="col">Código</th>
                         <th scope="col">Nombre</th>
@@ -31,6 +31,8 @@
                         <th scope="col">Marca</th>
                         <th scope="col">Categoria</th>                        
                         <th scope="col">Depósito</th>
+                        <th></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
