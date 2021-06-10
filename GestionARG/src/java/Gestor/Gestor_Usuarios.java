@@ -230,5 +230,25 @@ public class Gestor_Usuarios {
         }
         return lista;
     }
+    
+    public int obtenerRolUsuario(String alias, String contrasenia) {
+        int rol = 0;
+        try {
+            abrirConexion();
+            PreparedStatement ps = conexion.prepareStatement("SELECT id_rol FROM Usuarios WHERE alias = ? AND contrasenia = ? AND vigencia = 1");
+            ps.setString(1, alias);
+            ps.setString(2, contrasenia);
+            ResultSet st = ps.executeQuery();
+            if (st.next()) {
+                rol = st.getInt(1);
+            }
+            ps.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Gestor_Usuarios.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            cerrarConexion();
+        }
+        return rol;
+    }
 
 }
