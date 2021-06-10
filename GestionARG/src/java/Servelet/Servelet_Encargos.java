@@ -80,11 +80,33 @@ public class Servelet_Encargos extends HttpServlet {
 
         } else if (modo.equals("eliminar")) {
 
-            if (request.getParameter("id_encargo") != null) {
-                ge.eliminarEncargo(Integer.parseInt(request.getParameter("id_encargo")));
+            if (request.getParameter("a") != null) {
+                request.getSession().setAttribute("e", true);
+                request.getSession().setAttribute("servelet", "Encargos");
+                if (request.getParameter("id_e") != null) {
+                    request.getSession().setAttribute("c", 1);
+                    request.getSession().setAttribute("id", Integer.parseInt(request.getParameter("id_e")));
+                    request.getSession().setAttribute("nombre", " el encargo " + ge.obtenerEncargo(Integer.parseInt(request.getParameter("id_e"))).getId_encargo());
+                } else {
+                    request.getSession().setAttribute("c", 2);
+                    request.getSession().setAttribute("id", Integer.parseInt(request.getParameter("id")));
+                    request.getSession().setAttribute("nombre", "el detalle = " + gde.obtenerDetalleEncargo(Integer.parseInt(request.getParameter("id"))).getId_detalle_encargo());
+                }
+
+            } else if (request.getParameter("e") != null) {
+
+                if (request.getParameter("c").equals("1")) {
+                    ge.eliminarEncargo(Integer.parseInt(request.getParameter("id")));
+                } else {
+                    gde.eliminarDetalleEncargo(Integer.parseInt(request.getParameter("id")));
+                }
+                request.getSession().setAttribute("e", false);
+
             } else {
-                gde.eliminarDetalleEncargo(Integer.parseInt(request.getParameter("id_detalle_encargo")));
+
+                request.getSession().setAttribute("e", false);
             }
+
             request.setAttribute("listadoEncargos", ge.obtenerEncargos());
             request.setAttribute("listadoDetalles", gde.obtenerDetalleEncargosDTO());
             RequestDispatcher rd = getServletContext().getRequestDispatcher("/Encargos/listado_Encargos.jsp");

@@ -112,9 +112,8 @@ public class Gestor_Encargos {
     public void eliminarEncargo(int id_encargo) {
         try {
             abrirConexion();
-            PreparedStatement ps = conexion.prepareStatement("UPDATE Detalle_Encargos SET vigencia = 0 WHERE id_encargo = ?  UPDATE Encargos SET vigencia = 0 WHERE id_encargo = ?");
+            PreparedStatement ps = conexion.prepareStatement("UPDATE Encargos SET vigencia = 0 WHERE id_encargo = ?");
             ps.setInt(1, id_encargo);
-            ps.setInt(2, id_encargo);
             ps.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(Gestor_Encargos.class.getName()).log(Level.SEVERE, null, ex);

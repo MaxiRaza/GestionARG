@@ -15,10 +15,10 @@
         <form method="Post" action="Roles">
             <div class="container col-md-3">                  
                 <input type="hidden" name="txtIdRol" value="<jsp:getProperty name="rol" property="id_rol"></jsp:getProperty>" />
-                            <div class="form-group">
-                                <label for="recipient-name" class="col-form-label">Nombre (*)</label>
-                                <input type="text" name="txtNombre" required="required" class="form-control" id="recipient-name"  <c:if test="${modificar}"> value="<jsp:getProperty name="rol" property="nombre"></jsp:getProperty>" </c:if>>
-                                </div>                                                  
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Nombre (*)</label>
+                        <input type="text" name="txtNombre" required="required" class="form-control" id="recipient-name"  <c:if test="${modificar}"> value="<jsp:getProperty name="rol" property="nombre"></jsp:getProperty>" </c:if>>
+                        </div>                                                  
                     </div><br>
                     <div class="row justify-content-md-center" >
                         <a href="Roles" class="btn btn-primary">Volver al listado</a>

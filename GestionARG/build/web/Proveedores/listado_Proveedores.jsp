@@ -8,6 +8,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
         <jsp:include page="../Componentes\formato.jsp"/>
         <jsp:include page="../Componentes\barraNavegacion.jsp"/>
+        <jsp:include page="../Componentes\modal.jsp"/>
         <title>GestionARG - Listado Proveedores</title>     
     </head>
     <body>             
@@ -47,26 +48,7 @@
                             <td> ${p.marca}  </td>                            
                             <td> ${p.categoria}  </td>
                             <td><a href="Proveedores?modo=AM&id_proveedor=${p.id_proveedor}" class="btn btn-warning">Editar</a></td>
-                            <td><a class="btn btn-danger" data-toggle="modal" data-target="#confirmacion">Eliminar</a>
-                                <div class="modal fade" id="confirmacion" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">Confirmar</h5>
-                                                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                ¿ Seguro que desea eliminar al proveedor ${p.nombre} ?
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                                                <a href="Proveedores?modo=eliminar&id_proveedor=${p.id_proveedor}" class="btn btn-danger" >Eliminar</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr> 
+                            <td><a href="Proveedores?modo=eliminar&a=a&id=${p.id_proveedor}"class="btn btn-danger">Eliminar</a> 
                     </c:forEach>                              
                 </tbody>
             </table>   

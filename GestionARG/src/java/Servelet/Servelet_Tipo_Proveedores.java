@@ -56,8 +56,22 @@ public class Servelet_Tipo_Proveedores extends HttpServlet {
 
         } else if (modo.equals("eliminar")) {
 
-            int id_tipo_proveedor = Integer.parseInt(request.getParameter("id_tipo_proveedor"));
-            gtp.eliminarTipoProveedor(id_tipo_proveedor);
+            if (request.getParameter("a") != null) {
+
+                request.getSession().setAttribute("e", true);
+                request.getSession().setAttribute("servelet", "Tipo_Proveedores");
+                request.getSession().setAttribute("id", Integer.parseInt(request.getParameter("id")));
+                request.getSession().setAttribute("nombre",  "el tipo de proveedor " + gtp.obtenerTipoProveedor(Integer.parseInt(request.getParameter("id"))).getNombre());
+
+            } else if (request.getParameter("e") != null) {
+
+                request.getSession().setAttribute("e", false);
+                gtp.eliminarTipoProveedor(Integer.parseInt(request.getParameter("id")));
+
+            } else {
+                request.getSession().setAttribute("e", false);
+            }
+
             request.setAttribute("listadoTiposProveedores", gtp.obtenerTipoProveedores());
             RequestDispatcher rd = getServletContext().getRequestDispatcher("/Tipo_Proveedores/listado_Tipo_Proveedores.jsp");
             rd.forward(request, response);

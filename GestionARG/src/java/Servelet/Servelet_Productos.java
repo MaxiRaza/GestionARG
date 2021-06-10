@@ -47,7 +47,7 @@ public class Servelet_Productos extends HttpServlet {
             if (request.getParameter("id_producto") != null) {
                 request.getSession().setAttribute("modificar", true);
                 request.getSession().setAttribute("accion", "Editar");
-                DTO_Producto p = gp.obtenerProductoDTO( Integer.parseInt(request.getParameter("id_producto")));
+                DTO_Producto p = gp.obtenerProductoDTO(Integer.parseInt(request.getParameter("id_producto")));
                 request.setAttribute("producto", p);
             }
 
@@ -57,8 +57,22 @@ public class Servelet_Productos extends HttpServlet {
 
         } else if (modo.equals("eliminar")) {
 
-            int id_producto = Integer.parseInt(request.getParameter("id_producto"));
-            gp.eliminarProducto(id_producto);
+            if (request.getParameter("a") != null) {
+
+                request.getSession().setAttribute("e", true);
+                request.getSession().setAttribute("servelet", "Productos");
+                request.getSession().setAttribute("id", Integer.parseInt(request.getParameter("id")));
+                request.getSession().setAttribute("nombre",  " el producto " + gp.obtenerProducto(Integer.parseInt(request.getParameter("id"))).getNombre());
+
+            } else if (request.getParameter("e") != null) {
+
+                request.getSession().setAttribute("e", false);
+                gp.eliminarProducto(Integer.parseInt(request.getParameter("id")));
+
+            } else {
+                request.getSession().setAttribute("e", false);
+            }
+
             request.setAttribute("listadoProductos", gp.obtenerProductosDTO());
             RequestDispatcher rd = getServletContext().getRequestDispatcher("/Productos/listado_Productos.jsp");
             rd.forward(request, response);

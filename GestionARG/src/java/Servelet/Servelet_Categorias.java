@@ -55,9 +55,23 @@ public class Servelet_Categorias extends HttpServlet {
             rd.forward(request, response);
 
         } else if (modo.equals("eliminar")) {
+            
+            if (request.getParameter("a") != null) {
 
-            int id_categoria = Integer.parseInt(request.getParameter("id_categoria"));
-            gc.eliminarCategoria(id_categoria);
+                request.getSession().setAttribute("e", true);
+                request.getSession().setAttribute("servelet", "Categorias");
+                request.getSession().setAttribute("id", Integer.parseInt(request.getParameter("id")));
+                request.getSession().setAttribute("nombre", "la categoria " + gc.obtenerCategoria(Integer.parseInt(request.getParameter("id"))).getNombre());
+
+            } else if (request.getParameter("e") != null) {
+
+                request.getSession().setAttribute("e", false);
+                gc.eliminarCategoria(Integer.parseInt(request.getParameter("id")));
+
+            } else {
+                request.getSession().setAttribute("e", false);
+            }
+         
             request.setAttribute("listadoCategorias", gc.obtenerCategorias());
             RequestDispatcher rd = getServletContext().getRequestDispatcher("/Categorias/listado_Categorias.jsp");
             rd.forward(request, response);

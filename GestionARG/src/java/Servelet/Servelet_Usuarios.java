@@ -27,7 +27,7 @@ public class Servelet_Usuarios extends HttpServlet {
 
         String modo = request.getParameter("modo");
         request.getSession().setAttribute("modificar", false);
-        request.getSession().setAttribute("accion", "Registrar");  
+        request.getSession().setAttribute("accion", "Registrar");
 
         if (modo == null) {
 
@@ -42,10 +42,10 @@ public class Servelet_Usuarios extends HttpServlet {
             }
 
         } else if (modo.equals("AM")) {
-            
+
             if (request.getParameter("id_usuario") != null) {
                 request.getSession().setAttribute("modificar", true);
-                 request.getSession().setAttribute("accion", "Editar");  
+                request.getSession().setAttribute("accion", "Editar");
                 int id_usuario = Integer.parseInt(request.getParameter("id_usuario"));
                 DTO_Usuario u = gu.obtenerUsuarioDTO(id_usuario);
                 request.setAttribute("usuario", u);
@@ -56,8 +56,22 @@ public class Servelet_Usuarios extends HttpServlet {
 
         } else if (modo.equals("eliminar")) {
 
-            int id_usuario = Integer.parseInt(request.getParameter("id_usuario"));
-            gu.eliminarUsuario(id_usuario);
+            if (request.getParameter("a") != null) {
+
+                request.getSession().setAttribute("e", true);
+                request.getSession().setAttribute("servelet", "Usuarios");
+                request.getSession().setAttribute("id", Integer.parseInt(request.getParameter("id")));
+                request.getSession().setAttribute("nombre", " el usuario " +  (gu.obtenerUsuario(Integer.parseInt(request.getParameter("id"))).getNombre() + " " + gu.obtenerUsuario(Integer.parseInt(request.getParameter("id"))).getApellido()));
+
+            } else if (request.getParameter("e") != null) {
+
+                request.getSession().setAttribute("e", false);
+                gu.eliminarUsuario(Integer.parseInt(request.getParameter("id")));
+
+            } else {
+                request.getSession().setAttribute("e", false);
+            }
+
             request.setAttribute("listadoUsuarios", gu.obtenerUsuariosDTO());
             RequestDispatcher rd = getServletContext().getRequestDispatcher("/Usuarios/listado_Usuarios.jsp");
             rd.forward(request, response);

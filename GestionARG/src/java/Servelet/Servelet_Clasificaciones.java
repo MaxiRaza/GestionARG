@@ -56,8 +56,22 @@ public class Servelet_Clasificaciones extends HttpServlet {
 
         } else if (modo.equals("eliminar")) {
 
-            int id_clasificacion = Integer.parseInt(request.getParameter("id_clasificacion"));
-            gc.eliminarClasificacion(id_clasificacion);
+            if (request.getParameter("a") != null) {
+
+                request.getSession().setAttribute("e", true);
+                request.getSession().setAttribute("servelet", "Clasificaciones");
+                request.getSession().setAttribute("id", Integer.parseInt(request.getParameter("id")));
+                request.getSession().setAttribute("nombre", "la clasificación " + gc.obtenerClasificacion(Integer.parseInt(request.getParameter("id"))).getNombre());
+
+            } else if (request.getParameter("e") != null) {
+
+                request.getSession().setAttribute("e", false);
+                gc.eliminarClasificacion(Integer.parseInt(request.getParameter("id")));
+
+            } else {
+                request.getSession().setAttribute("e", false);
+            }
+
             request.setAttribute("listadoClasificaciones", gc.obtenerClasificaciones());
             RequestDispatcher rd = getServletContext().getRequestDispatcher("/Clasificaciones/listado_Clasificaciones.jsp");
             rd.forward(request, response);

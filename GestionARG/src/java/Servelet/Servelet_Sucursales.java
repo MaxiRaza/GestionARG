@@ -26,38 +26,52 @@ public class Servelet_Sucursales extends HttpServlet {
         if (modo == null) {
 
             if (request.getSession().getAttribute("admin") != null) {
-                
+
                 request.getSession().setAttribute("activar", 6);
                 request.setAttribute("listadoSucursales", gs.obtenerSucursales());
                 RequestDispatcher rd = getServletContext().getRequestDispatcher("/Sucursales/listado_Sucursales.jsp");
                 rd.forward(request, response);
-                
+
             } else {
-                
+
                 RequestDispatcher rd = getServletContext().getRequestDispatcher("/Login/login.jsp");
                 rd.forward(request, response);
-                
+
             }
 
         } else if (modo.equals("AM")) {
 
             if (request.getParameter("id_sucursal") != null) {
-                
+
                 request.getSession().setAttribute("modificar", true);
                 request.getSession().setAttribute("accion", "Editar");
                 int id_sucursal = Integer.parseInt(request.getParameter("id_sucursal"));
                 Sucursal s = gs.obtenerSucursal(id_sucursal);
                 request.setAttribute("sucursal", s);
-                
+
             }
-            
+
             RequestDispatcher rd = getServletContext().getRequestDispatcher("/Sucursales/AM_Sucursal.jsp");
             rd.forward(request, response);
 
         } else if (modo.equals("eliminar")) {
-            
-            int id_sucursal = Integer.parseInt(request.getParameter("id_sucursal"));
-            gs.eliminarSucursal(id_sucursal);
+
+            if (request.getParameter("a") != null) {
+
+                request.getSession().setAttribute("e", true);
+                request.getSession().setAttribute("servelet", "Sucursales");
+                request.getSession().setAttribute("id", Integer.parseInt(request.getParameter("id")));
+                request.getSession().setAttribute("nombre",  " la sucursal " + gs.obtenerSucursal(Integer.parseInt(request.getParameter("id"))).getNombre());
+
+            } else if (request.getParameter("e") != null) {
+
+                request.getSession().setAttribute("e", false);
+                gs.eliminarSucursal(Integer.parseInt(request.getParameter("id")));
+
+            } else {
+                request.getSession().setAttribute("e", false);
+            }
+
             request.setAttribute("listadoSucursales", gs.obtenerSucursales());
             RequestDispatcher rd = getServletContext().getRequestDispatcher("/Sucursales/listado_Sucursales.jsp");
             rd.forward(request, response);

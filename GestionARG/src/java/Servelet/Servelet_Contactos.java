@@ -29,8 +29,8 @@ public class Servelet_Contactos extends HttpServlet {
 
                 request.getSession().setAttribute("activar", 18);
                 request.setAttribute("listadoContactos", gc.obtenerContactos());
-            RequestDispatcher rd = getServletContext().getRequestDispatcher("/Contactos/listado_Contactos.jsp");
-            rd.forward(request, response);
+                RequestDispatcher rd = getServletContext().getRequestDispatcher("/Contactos/listado_Contactos.jsp");
+                rd.forward(request, response);
 
             } else {
 
@@ -56,8 +56,22 @@ public class Servelet_Contactos extends HttpServlet {
 
         } else if (modo.equals("eliminar")) {
 
-            int id_contacto = Integer.parseInt(request.getParameter("id_contacto"));
-            gc.eliminarContacto(id_contacto);
+            if (request.getParameter("a") != null) {
+
+                request.getSession().setAttribute("e", true);
+                request.getSession().setAttribute("servelet", "Contactos");
+                request.getSession().setAttribute("id", Integer.parseInt(request.getParameter("id")));
+                request.getSession().setAttribute("nombre" ,  "el contacto " + Integer.parseInt(request.getParameter("id")));
+
+            } else if (request.getParameter("e") != null) {
+
+                request.getSession().setAttribute("e", false);
+                gc.eliminarContacto(Integer.parseInt(request.getParameter("id")));
+
+            } else {
+                request.getSession().setAttribute("e", false);
+            }
+
             request.setAttribute("listadoContactos", gc.obtenerContactos());
             RequestDispatcher rd = getServletContext().getRequestDispatcher("/Contactos/listado_Contactos.jsp");
             rd.forward(request, response);

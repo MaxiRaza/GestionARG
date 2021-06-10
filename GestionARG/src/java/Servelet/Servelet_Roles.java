@@ -18,10 +18,11 @@ public class Servelet_Roles extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         String modo = request.getParameter("modo");
         request.getSession().setAttribute("modificar", false);
         request.getSession().setAttribute("accion", "Registrar");
+        request.getSession().setAttribute("e", false);
 
         if (modo == null) {
 
@@ -56,14 +57,28 @@ public class Servelet_Roles extends HttpServlet {
 
         } else if (modo.equals("eliminar")) {
 
-            int id_rol = Integer.parseInt(request.getParameter("id_rol"));
-            gr.eliminarRol(id_rol);
+            if (request.getParameter("a") != null) {
+
+                request.getSession().setAttribute("e", true);
+                request.getSession().setAttribute("servelet", "Roles");
+                request.getSession().setAttribute("id", Integer.parseInt(request.getParameter("id")));
+                request.getSession().setAttribute("nombre", " el rol " + gr.obtenerRol(Integer.parseInt(request.getParameter("id"))).getNombre());
+
+            } else if (request.getParameter("e") != null) {
+
+                request.getSession().setAttribute("e", false);
+                gr.eliminarRol( Integer.parseInt(request.getParameter("id")));
+
+            } else {
+                request.getSession().setAttribute("e", false);
+            }
+
             request.setAttribute("listadoRoles", gr.obtenerRoles());
             RequestDispatcher rd = getServletContext().getRequestDispatcher("/Roles/listado_Roles.jsp");
             rd.forward(request, response);
 
         }
-        
+
     }
 
     @Override
@@ -75,7 +90,7 @@ public class Servelet_Roles extends HttpServlet {
         r.setId_rol(Integer.parseInt(request.getParameter("txtIdRol")));
         r.setNombre(request.getParameter("txtNombre"));
 
-        if (r.getId_rol()== 0) {
+        if (r.getId_rol() == 0) {
             gr.agregarRol(r);
         } else {
             gr.actualizarRol(r);

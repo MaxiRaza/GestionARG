@@ -60,8 +60,22 @@ public class Servelet_Depositos extends HttpServlet {
 
         } else if (modo.equals("eliminar")) {
 
-            int id_deposito = Integer.parseInt(request.getParameter("id_deposito"));
-            gd.eliminarDeposito(id_deposito);
+            if (request.getParameter("a") != null) {
+
+                request.getSession().setAttribute("e", true);
+                request.getSession().setAttribute("servelet", "Depositos");
+                request.getSession().setAttribute("id", Integer.parseInt(request.getParameter("id")));
+                request.getSession().setAttribute("nombre",  "el depósito " + gd.obtenerDeposito(Integer.parseInt(request.getParameter("id"))).getUbicacion());
+
+            } else if (request.getParameter("e") != null) {
+
+                request.getSession().setAttribute("e", false);
+                gd.eliminarDeposito(Integer.parseInt(request.getParameter("id")));
+
+            } else {
+                request.getSession().setAttribute("e", false);
+            }
+
             request.setAttribute("listadoDepositos", gd.obtenerDepositosDTO());
             RequestDispatcher rd = getServletContext().getRequestDispatcher("/Depositos/listado_Depositos.jsp");
             rd.forward(request, response);

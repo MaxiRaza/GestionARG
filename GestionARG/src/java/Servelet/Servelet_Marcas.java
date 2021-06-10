@@ -59,8 +59,22 @@ public class Servelet_Marcas extends HttpServlet {
 
         } else if (modo.equals("eliminar")) {
 
-            int id_marca = Integer.parseInt(request.getParameter("id_marca"));
-            gm.eliminarMarca(id_marca);
+            if (request.getParameter("a") != null) {
+
+                request.getSession().setAttribute("e", true);
+                request.getSession().setAttribute("servelet", "Marcas");
+                request.getSession().setAttribute("id", Integer.parseInt(request.getParameter("id")));
+                request.getSession().setAttribute("nombre", " la marca " +  gm.obtenerMarca(Integer.parseInt(request.getParameter("id"))).getNombre());
+
+            } else if (request.getParameter("e") != null) {
+
+                request.getSession().setAttribute("e", false);
+                gm.eliminarMarca(Integer.parseInt(request.getParameter("id")));
+
+            } else {
+                request.getSession().setAttribute("e", false);
+            }
+
             request.setAttribute("listadoMarcas", gm.obtenerMarcasDTO());
             RequestDispatcher rd = getServletContext().getRequestDispatcher("/Marcas/listado_Marcas.jsp");
             rd.forward(request, response);

@@ -8,6 +8,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
         <jsp:include page="../Componentes\formato.jsp"/>
         <jsp:include page="../Componentes\barraNavegacion.jsp"/>
+        <jsp:include page="../Componentes\modal.jsp"/>
         <title>GestionARG - Listado de Marcas</title>     
     </head>
     <body>             
@@ -28,31 +29,14 @@
                 </thead>
                 <tbody>
                     <c:forEach items="${listadoMarcas}" var="m">
-                        <tr>
+                        <tr>                   
                             <td> ${m.id_marca}  </td>
                             <td> ${m.marca}  </td>
                             <td> ${m.categoria}  </td>
                             <td><a href="Marcas?modo=AM&id_marca=${m.id_marca}" class="btn btn-warning">Editar</a></td>
-                            <td><a href="Marcas?modo=eliminar&id_marca=${m.id_marca}" class="btn btn-danger" data-toggle="modal" data-target="#confirmacion" >Eliminar</a></td>                                                                                                 
+                            <td><a href="Marcas?modo=eliminar&a=a&id=${m.id_marca}" class="btn btn-danger">Eliminar</a></td>                                                                                                 
                         </tr> 
-                    <div class="modal fade" id="confirmacion" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Confirmar</h5>
-                                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    ¿ Seguro que desea eliminar ?
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                                    <a href="Marcas?modo=eliminar&b=1" class= "btn btn-danger" >Eliminar</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </c:forEach>                    
+                    </c:forEach>                    
                 </tbody>
             </table>   
         </div>

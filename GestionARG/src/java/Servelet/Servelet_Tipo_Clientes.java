@@ -56,8 +56,22 @@ public class Servelet_Tipo_Clientes extends HttpServlet {
 
         } else if (modo.equals("eliminar")) {
 
-            int id_tipo_cliente = Integer.parseInt(request.getParameter("id_tipo_cliente"));
-            gtc.eliminarTipoCliente(id_tipo_cliente);
+            if (request.getParameter("a") != null) {
+
+                request.getSession().setAttribute("e", true);
+                request.getSession().setAttribute("servelet", "Tipo_Clientes");
+                request.getSession().setAttribute("id", Integer.parseInt(request.getParameter("id")));
+                request.getSession().setAttribute("nombre", " el tipo de cliente " +  gtc.obtenerTipoCliente(Integer.parseInt(request.getParameter("id"))).getNombre());
+
+            } else if (request.getParameter("e") != null) {
+
+                request.getSession().setAttribute("e", false);
+                gtc.eliminarTipoCliente(Integer.parseInt(request.getParameter("id")));
+
+            } else {
+                request.getSession().setAttribute("e", false);
+            }
+
             request.setAttribute("listadoTiposClientes", gtc.obtenerTipoClientes());
             RequestDispatcher rd = getServletContext().getRequestDispatcher("/Tipo_Clientes/listado_Tipo_Clientes.jsp");
             rd.forward(request, response);

@@ -12,13 +12,13 @@
     <body>             
         <br><h1  class="row justify-content-md-center">Reportes</h1><br>       
 
-        <div class="row justify-content-md-center">
+        <div class="row justify-content-md-center"><br><br> <br> 
             <h4>Top diez productos en  ventas</h4>
         </div>
         <div class="container-fluid">
             <table class="table table-striped table-dark">
                 <thead>
-                    <tr>
+                    <tr class="table-primary">
                         <th scope="col">#</th>
                         <th scope="col">Producto</th>
                         <th scope="col">Marca</th>
@@ -46,7 +46,7 @@
         <div class="container-fluid">
             <table class="table table-striped table-dark">
                 <thead>
-                    <tr>
+                    <tr class="table-primary">
                         <th scope="col">#</th>
                         <th scope="col">Producto</th>
                         <th scope="col">Marca</th>
@@ -74,7 +74,7 @@
         <div class="container-fluid">
             <table class="table table-striped table-dark">
                 <thead>
-                    <tr>
+                    <tr class="table-primary">
                         <th scope="col">#</th>
                         <th scope="col">Producto</th>
                         <th scope="col">Marca</th>
@@ -102,7 +102,7 @@
         <div class="container-fluid">
             <table class="table table-striped table-dark">
                 <thead>
-                    <tr>
+                    <tr class="table-primary">
                         <th scope="col">#</th>
                         <th scope="col">Producto</th>
                         <th scope="col">Marca</th>
@@ -130,7 +130,7 @@
         <div class="container-fluid">
             <table class="table table-striped table-dark">
                 <thead>
-                    <tr>
+                    <tr class="table-primary">
                         <th scope="col">#</th>
                         <th scope="col">Producto</th>
                         <th scope="col">Marca</th>

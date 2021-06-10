@@ -50,7 +50,7 @@
                             <td> ${p.categoria}  </td>
                             <td> ${p.deposito}  </td>
                             <td><a href="Productos?modo=AM&id_producto=${p.id_producto}" class="btn btn-warning">Editar</a></td>
-                            <td><a class="btn btn-danger" data-toggle="modal" data-target="#confirmacion">Eliminar</a></td>
+                            <td><a href="Productos?modo=eliminar&a=a&id=${p.id_producto}" class="btn btn-danger">Eliminar</a></td>
                         </tr> 
                     </c:forEach>                              
                 </tbody>

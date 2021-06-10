@@ -57,8 +57,22 @@ public class Servelet_Formas_de_Pagos extends HttpServlet {
 
         } else if (modo.equals("eliminar")) {
 
-            int id_forma_de_pago = Integer.parseInt(request.getParameter("id_forma_de_pago"));
-            gfp.eliminarFormaDePago(id_forma_de_pago);
+            if (request.getParameter("a") != null) {
+
+                request.getSession().setAttribute("e", true);
+                request.getSession().setAttribute("servelet", "Formas_de_Pagos");
+                request.getSession().setAttribute("id", Integer.parseInt(request.getParameter("id")));
+                request.getSession().setAttribute("nombre",  "la forma de pago " + gfp.obtenerFormaDePago(Integer.parseInt(request.getParameter("id"))).getNombre());
+
+            } else if (request.getParameter("e") != null) {
+
+                request.getSession().setAttribute("e", false);
+                gfp.eliminarFormaDePago(Integer.parseInt(request.getParameter("id")));
+
+            } else {
+                request.getSession().setAttribute("e", false);
+            }
+
             request.setAttribute("listadoFormasDePago", gfp.obtenerFormasDePagos());
             RequestDispatcher rd = getServletContext().getRequestDispatcher("/Formas_de_Pagos/listado_Formas_de_Pagos.jsp");
             rd.forward(request, response);

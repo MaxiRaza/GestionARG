@@ -144,7 +144,7 @@ public class Gestor_Productos {
     public void eliminarProducto(int id_producto) {
         try {
             abrirConexion();
-            PreparedStatement ps = conexion.prepareStatement("UPDATE Prouctos SET vigencia = 0 WHERE id_producto = ?");
+            PreparedStatement ps = conexion.prepareStatement("UPDATE Productos SET vigencia = 0 WHERE id_producto = ?");
             ps.setInt(1, id_producto);
             ps.executeUpdate();
         } catch (SQLException ex) {

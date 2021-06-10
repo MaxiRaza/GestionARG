@@ -13,7 +13,7 @@
         <body>
             <br><h1  class="row justify-content-md-center">Listado de Articulos</h1><br><br>
 
-            <form method="Post" action="Facturas">
+            <form method="Post" action="Compras">
                 <div class="container ">
                     <div class="row m-6 justify-content-md-center">
                         <div class="col-sm-1">
@@ -42,7 +42,7 @@
                         <button type="submit" class="btn btn-success">Filtrar</button>  
                     </div>
                     <div class="col-sm-1">
-                        <a href="Facturas?modo=Limpiar" class="btn btn-info">Limpiar</a>
+                        <a href="Compras?modo=Limpiar" class="btn btn-info">Limpiar</a>
                     </div>
                 </div>
             </div>         
@@ -73,7 +73,7 @@
             </div>
         </div>
         <div class="row justify-content-md-center">
-            <a href="Facturas?modo=sumar&cantidad=${cantidad + 7}" class="btn btn-info">Ver mas</a>
+            <a href="Compras?modo=sumar&cantidad=${cantidad + 7}" class="btn btn-info">Ver mas</a>
         </div> 
 
         <div class="modal fade" id="carrito" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

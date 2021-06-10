@@ -8,6 +8,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
         <jsp:include page="../Componentes\formato.jsp"/>
         <jsp:include page="../Componentes\barraNavegacion.jsp"/>
+        <jsp:include page="../Componentes\modal.jsp"/>
         <title>GestionARG - Listado de Formas de Pagos</title>     
     </head>
     <body>             
@@ -31,25 +32,8 @@
                             <td> ${r.id_forma_de_pago}  </td>
                             <td> ${r.nombre}  </td>
                             <td><a href="Formas_de_Pagos?modo=AM&id_forma_de_pago=${r.id_forma_de_pago}" class="btn btn-warning">Editar</a></td>
-                            <td><a href="Formas_de_Pagos?modo=eliminar&id_forma_de_pago=${r.id_forma_de_pago}" class="btn btn-danger" data-toggle="modal" data-target="#confirmacion" >Eliminar</a></td>                                                                                                 
+                            <td><a href="Formas_de_Pagos?modo=eliminar&a=a&id=${r.id_forma_de_pago}" class="btn btn-danger">Eliminar</a></td>                                                                                                 
                         </tr> 
-                    <div class="modal fade" id="confirmacion" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Confirmar</h5>
-                                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    ¿ Seguro que desea eliminar ?
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                                    <a href="Formas_de_Pagos?modo=eliminar&b=1" class= "btn btn-danger" >Eliminar</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </c:forEach>                    
                 </tbody>
             </table>   

@@ -56,8 +56,22 @@ public class Servelet_Clientes extends HttpServlet {
 
         } else if (modo.equals("eliminar")) {
 
-            int id_cliente = Integer.parseInt(request.getParameter("id_cliente"));
-            gc.eliminarCliente(id_cliente);
+            if (request.getParameter("a") != null) {
+
+                request.getSession().setAttribute("e", true);
+                request.getSession().setAttribute("servelet", "Clientes");
+                request.getSession().setAttribute("id", Integer.parseInt(request.getParameter("id")));
+                request.getSession().setAttribute("nombre",  "el cliente " +  (gc.obtenerCliente(Integer.parseInt(request.getParameter("id"))).getNombre() +" "+ gc.obtenerCliente(Integer.parseInt(request.getParameter("id"))).getApellido()));
+
+            } else if (request.getParameter("e") != null) {
+
+                request.getSession().setAttribute("e", false);
+                gc.eliminarCliente(Integer.parseInt(request.getParameter("id")));
+
+            } else {
+                request.getSession().setAttribute("e", false);
+            }
+
             request.setAttribute("listadoClientes", gc.obtenerClientesDTO());
             RequestDispatcher rd = getServletContext().getRequestDispatcher("/Clientes/listado_Clientes.jsp");
             rd.forward(request, response);

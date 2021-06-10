@@ -8,6 +8,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
         <jsp:include page="../Componentes\formato.jsp"/>
         <jsp:include page="../Componentes\barraNavegacion.jsp"/>
+        <jsp:include page="../Componentes\modal.jsp"/>
         <title>GestionARG - Listado Usuarios</title>     
     </head>
     <body>             
@@ -49,25 +50,7 @@
                             <td> ${u.contrasenia}  </td>
                             <td> ${u.rol}  </td>
                             <td><a href="Usuarios?modo=AM&id_usuario=${u.id_usuario}" class="btn btn-warning">Editar</a></td>
-                            <td><a class="btn btn-danger" data-toggle="modal" data-target="#confirmacion">Eliminar</a>
-                                <div class="modal fade" id="confirmacion" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">Confirmar</h5>
-                                                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                ¿ Seguro que desea eliminar al usuario ${u.alias} ?
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                                                <a href="Usuarios?modo=eliminar&id_usuario=${u.id_usuario}" class="btn btn-danger" >Eliminar</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
+                            <td><a href="Usuarios?modo=eliminar&a=a&id=${u.id_usuario}" class="btn btn-danger">Eliminar</a></td>
                         </tr> 
                     </c:forEach>                              
                 </tbody>

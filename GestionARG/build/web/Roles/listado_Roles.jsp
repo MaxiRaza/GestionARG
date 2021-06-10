@@ -8,6 +8,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
         <jsp:include page="../Componentes\formato.jsp"/>
         <jsp:include page="../Componentes\barraNavegacion.jsp"/>
+        <jsp:include page="../Componentes\modal.jsp"/>
         <title>GestionARG - Listado de Roles</title>     
     </head>
     <body>             
@@ -31,26 +32,9 @@
                             <td> ${r.id_rol}  </td>
                             <td> ${r.nombre}  </td>
                             <td><a href="Roles?modo=AM&id_rol=${r.id_rol}" class="btn btn-warning">Editar</a></td>
-                            <td><a href="Roles?modo=eliminar&id_rol=${r.id_rol}" class="btn btn-danger" data-toggle="modal" data-target="#confirmacion" >Eliminar</a></td>                                                                                                 
+                            <td><a href="Roles?modo=eliminar&a=a&id=${r.id_rol}" class="btn btn-danger">Eliminar</a></td>  
                         </tr> 
-                    <div class="modal fade" id="confirmacion" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Confirmar</h5>
-                                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    ¿ Seguro que desea eliminar ?
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                                    <a href="Roles?modo=eliminar&b=1" class= "btn btn-danger" >Eliminar</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </c:forEach>                    
+                    </c:forEach> 
                 </tbody>
             </table>   
         </div>
