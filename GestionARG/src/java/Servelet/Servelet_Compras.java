@@ -25,7 +25,9 @@ public class Servelet_Compras extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+        //Variable global para asignar cantidad de filas de la tabla (Arranca por la fila N = 0)
+        int filas = 7;
+        request.getSession().setAttribute("servelet", "Compras");
         String modo = request.getParameter("modo");
         request.getSession().setAttribute("modificar", false);
         request.getSession().setAttribute("accion", "Registrar");
@@ -35,12 +37,18 @@ public class Servelet_Compras extends HttpServlet {
             if (request.getSession().getAttribute("admin") != null) {
 
                 request.getSession().setAttribute("activar", 9);
+                request.getSession().setAttribute("cantidad", filas);
+                request.getSession().setAttribute("db", "disabled");
+                if (gp.obtenerProductosDTO().size() > filas) {
+                    request.getSession().setAttribute("da", "enabled");
+                } else {
+                    request.getSession().setAttribute("da", "disabled");
+                }
                 request.setAttribute("listadoProductos", gp.obtenerProductosDTO());
                 request.setAttribute("listadoCategorias", ga.obtenerCategorias());
                 request.setAttribute("listadoMarcas", gm.obtenerMarcas());
                 request.getSession().setAttribute("id_categoria", 0);
                 request.getSession().setAttribute("id_marca", 0);
-                request.getSession().setAttribute("cantidad", 7);
                 RequestDispatcher rd = getServletContext().getRequestDispatcher("/Ventas/listado_articulos.jsp");
                 rd.forward(request, response);
 
@@ -48,6 +56,7 @@ public class Servelet_Compras extends HttpServlet {
 
                 RequestDispatcher rd = getServletContext().getRequestDispatcher("/Login/login.jsp");
                 rd.forward(request, response);
+                
             }
 
         } else if (modo.equals("Limpiar")) {
@@ -55,11 +64,29 @@ public class Servelet_Compras extends HttpServlet {
             request.getSession().setAttribute("id_categoria", 0);
             request.getSession().setAttribute("id_marca", 0);
 
-        } else if (modo.equals("sumar")) {
-            
-            request.getSession().setAttribute("cantidad", request.getParameter("cantidad"));
+        } else if (modo.equals("limite")) {
+
+            if (gp.obtenerProductosMarcaDTO(filas).size() > Integer.parseInt(request.getParameter("cantidad")) && Integer.parseInt(request.getParameter("cantidad")) > filas) {
+
+                request.getSession().setAttribute("da", "enable");
+                request.getSession().setAttribute("db", "enabled");
+
+            } else if (Integer.parseInt(request.getParameter("cantidad")) > filas) {
+
+                request.getSession().setAttribute("da", "disabled");
+                request.getSession().setAttribute("db", "enable");
+
+            } else {
+
+                request.getSession().setAttribute("da", "enabled");
+                request.getSession().setAttribute("db", "disabled");
+
+            }
+
         }
 
+        request.getSession().setAttribute("n", filas);
+        request.getSession().setAttribute("cantidad", (Integer.parseInt(request.getParameter("cantidad"))));
         request.setAttribute("listadoProductos", gp.obtenerProductosDTO());
         request.setAttribute("listadoCategorias", ga.obtenerCategorias());
         request.setAttribute("listadoMarcas", gm.obtenerMarcas());

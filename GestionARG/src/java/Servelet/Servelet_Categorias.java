@@ -19,6 +19,9 @@ public class Servelet_Categorias extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        //Variable global para asignar cantidad de filas de la tabla (Arranca por la fila N = 0)
+        int filas = 9;
+        request.getSession().setAttribute("servelet", "Categorias");
         String modo = request.getParameter("modo");
         request.getSession().setAttribute("modificar", false);
         request.getSession().setAttribute("accion", "Registrar");
@@ -28,6 +31,13 @@ public class Servelet_Categorias extends HttpServlet {
             if (request.getSession().getAttribute("admin") != null) {
 
                 request.getSession().setAttribute("activar", 17);
+                request.getSession().setAttribute("cantidad", filas);
+                request.getSession().setAttribute("db", "disabled");
+                if (gc.obtenerCategorias().size() > filas) {
+                    request.getSession().setAttribute("da", "enabled");
+                } else {
+                    request.getSession().setAttribute("da", "disabled");
+                }
                 request.setAttribute("listadoCategorias", gc.obtenerCategorias());
                 RequestDispatcher rd = getServletContext().getRequestDispatcher("/Categorias/listado_Categorias.jsp");
                 rd.forward(request, response);
@@ -55,11 +65,10 @@ public class Servelet_Categorias extends HttpServlet {
             rd.forward(request, response);
 
         } else if (modo.equals("eliminar")) {
-            
+
             if (request.getParameter("a") != null) {
 
                 request.getSession().setAttribute("e", true);
-                request.getSession().setAttribute("servelet", "Categorias");
                 request.getSession().setAttribute("id", Integer.parseInt(request.getParameter("id")));
                 request.getSession().setAttribute("nombre", "la categoria " + gc.obtenerCategoria(Integer.parseInt(request.getParameter("id"))).getNombre());
 
@@ -71,12 +80,33 @@ public class Servelet_Categorias extends HttpServlet {
             } else {
                 request.getSession().setAttribute("e", false);
             }
-         
-            request.setAttribute("listadoCategorias", gc.obtenerCategorias());
-            RequestDispatcher rd = getServletContext().getRequestDispatcher("/Categorias/listado_Categorias.jsp");
-            rd.forward(request, response);
+
+        } else if (modo.equals("limite")) {
+
+            if (gc.obtenerCategorias().size() > Integer.parseInt(request.getParameter("cantidad")) && Integer.parseInt(request.getParameter("cantidad")) > filas) {
+
+                request.getSession().setAttribute("da", "enable");
+                request.getSession().setAttribute("db", "enabled");
+
+            } else if (Integer.parseInt(request.getParameter("cantidad")) > filas) {
+
+                request.getSession().setAttribute("da", "disabled");
+                request.getSession().setAttribute("db", "enable");
+
+            } else {
+
+                request.getSession().setAttribute("da", "enabled");
+                request.getSession().setAttribute("db", "disabled");
+
+            }
 
         }
+
+        request.getSession().setAttribute("n", filas);
+        request.getSession().setAttribute("cantidad", (Integer.parseInt(request.getParameter("cantidad"))));
+        request.setAttribute("listadoCategorias", gc.obtenerCategorias());
+        RequestDispatcher rd = getServletContext().getRequestDispatcher("/Categorias/listado_Categorias.jsp");
+        rd.forward(request, response);
 
     }
 
@@ -89,7 +119,7 @@ public class Servelet_Categorias extends HttpServlet {
         c.setId_categoria(Integer.parseInt(request.getParameter("txtIdCategoria")));
         c.setNombre(request.getParameter("txtNombre"));
 
-        if (c.getId_categoria()== 0) {
+        if (c.getId_categoria() == 0) {
             gc.agregarCategorias(c);
         } else {
             gc.actualizarCategoria(c);

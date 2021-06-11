@@ -27,7 +27,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <c:forEach items="${listadoRoles}" var="r">
+                    <c:forEach begin="0" end="${cantidad}" items="${listadoRoles}" var="r">
                         <tr>
                             <td> ${r.id_rol}  </td>
                             <td> ${r.nombre}  </td>
@@ -38,5 +38,6 @@
                 </tbody>
             </table>   
         </div>
+        <jsp:include page="../Componentes\limiteLista.jsp"/>
     </body>
 </html>

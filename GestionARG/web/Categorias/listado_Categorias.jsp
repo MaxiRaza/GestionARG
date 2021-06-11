@@ -27,16 +27,17 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <c:forEach items="${listadoCategorias}" var="c">
+                    <c:forEach begin="0" end="${cantidad}" items="${listadoCategorias}" var="c">
                         <tr>
                             <td> ${c.id_categoria}  </td>
                             <td> ${c.nombre}  </td>
                             <td><a href="Categorias?modo=AM&id_categoria=${c.id_categoria}" class="btn btn-warning">Editar</a></td>
                             <td><a href="Categorias?modo=eliminar&a=a&id=${c.id_categoria}" class="btn btn-danger" >Eliminar</a></td>                                                                                                 
                         </tr> 
-                </c:forEach>                    
+                    </c:forEach>                    
                 </tbody>
             </table>   
         </div>
+        <jsp:include page="../Componentes\limiteLista.jsp"/>
     </body>
 </html>

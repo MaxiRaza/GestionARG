@@ -35,7 +35,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <c:forEach items="${listadoProveedores}" var="p">
+                    <c:forEach begin="0" end="${cantidad}"  items="${listadoProveedores}" var="p">
                         <tr>
                             <td> ${p.id_proveedor}  </td>
                             <td> ${p.nombre}  </td>
@@ -49,9 +49,10 @@
                             <td> ${p.categoria}  </td>
                             <td><a href="Proveedores?modo=AM&id_proveedor=${p.id_proveedor}" class="btn btn-warning">Editar</a></td>
                             <td><a href="Proveedores?modo=eliminar&a=a&id=${p.id_proveedor}"class="btn btn-danger">Eliminar</a> 
-                    </c:forEach>                              
+                            </c:forEach>                              
                 </tbody>
             </table>   
         </div>
+        <jsp:include page="../Componentes\limiteLista.jsp"/>
     </body>
 </html>

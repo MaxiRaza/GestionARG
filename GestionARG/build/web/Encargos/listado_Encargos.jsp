@@ -19,7 +19,7 @@
         </div>
         <div class="container-fluid">   
             <table class="table table-striped table-dark">
-                <c:forEach items="${listadoEncargos}" var="e">
+                <c:forEach begin="0" end="${cantidad}"  items="${listadoEncargos}" var="e">
                     <thead>            
                         <tr class="table-primary">
                             <th scope="col" style="display: "> # </th>
@@ -58,9 +58,10 @@
                             </c:if>                       
                         </c:forEach>              
                     </c:forEach> 
-                </div>      
+                    </div>      
                 </tbody>
             </table>   
         </div>
+        <jsp:include page="../Componentes\limiteLista.jsp"/>
     </body>
 </html>

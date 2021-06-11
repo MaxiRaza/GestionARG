@@ -36,7 +36,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <c:forEach items="${listadoUsuarios}" var="u">
+                    <c:forEach begin="0" end="${cantidad}" items="${listadoUsuarios}" var="u">
                         <tr>
                             <td> ${u.id_usuario}  </td>
                             <td> ${u.nombre}  </td>
@@ -56,5 +56,6 @@
                 </tbody>
             </table>   
         </div>
+        <jsp:include page="../Componentes\limiteLista.jsp"/>
     </body>
 </html>

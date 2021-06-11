@@ -25,6 +25,9 @@ public class Servelet_Clientes extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        //Variable global para asignar cantidad de filas de la tabla (Arranca por la fila N = 0)
+        int filas = 9;
+        request.getSession().setAttribute("servelet", "Clientes");
         String modo = request.getParameter("modo");
         request.getSession().setAttribute("modificar", false);
         request.getSession().setAttribute("accion", "Registrar");
@@ -32,24 +35,38 @@ public class Servelet_Clientes extends HttpServlet {
         if (modo == null) {
 
             if (request.getSession().getAttribute("admin") != null) {
+
                 request.getSession().setAttribute("activar", 4);
+                request.getSession().setAttribute("cantidad", filas);
+                request.getSession().setAttribute("db", "disabled");
+                if (gc.obtenerClientesDTO().size() > filas) {
+                    request.getSession().setAttribute("da", "enabled");
+                } else {
+                    request.getSession().setAttribute("da", "disabled");
+                }
                 request.setAttribute("listadoClientes", gc.obtenerClientesDTO());
                 RequestDispatcher rd = getServletContext().getRequestDispatcher("/Clientes/listado_Clientes.jsp");
                 rd.forward(request, response);
+
             } else {
+
                 RequestDispatcher rd = getServletContext().getRequestDispatcher("/Login/login.jsp");
                 rd.forward(request, response);
+
             }
 
         } else if (modo.equals("AM")) {
 
             if (request.getParameter("id_cliente") != null) {
+
                 request.getSession().setAttribute("modificar", true);
                 request.getSession().setAttribute("accion", "Editar");
                 int id_cliente = Integer.parseInt(request.getParameter("id_cliente"));
                 DTO_Cliente c = gc.obtenerClienteDTO(id_cliente);
                 request.setAttribute("cliente", c);
+
             }
+
             request.setAttribute("listadoTipos", gtc.obtenerTipoClientes());
             RequestDispatcher rd = getServletContext().getRequestDispatcher("/Clientes/AM_Cliente.jsp");
             rd.forward(request, response);
@@ -59,9 +76,8 @@ public class Servelet_Clientes extends HttpServlet {
             if (request.getParameter("a") != null) {
 
                 request.getSession().setAttribute("e", true);
-                request.getSession().setAttribute("servelet", "Clientes");
                 request.getSession().setAttribute("id", Integer.parseInt(request.getParameter("id")));
-                request.getSession().setAttribute("nombre",  "el cliente " +  (gc.obtenerCliente(Integer.parseInt(request.getParameter("id"))).getNombre() +" "+ gc.obtenerCliente(Integer.parseInt(request.getParameter("id"))).getApellido()));
+                request.getSession().setAttribute("nombre", "el cliente " + (gc.obtenerCliente(Integer.parseInt(request.getParameter("id"))).getNombre() + " " + gc.obtenerCliente(Integer.parseInt(request.getParameter("id"))).getApellido()));
 
             } else if (request.getParameter("e") != null) {
 
@@ -69,14 +85,37 @@ public class Servelet_Clientes extends HttpServlet {
                 gc.eliminarCliente(Integer.parseInt(request.getParameter("id")));
 
             } else {
+
                 request.getSession().setAttribute("e", false);
+
             }
 
-            request.setAttribute("listadoClientes", gc.obtenerClientesDTO());
-            RequestDispatcher rd = getServletContext().getRequestDispatcher("/Clientes/listado_Clientes.jsp");
-            rd.forward(request, response);
+        } else if (modo.equals("limite")) {
+
+            if (gc.obtenerClientesDTO().size() > Integer.parseInt(request.getParameter("cantidad")) && Integer.parseInt(request.getParameter("cantidad")) > filas) {
+
+                request.getSession().setAttribute("da", "enable");
+                request.getSession().setAttribute("db", "enabled");
+
+            } else if (Integer.parseInt(request.getParameter("cantidad")) > filas) {
+
+                request.getSession().setAttribute("da", "disabled");
+                request.getSession().setAttribute("db", "enable");
+
+            } else {
+
+                request.getSession().setAttribute("da", "enabled");
+                request.getSession().setAttribute("db", "disabled");
+
+            }
 
         }
+
+        request.getSession().setAttribute("n", filas);
+        request.getSession().setAttribute("cantidad", (Integer.parseInt(request.getParameter("cantidad"))));
+        request.setAttribute("listadoClientes", gc.obtenerClientesDTO());
+        RequestDispatcher rd = getServletContext().getRequestDispatcher("/Clientes/listado_Clientes.jsp");
+        rd.forward(request, response);
 
     }
 

@@ -25,7 +25,10 @@ public class Servelet_Productos extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        
+        //Variable global para asignar cantidad de filas de la tabla (Arranca por la fila N = 0)
+        int filas = 9;
+        request.getSession().setAttribute("servelet", "Productos");
         String modo = request.getParameter("modo");
         request.getSession().setAttribute("modificar", false);
         request.getSession().setAttribute("accion", "Registrar");
@@ -33,13 +36,24 @@ public class Servelet_Productos extends HttpServlet {
         if (modo == null) {
 
             if (request.getSession().getAttribute("admin") != null) {
+
                 request.getSession().setAttribute("activar", 2);
+                request.getSession().setAttribute("cantidad", filas);
+                request.getSession().setAttribute("db", "disabled");
+                if (gp.obtenerProductosDTO().size() > filas) {
+                    request.getSession().setAttribute("da", "enabled");
+                } else {
+                    request.getSession().setAttribute("da", "disabled");
+                }
                 request.setAttribute("listadoProductos", gp.obtenerProductosDTO());
                 RequestDispatcher rd = getServletContext().getRequestDispatcher("/Productos/listado_Productos.jsp");
                 rd.forward(request, response);
+
             } else {
+
                 RequestDispatcher rd = getServletContext().getRequestDispatcher("/Login/login.jsp");
                 rd.forward(request, response);
+
             }
 
         } else if (modo.equals("AM")) {
@@ -49,6 +63,7 @@ public class Servelet_Productos extends HttpServlet {
                 request.getSession().setAttribute("accion", "Editar");
                 DTO_Producto p = gp.obtenerProductoDTO(Integer.parseInt(request.getParameter("id_producto")));
                 request.setAttribute("producto", p);
+
             }
 
             request.setAttribute("listadoCategorias", gc.obtenerCategorias());
@@ -60,9 +75,8 @@ public class Servelet_Productos extends HttpServlet {
             if (request.getParameter("a") != null) {
 
                 request.getSession().setAttribute("e", true);
-                request.getSession().setAttribute("servelet", "Productos");
                 request.getSession().setAttribute("id", Integer.parseInt(request.getParameter("id")));
-                request.getSession().setAttribute("nombre",  " el producto " + gp.obtenerProducto(Integer.parseInt(request.getParameter("id"))).getNombre());
+                request.getSession().setAttribute("nombre", " el producto " + gp.obtenerProducto(Integer.parseInt(request.getParameter("id"))).getNombre());
 
             } else if (request.getParameter("e") != null) {
 
@@ -70,14 +84,41 @@ public class Servelet_Productos extends HttpServlet {
                 gp.eliminarProducto(Integer.parseInt(request.getParameter("id")));
 
             } else {
+
                 request.getSession().setAttribute("e", false);
+
             }
 
             request.setAttribute("listadoProductos", gp.obtenerProductosDTO());
             RequestDispatcher rd = getServletContext().getRequestDispatcher("/Productos/listado_Productos.jsp");
             rd.forward(request, response);
 
+        } else if (modo.equals("limite")) {
+
+            if (gp.obtenerProductosDTO().size() > Integer.parseInt(request.getParameter("cantidad")) && Integer.parseInt(request.getParameter("cantidad")) > filas) {
+
+                request.getSession().setAttribute("da", "enable");
+                request.getSession().setAttribute("db", "enabled");
+
+            } else if (Integer.parseInt(request.getParameter("cantidad")) > filas) {
+
+                request.getSession().setAttribute("da", "disabled");
+                request.getSession().setAttribute("db", "enable");
+
+            } else {
+
+                request.getSession().setAttribute("da", "enabled");
+                request.getSession().setAttribute("db", "disabled");
+
+            }
+
         }
+
+        request.getSession().setAttribute("n", filas);
+        request.getSession().setAttribute("cantidad", (Integer.parseInt(request.getParameter("cantidad"))));
+        request.setAttribute("listadoProductos", gp.obtenerProductosDTO());
+        RequestDispatcher rd = getServletContext().getRequestDispatcher("/Productos/listado_Productos.jsp");
+        rd.forward(request, response);
 
     }
 
@@ -86,17 +127,22 @@ public class Servelet_Productos extends HttpServlet {
             throws ServletException, IOException {
 
         if (request.getParameter("cmbCategorias") != null) {
+            
             if (request.getParameter("txtIdProducto") != null && !request.getParameter("txtIdProducto").equals("0")) {
+                
                 request.getSession().setAttribute("modificar", true);
                 request.getSession().setAttribute("accion", "Editar");
                 DTO_Producto p = gp.obtenerProductoDTO(Integer.parseInt(request.getParameter("txtIdProducto")));
                 request.setAttribute("producto", p);
+                
             }
+            
             request.setAttribute("listadoMarcas", gm.obtenerMarcasFiltro(Integer.parseInt(request.getParameter("cmbCategorias"))));
             request.setAttribute("listadoDepositos", gd.obtenerDepositos());
             RequestDispatcher rd = getServletContext().getRequestDispatcher("/Productos/AM_Producto.jsp");
             rd.forward(request, response);
             return;
+            
         }
 
         Producto p = new Producto();

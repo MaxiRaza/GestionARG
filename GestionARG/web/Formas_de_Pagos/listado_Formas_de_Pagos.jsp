@@ -27,7 +27,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <c:forEach items="${listadoFormasDePago}" var="r">
+                    <c:forEach begin="0" end="${cantidad}" items="${listadoFormasDePago}" var="r">
                         <tr>
                             <td> ${r.id_forma_de_pago}  </td>
                             <td> ${r.nombre}  </td>
@@ -38,5 +38,6 @@
                 </tbody>
             </table>   
         </div>
+        <jsp:include page="../Componentes\limiteLista.jsp"/>
     </body>
 </html>

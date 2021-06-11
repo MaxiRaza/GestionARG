@@ -15,7 +15,7 @@
         <br><h1  class="row justify-content-md-center">Listado de Facturas</h1><br>
         <div class="container-fluid">   
             <table class="table table-striped table-dark">
-                <c:forEach items="${listadoFacturas}" var="f">
+                <c:forEach  begin="0" end="${cantidad}" items="${listadoFacturas}" var="f">
                     <thead class="table-primary">
                         <tr>
                             <th>Factura</th>
@@ -87,5 +87,6 @@
     </tbody>
 </table>   
 </div>
+<jsp:include page="../Componentes\limiteLista.jsp"/>
 </body>
 </html>

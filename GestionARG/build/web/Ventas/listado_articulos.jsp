@@ -72,9 +72,7 @@
                 </c:forEach>
             </div>
         </div>
-        <div class="row justify-content-md-center">
-            <a href="Compras?modo=sumar&cantidad=${cantidad + 7}" class="btn btn-info">Ver mas</a>
-        </div> 
+        <jsp:include page="../Componentes\limiteLista.jsp"/>
 
         <div class="modal fade" id="carrito" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -93,6 +91,6 @@
                 </div>
             </div>
         </div>
-                    
+
     </body>
 </html>
