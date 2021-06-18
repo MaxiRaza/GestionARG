@@ -7,8 +7,6 @@
     <head>       
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
         <jsp:include page="../Componentes\formato.jsp"/>
-        <jsp:include page="../Componentes\barraNavegacion.jsp"/>
-        <jsp:include page="../Componentes\modal.jsp"/>
         <title>GestionARG - Listado Proveedores</title>     
     </head>
     <body>             
@@ -48,8 +46,9 @@
                             <td> ${p.marca}  </td>                            
                             <td> ${p.categoria}  </td>
                             <td><a href="Proveedores?modo=AM&id_proveedor=${p.id_proveedor}" class="btn btn-warning">Editar</a></td>
-                            <td><a href="Proveedores?modo=eliminar&a=a&id=${p.id_proveedor}"class="btn btn-danger">Eliminar</a> 
-                            </c:forEach>                              
+                            <td><c:if test="${rol != 4}"><a href="Proveedores?modo=eliminar&a=a&id=${p.id_proveedor}"class="btn btn-danger">Eliminar</a> </c:if></td>                                 
+                            </tr>
+                    </c:forEach> 
                 </tbody>
             </table>   
         </div>

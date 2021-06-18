@@ -30,7 +30,7 @@ public class Servelet_Marcas extends HttpServlet {
 
         if (modo == null) {
 
-            if (request.getSession().getAttribute("admin") != null) {
+            if (request.getSession().getAttribute("log") != null) {
 
                 request.getSession().setAttribute("activar", 13);
                 request.getSession().setAttribute("cantidad", filas);
@@ -85,6 +85,10 @@ public class Servelet_Marcas extends HttpServlet {
                 request.getSession().setAttribute("e", false);
 
             }
+
+            request.setAttribute("listadoMarcas", gm.obtenerMarcasDTO());
+            RequestDispatcher rd = getServletContext().getRequestDispatcher("/Marcas/listado_Marcas.jsp");
+            rd.forward(request, response);
 
         } else if (modo.equals("limite")) {
 

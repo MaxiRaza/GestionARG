@@ -33,7 +33,8 @@ public class Servelet_Usuarios extends HttpServlet {
 
         if (modo == null) {
 
-            if (request.getSession().getAttribute("admin") != null) {
+            if (request.getSession().getAttribute("log") != null) {
+                
                 request.getSession().setAttribute("activar", 8);
                 request.getSession().setAttribute("cantidad", filas);
                 request.getSession().setAttribute("db", "disabled");
@@ -87,6 +88,10 @@ public class Servelet_Usuarios extends HttpServlet {
                 request.getSession().setAttribute("e", false);
 
             }
+
+            request.setAttribute("listadoUsuarios", gu.obtenerUsuariosDTO());
+            RequestDispatcher rd = getServletContext().getRequestDispatcher("/Usuarios/listado_Usuarios.jsp");
+            rd.forward(request, response);
 
         } else if (modo.equals("limite")) {
 

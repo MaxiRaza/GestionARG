@@ -8,8 +8,6 @@
     <head>       
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
         <jsp:include page="../Componentes\formato.jsp"/>
-        <jsp:include page="../Componentes\barraNavegacion.jsp"/>
-        <jsp:include page="../Componentes\modal.jsp"/>
         <title>GestionARG - Listado Encargos</title>     
     </head>
     <body>             
@@ -41,7 +39,7 @@
                             <td> Producto  </td>
                             <td> Cantidad  </td>
                             <td><a href="Encargos?modo=AM&id_encargo=${e.id_encargo}" class="btn btn-success">Agregar Detalle</a></td>
-                            <td><a href="Encargos?modo=eliminar&a=a&id_e=${e.id_encargo}" class="btn btn-danger">Eliminar Encargo</a></td>
+                            <td><c:if test="${rol != 4}"><a href="Encargos?modo=eliminar&a=a&id_e=${e.id_encargo}" class="btn btn-danger">Eliminar Encargo</a></c:if></td>
                         </tr>                   
                         <c:forEach items="${listadoDetalles}" var="d">
                             <c:if test="${ e.id_encargo == d.id_encargo}" >
@@ -53,7 +51,7 @@
                                     <td> ${d.producto}  </td>
                                     <td> ${d.cantidad}  </td>
                                     <td><a href="Encargos?modo=AM&id_detalle_encargo=${d.id_detalle_encargo}" class="btn btn-warning"> Editar Detalle</a></td>
-                                    <td><a href="Encargos?modo=eliminar&a=a&id=${d.id_detalle_encargo}" class="btn btn-danger">Eliminar Detalle</a></td>                               
+                                    <td><c:if test="${rol != 4}"><a href="Encargos?modo=eliminar&a=a&id=${d.id_detalle_encargo}" class="btn btn-danger">Eliminar Detalle</a></c:if></td>                               
                                 </tr>   
                             </c:if>                       
                         </c:forEach>              

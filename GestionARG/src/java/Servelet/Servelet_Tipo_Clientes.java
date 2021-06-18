@@ -27,7 +27,7 @@ public class Servelet_Tipo_Clientes extends HttpServlet {
 
         if (modo == null) {
 
-            if (request.getSession().getAttribute("admin") != null) {
+            if (request.getSession().getAttribute("log") != null) {
 
                 request.getSession().setAttribute("activar", 10);
                 request.getSession().setAttribute("cantidad", filas);
@@ -81,6 +81,10 @@ public class Servelet_Tipo_Clientes extends HttpServlet {
                 request.getSession().setAttribute("e", false);
 
             }
+            
+            request.setAttribute("listadoTiposClientes", gtc.obtenerTipoClientes());
+            RequestDispatcher rd = getServletContext().getRequestDispatcher("/Tipo_Clientes/listado_Tipo_Clientes.jsp");
+            rd.forward(request, response);
 
         } else if (modo.equals("limite")) {
 

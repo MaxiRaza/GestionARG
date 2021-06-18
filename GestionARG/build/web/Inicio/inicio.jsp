@@ -7,19 +7,18 @@
         <title>GestionARG - Inicio</title>
     </head>
     <body>
-        <jsp:include page="../Componentes\barraNavegacion.jsp"/>
         <div class="container-fluid">
             <div class="row ">
-                <div class="col col-xl-8 ">
+                <div class="col ">
                     <div class="jumbotron">
                         <h1 class="display-2">Bienvenido a Gestion<font color="#5379fa">ARG</font> !</h1><br>
-                        <p class="lead">Gestionar significa llevar adelante una empresa o proyecto, administrar o manejar una compañía, o liderar o conducir una situación específica. La palabra, como tal, deriva del sustantivo gestión.</p>
-                        <p class="lead">En este sentido, gestionar implica ocuparse de la administración, organización, coordinación y funcionamiento de una empresa o compañía y de sus recursos humanos y económicos, con la finalidad de lograr un conjunto de objetivos concretos.</p>
-                        <p class="lead">Asimismo, gestionar es liderar o dirigir un proyecto, tener la iniciativa y tomar las decisiones necesarias para su desarrollo.
-                            Por otro lado, gestionar también se refiere al manejo o conducción de una situación problemática.</p>
-                        <hr class="my-6">
+                        <p class="lead">Bienvenido a Gestion<font color="#5379fa">ARG</font> proporcionado por "RazaCode´s". 
+                            Nos complace ofrecerle acceso una herramienta web de gestion empresarial integral 
+                            destinada a empresas que se encuentran en crecimiento o buscan migrar sus datos a un entorno
+                            digital. Podrás llevar un control financiero sobre tus ventas, controlar el stock, informarte sobre tus clientes y consultar por proveedores. </p>       
+                        <hr class="my-6">    
                     </div>
-                </div>        
+                </div> 
                 <div class="col col-xl-4 ">
                     <div id="carouselExampleInterval" class="carousel slide" data-ride="carousel">
                         <div class="carousel-inner">
@@ -42,8 +41,9 @@
                             <span class="visually-hidden">Siguiente</span>
                         </a>
                     </div>
-                </div>   
+                </div> 
             </div>
         </div>
+        <jsp:include page="../Componentes\PieDePagina.jsp"/>
     </body>
 </html>

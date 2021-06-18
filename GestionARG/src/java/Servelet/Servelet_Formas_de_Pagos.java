@@ -27,7 +27,7 @@ public class Servelet_Formas_de_Pagos extends HttpServlet {
 
         if (modo == null) {
 
-            if (request.getSession().getAttribute("admin") != null) {
+            if (request.getSession().getAttribute("log") != null) {
 
                 request.getSession().setAttribute("activar", 14);
                 request.getSession().setAttribute("cantidad", filas);
@@ -81,6 +81,10 @@ public class Servelet_Formas_de_Pagos extends HttpServlet {
                 request.getSession().setAttribute("e", false);
 
             }
+
+            request.setAttribute("listadoFormasDePago", gfp.obtenerFormasDePagos());
+            RequestDispatcher rd = getServletContext().getRequestDispatcher("/Formas_de_Pagos/listado_Formas_de_Pagos.jsp");
+            rd.forward(request, response);
 
         } else if (modo.equals("limite")) {
 

@@ -6,7 +6,6 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <jsp:include page="../Componentes\formato.jsp"/>
-        <jsp:include page="../Componentes\barraNavegacion.jsp"/>
         <jsp:useBean id="usuario" class="Modelo.DTO.DTO_Usuario" scope="request"></jsp:useBean>
         <title>GestionARG - ${accion} Usuario</title>
     </head>

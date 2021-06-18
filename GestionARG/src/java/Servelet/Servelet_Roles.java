@@ -28,7 +28,7 @@ public class Servelet_Roles extends HttpServlet {
 
         if (modo == null) {
 
-            if (request.getSession().getAttribute("admin") != null) {
+            if (request.getSession().getAttribute("log") != null) {
 
                 request.getSession().setAttribute("activar", 12);
                 request.getSession().setAttribute("cantidad", filas);
@@ -82,6 +82,10 @@ public class Servelet_Roles extends HttpServlet {
                 request.getSession().setAttribute("e", false);
 
             }
+
+            request.setAttribute("listadoRoles", gr.obtenerRoles());
+            RequestDispatcher rd = getServletContext().getRequestDispatcher("/Roles/listado_Roles.jsp");
+            rd.forward(request, response);
 
         } else if (modo.equals("limite")) {
 

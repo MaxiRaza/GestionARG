@@ -18,7 +18,7 @@
             <h2>${mensajeError}</h2>
             <% }%> 
             <form method="Post" action="Loginn" >
-                <input type="hidden" name="admin" value="${admin}"/>
+                <input type="hidden" name="log" value="${log}"/>
                 <div>
                     <input type="text" name="txtAlias" placeholder="Usuario" required="required" value="${alias}"/>
                 </div>
@@ -26,10 +26,9 @@
                     <input type="password" id="password" name="txtContrasenia" placeholder="Contraseña" required="required" value="${contrasenia}"/>
                     <span>Mostrar</span>
                 </div>
-                <button type="submit" class="btn btn-primary btn-block btn-large"> <c:if test="${admin}">Cerrar Sesion</c:if><c:if test="${!admin}">Iniciar Sesion</c:if></button><br>           
+                <button type="submit" class="btn btn-primary btn-block btn-large">Iniciar Sesion</button><br>           
             </form>
-                <c:if test="${!admin}"><a href="Loginn?modo=registrarse" class="btn btn-primary btn-block btn-large">Registrarse</a></c:if>
-                <c:if test="${admin}"><a href="Loginn" class="btn btn-primary btn-block btn-large">Volver</a></c:if>
+            <a href="Loginn?modo=registrarse" class="btn btn-primary btn-block btn-large">Registrarse</a>
         </div>
         <script  type="text/javascript" src="JS/Funcionalidad.js"></script>
     </body>

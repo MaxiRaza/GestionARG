@@ -7,8 +7,6 @@
     <head>       
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
         <jsp:include page="../Componentes\formato.jsp"/>
-        <jsp:include page="../Componentes\barraNavegacion.jsp"/>
-        <jsp:include page="../Componentes\modal.jsp"/>
         <title>GestionARG - Listado Clientes</title>     
     </head>
     <body>             
@@ -46,9 +44,8 @@
                             <td> ${c.telefono}  </td>
                             <td> ${c.tipo_cliente}  </td>
                             <td><a href="Clientes?modo=AM&id_cliente=${c.id_cliente}" class="btn btn-warning">Editar</a></td>
-                            <td><a href="Clientes?modo=eliminar&a=a&id=${c.id_cliente}" class="btn btn-danger">Eliminar</a>
-                            </td>
-                        </tr> 
+                            <td><c:if test="${rol != 4}"><a href="Clientes?modo=eliminar&a=a&id=${c.id_cliente}" class="btn btn-danger">Eliminar</a></c:if></td>
+                            </tr> 
                     </c:forEach>                              
                 </tbody>
             </table>   

@@ -6,6 +6,7 @@ import Gestor.Gestor_Productos;
 import Gestor.Gestor_Proveedores;
 import Gestor.Gestor_Detalle_Encargos;
 import Gestor.Gestor_Marcas;
+import Modelo.DTO.DTO_Encargo;
 import Modelo.Detalle_Encargo;
 import Modelo.Encargo;
 import java.io.IOException;
@@ -42,7 +43,7 @@ public class Servelet_Encargos extends HttpServlet {
 
         if (modo == null) {
 
-            if (request.getSession().getAttribute("admin") != null) {
+            if (request.getSession().getAttribute("log") != null) {
 
                 request.getSession().setAttribute("activar", 5);
                 request.getSession().setAttribute("cantidad", filas);
@@ -72,7 +73,7 @@ public class Servelet_Encargos extends HttpServlet {
                 b = false;
                 request.getSession().setAttribute("accion", "Editar Detalle");
                 int id_detalle_encargo = Integer.parseInt(request.getParameter("id_detalle_encargo"));
-                Detalle_Encargo de = gde.obtenerDetalleEncargo(id_detalle_encargo);
+                DTO_Encargo de = gde.obtenerProductoDTO(id_detalle_encargo);           
                 request.setAttribute("detalle_encargo", de);
 
             } else if (request.getParameter("id_encargo") != null) {
@@ -136,6 +137,11 @@ public class Servelet_Encargos extends HttpServlet {
                 request.getSession().setAttribute("e", false);
 
             }
+
+            request.setAttribute("listadoEncargos", ge.obtenerEncargos());
+            request.setAttribute("listadoDetalles", gde.obtenerDetalleEncargosDTO());
+            RequestDispatcher rd = getServletContext().getRequestDispatcher("/Encargos/listado_Encargos.jsp");
+            rd.forward(request, response);
 
         } else if (modo.equals("limite")) {
 

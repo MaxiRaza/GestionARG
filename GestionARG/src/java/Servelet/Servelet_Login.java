@@ -23,49 +23,73 @@ public class Servelet_Login extends HttpServlet {
         String modo = request.getParameter("modo");
 
         if (modo != null) {
+            
             if (modo.equals("iniciarSesion")) {
+                
+                request.getSession().setAttribute("rol", 0);
+                request.getSession().setAttribute("log", false);
+                request.getSession().setAttribute("alias", "");
+                request.getSession().setAttribute("contrasenia", "");
                 RequestDispatcher rd = getServletContext().getRequestDispatcher("/Login/login.jsp");
                 rd.forward(request, response);
+                
             } else if (modo.equals("registrarse")) {
+                
                 request.setAttribute("listadoRoles", gr.obtenerRoles());
                 request.getSession().setAttribute("accion", "Registrar");
                 RequestDispatcher rd = getServletContext().getRequestDispatcher("/Usuarios/AM_Usuario.jsp");
                 rd.forward(request, response);
+                
             }
+            
         } else {
+            
             request.getSession().setAttribute("activar", 1);
             RequestDispatcher rd = getServletContext().getRequestDispatcher("/Inicio/inicio.jsp");
             rd.forward(request, response);
+            
         }
+        
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         String alias = request.getParameter("txtAlias");
         String contrasenia = request.getParameter("txtContrasenia");
 
         if (gu.obtenerUsuario(alias, contrasenia)) {
-            if (request.getParameter("admin").equals("true")){
-                request.getSession().setAttribute("admin", false);
-                request.getSession().setAttribute("alias", "");
-                request.getSession().setAttribute("contrasenia", "");
-                RequestDispatcher rd = getServletContext().getRequestDispatcher("/Login/login.jsp");
-                rd.forward(request, response);
-            } else {
-                request.getSession().setAttribute("admin", true);
-                request.getSession().setAttribute("alias", alias);
-                request.getSession().setAttribute("contrasenia", contrasenia);
-                request.getSession().setAttribute("mostrar", "Bienvenido " + alias);
-                request.getSession().setAttribute("activar", 1);
-                RequestDispatcher rd = getServletContext().getRequestDispatcher("/Inicio/inicio.jsp");
-                rd.forward(request, response);
+
+            request.getSession().setAttribute("log", true);
+            request.getSession().setAttribute("alias", alias);
+            request.getSession().setAttribute("contrasenia", contrasenia);
+            request.getSession().setAttribute("mostrar", "Bienvenido " + alias);
+            request.getSession().setAttribute("activar", 1);
+
+            switch (gu.obtenerRolUsuario(alias, contrasenia)) {
+                case 1:
+                    request.getSession().setAttribute("rol", 1);
+                    break;
+                case 4:
+                    request.getSession().setAttribute("rol", 4);
+                    break;
+                case 6:
+                    request.getSession().setAttribute("rol", 6);
+                    break;
+                default:
+                    request.getSession().setAttribute("rol", 0);
             }
+            
+            RequestDispatcher rd = getServletContext().getRequestDispatcher("/Inicio/inicio.jsp");
+            rd.forward(request, response);
+            
         } else {
+
             request.setAttribute("mensajeError", "Usuario o contraseña incorrectos");
             RequestDispatcher rd = getServletContext().getRequestDispatcher("/Login/login.jsp");
             rd.forward(request, response);
+
         }
 
     }

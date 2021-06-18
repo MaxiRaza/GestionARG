@@ -34,7 +34,7 @@ public class Servelet_Compras extends HttpServlet {
 
         if (modo == null) {
 
-            if (request.getSession().getAttribute("admin") != null) {
+            if (request.getSession().getAttribute("log") != null) {
 
                 request.getSession().setAttribute("activar", 9);
                 request.getSession().setAttribute("cantidad", filas);
@@ -86,7 +86,9 @@ public class Servelet_Compras extends HttpServlet {
         }
 
         request.getSession().setAttribute("n", filas);
-        request.getSession().setAttribute("cantidad", (Integer.parseInt(request.getParameter("cantidad"))));
+        if (request.getParameter("cantidad") != null) {
+            request.getSession().setAttribute("cantidad", (Integer.parseInt(request.getParameter("cantidad"))));
+        } 
         request.setAttribute("listadoProductos", gp.obtenerProductosDTO());
         request.setAttribute("listadoCategorias", ga.obtenerCategorias());
         request.setAttribute("listadoMarcas", gm.obtenerMarcas());

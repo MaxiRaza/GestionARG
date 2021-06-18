@@ -6,7 +6,6 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <jsp:include page="../Componentes\formato.jsp"/>
-        <jsp:include page="../Componentes\barraNavegacion.jsp"/>
         <jsp:useBean id="forma_de_pago" class="Modelo.Forma_de_Pago" scope="request"></jsp:useBean>
         <title>GestionARG - ${accion} Forma de Pago</title>
     </head>

@@ -39,7 +39,7 @@ public class Servelet_Proveedores extends HttpServlet {
 
         if (modo == null) {
 
-            if (request.getSession().getAttribute("admin") != null) {
+            if (request.getSession().getAttribute("log") != null) {
                 request.getSession().setAttribute("activar", 3);
                 request.getSession().setAttribute("cantidad", filas);
                 request.getSession().setAttribute("db", "disabled");
@@ -94,6 +94,10 @@ public class Servelet_Proveedores extends HttpServlet {
 
             }
 
+            request.setAttribute("listadoProveedores", gp.obtenerProveedoresDTO());
+            RequestDispatcher rd = getServletContext().getRequestDispatcher("/Proveedores/listado_Proveedores.jsp");
+            rd.forward(request, response);
+
         } else if (modo.equals("limite")) {
 
             if (gp.obtenerProveedoresDTO().size() > Integer.parseInt(request.getParameter("cantidad")) && Integer.parseInt(request.getParameter("cantidad")) > filas) {
@@ -128,18 +132,23 @@ public class Servelet_Proveedores extends HttpServlet {
             throws ServletException, IOException {
 
         if (request.getParameter("cmbCategorias") != null) {
+
             if (request.getParameter("txtIdProveedor") != null && !request.getParameter("txtIdProveedor").equals("0")) {
+
                 request.getSession().setAttribute("modificar", true);
                 request.getSession().setAttribute("accion", "Editar");
                 DTO_Proveedor p = gp.obtenerProveedorDTO(Integer.parseInt(request.getParameter("txtIdProveedor")));
                 request.setAttribute("proveedor", p);
+
             }
+
             request.setAttribute("listadoTipos", gtc.obtenerTipoProveedores());
             request.setAttribute("listadoClasificaciones", gcl.obtenerClasificaciones());
             request.setAttribute("listadoMarcas", gm.obtenerMarcasFiltro(Integer.parseInt(request.getParameter("cmbCategorias"))));
             RequestDispatcher rd = getServletContext().getRequestDispatcher("/Proveedores/AM_Proveedor.jsp");
             rd.forward(request, response);
             return;
+
         }
 
         Proveedor p = new Proveedor();

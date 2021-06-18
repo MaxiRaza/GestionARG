@@ -27,7 +27,7 @@ public class Servelet_Clasificaciones extends HttpServlet {
 
         if (modo == null) {
 
-            if (request.getSession().getAttribute("admin") != null) {
+            if (request.getSession().getAttribute("log") != null) {
 
                 request.getSession().setAttribute("activar", 16);
                 request.getSession().setAttribute("cantidad", filas);
@@ -81,6 +81,10 @@ public class Servelet_Clasificaciones extends HttpServlet {
                 request.getSession().setAttribute("e", false);
 
             }
+
+            request.setAttribute("listadoClasificaciones", gc.obtenerClasificaciones());
+            RequestDispatcher rd = getServletContext().getRequestDispatcher("/Clasificaciones/listado_Clasificaciones.jsp");
+            rd.forward(request, response);
 
         } else if (modo.equals("limite")) {
 

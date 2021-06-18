@@ -29,7 +29,7 @@ public class Servelet_Depositos extends HttpServlet {
 
         if (modo == null) {
 
-            if (request.getSession().getAttribute("admin") != null) {
+            if (request.getSession().getAttribute("log") != null) {
 
                 request.getSession().setAttribute("activar", 15);
                 request.getSession().setAttribute("cantidad", filas);
@@ -80,8 +80,14 @@ public class Servelet_Depositos extends HttpServlet {
                 gd.eliminarDeposito(Integer.parseInt(request.getParameter("id")));
 
             } else {
+
                 request.getSession().setAttribute("e", false);
+
             }
+
+            request.setAttribute("listadoDepositos", gd.obtenerDepositosDTO());
+            RequestDispatcher rd = getServletContext().getRequestDispatcher("/Depositos/listado_Depositos.jsp");
+            rd.forward(request, response);
 
         } else if (modo.equals("limite")) {
 

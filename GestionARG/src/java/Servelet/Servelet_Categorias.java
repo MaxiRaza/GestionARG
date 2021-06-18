@@ -28,7 +28,7 @@ public class Servelet_Categorias extends HttpServlet {
 
         if (modo == null) {
 
-            if (request.getSession().getAttribute("admin") != null) {
+            if (request.getSession().getAttribute("log") != null) {
 
                 request.getSession().setAttribute("activar", 17);
                 request.getSession().setAttribute("cantidad", filas);
@@ -80,6 +80,10 @@ public class Servelet_Categorias extends HttpServlet {
             } else {
                 request.getSession().setAttribute("e", false);
             }
+
+            request.setAttribute("listadoCategorias", gc.obtenerCategorias());
+            RequestDispatcher rd = getServletContext().getRequestDispatcher("/Categorias/listado_Categorias.jsp");
+            rd.forward(request, response);
 
         } else if (modo.equals("limite")) {
 

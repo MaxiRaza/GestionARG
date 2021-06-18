@@ -35,7 +35,7 @@ public class Servelet_Productos extends HttpServlet {
 
         if (modo == null) {
 
-            if (request.getSession().getAttribute("admin") != null) {
+            if (request.getSession().getAttribute("log") != null) {
 
                 request.getSession().setAttribute("activar", 2);
                 request.getSession().setAttribute("cantidad", filas);

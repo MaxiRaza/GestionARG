@@ -27,7 +27,7 @@ public class Servelet_Sucursales extends HttpServlet {
 
         if (modo == null) {
 
-            if (request.getSession().getAttribute("admin") != null) {
+            if (request.getSession().getAttribute("log") != null) {
 
                 request.getSession().setAttribute("activar", 6);
                 request.getSession().setAttribute("cantidad", filas);
@@ -81,6 +81,10 @@ public class Servelet_Sucursales extends HttpServlet {
                 request.getSession().setAttribute("e", false);
 
             }
+
+            request.setAttribute("listadoSucursales", gs.obtenerSucursales());
+            RequestDispatcher rd = getServletContext().getRequestDispatcher("/Sucursales/listado_Sucursales.jsp");
+            rd.forward(request, response);
 
         } else if (modo.equals("limite")) {
 

@@ -6,7 +6,6 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <jsp:include page="../Componentes\formato.jsp"/>
-        <jsp:include page="../Componentes\barraNavegacion.jsp"/>
         <jsp:useBean id="contacto" class="Modelo.Contacto" scope="request"></jsp:useBean>
         <title>GestionARG - ${accion} Contacto</title>
     </head>

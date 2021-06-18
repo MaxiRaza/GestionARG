@@ -6,7 +6,6 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <jsp:include page="../Componentes\formato.jsp"/>
-        <jsp:include page="../Componentes\barraNavegacion.jsp"/>
         <jsp:useBean id="tipo_cliente" class="Modelo.Tipo_Cliente" scope="request"></jsp:useBean>
         <title>GestionARG - ${accion} tipo de  Cliente</title>
     </head>

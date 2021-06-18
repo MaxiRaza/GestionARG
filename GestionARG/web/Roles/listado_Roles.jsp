@@ -7,8 +7,6 @@
     <head>       
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
         <jsp:include page="../Componentes\formato.jsp"/>
-        <jsp:include page="../Componentes\barraNavegacion.jsp"/>
-        <jsp:include page="../Componentes\modal.jsp"/>
         <title>GestionARG - Listado de Roles</title>     
     </head>
     <body>             

@@ -34,7 +34,7 @@ public class Servelet_Clientes extends HttpServlet {
 
         if (modo == null) {
 
-            if (request.getSession().getAttribute("admin") != null) {
+            if (request.getSession().getAttribute("log") != null) {
 
                 request.getSession().setAttribute("activar", 4);
                 request.getSession().setAttribute("cantidad", filas);
@@ -89,6 +89,10 @@ public class Servelet_Clientes extends HttpServlet {
                 request.getSession().setAttribute("e", false);
 
             }
+
+            request.setAttribute("listadoClientes", gc.obtenerClientesDTO());
+            RequestDispatcher rd = getServletContext().getRequestDispatcher("/Clientes/listado_Clientes.jsp");
+            rd.forward(request, response);
 
         } else if (modo.equals("limite")) {
 

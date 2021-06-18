@@ -20,7 +20,7 @@ public class Servelet_Reportes extends HttpServlet {
         
         String modo = request.getParameter("modo");
 
-        if (request.getSession().getAttribute("admin") != null) {
+        if (request.getSession().getAttribute("log") != null) {
 
             request.getSession().setAttribute("activar", 19);
             request.setAttribute("listadoTopProductos", gr.obtenerTopProductos());

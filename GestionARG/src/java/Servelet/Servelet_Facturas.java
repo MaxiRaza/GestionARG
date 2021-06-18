@@ -26,7 +26,7 @@ public class Servelet_Facturas extends HttpServlet {
 
         if (modo == null) {
 
-            if (request.getSession().getAttribute("admin") != null) {
+            if (request.getSession().getAttribute("log") != null) {
 
                 request.getSession().setAttribute("activar", 7);
                 request.getSession().setAttribute("cantidad", filas);
