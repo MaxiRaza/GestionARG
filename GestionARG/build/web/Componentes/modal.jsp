@@ -10,7 +10,7 @@
                         ¿ Seguro que desea eliminar ${nombre} ?
                     </div>
                     <div class="modal-footer">
-                        <a href="${servelet}?modo=eliminar&c=c"  class= "btn btn-secondary">Cancelar</a>
+                        <a href="${servelet}?modo=eliminar" class= "btn btn-secondary">Cancelar</a>
                         <a href="${servelet}?modo=eliminar&e=e&c=${c}&id=${id}" class= "btn btn-danger" >Eliminar</a>
                 </div>
             </div>

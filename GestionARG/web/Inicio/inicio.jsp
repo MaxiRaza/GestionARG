@@ -44,6 +44,5 @@
                 </div> 
             </div>
         </div>
-        <jsp:include page="../Componentes\PieDePagina.jsp"/>
     </body>
 </html>
