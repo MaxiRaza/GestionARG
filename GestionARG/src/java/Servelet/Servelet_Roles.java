@@ -25,6 +25,7 @@ public class Servelet_Roles extends HttpServlet {
         request.getSession().setAttribute("modificar", false);
         request.getSession().setAttribute("accion", "Registrar");
         request.getSession().setAttribute("e", false);
+        request.getSession().setAttribute("t", true);
 
         if (modo == null) {
 
@@ -50,6 +51,8 @@ public class Servelet_Roles extends HttpServlet {
             }
 
         } else if (modo.equals("AM")) {
+            
+            request.getSession().setAttribute("t", false);
 
             if (request.getParameter("id_rol") != null) {
 
@@ -57,7 +60,7 @@ public class Servelet_Roles extends HttpServlet {
                 request.getSession().setAttribute("accion", "Editar");
                 int id_rol = Integer.parseInt(request.getParameter("id_rol"));
                 Rol r = gr.obtenerRol(id_rol);
-                request.setAttribute("rol", r);
+                request.setAttribute("roll", r);
 
             }
 

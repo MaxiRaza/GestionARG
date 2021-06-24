@@ -1,6 +1,8 @@
 package Gestor;
 
 import Modelo.DTO.DTO_Producto;
+import Modelo.Factura;
+import Modelo.Marca;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -36,7 +38,7 @@ public class Gestor_Reportes {
         }
     }
 
-    public ArrayList<DTO_Producto> obtenerTopProductos() {
+    public ArrayList<DTO_Producto> obtenerTop10ProductosVentas() {
         ArrayList<DTO_Producto> lista = new ArrayList<>();
         try {
             abrirConexion();
@@ -61,25 +63,48 @@ public class Gestor_Reportes {
         return lista;
     }
 
-//    public Marca obtenerMarca(int id_marca) {
-//        Marca m = null;
-//        try {
-//            abrirConexion();
-//            PreparedStatement ps = conexion.prepareStatement("SELECT id_marca, nombre, id_categoria FROM Marcas WHERE id_marca = ?");
-//            ps.setInt(1, id_marca);
-//            ResultSet rs = ps.executeQuery();
-//            if (rs.next()) {
-//                m = new Marca();
-//                m.setId_marca(rs.getInt(1));
-//                m.setNombre(rs.getString(2));
-//                m.setId_categoria(rs.getInt(3));
-//            }
-//            ps.close();
-//        } catch (SQLException ex) {
-//            Logger.getLogger(Gestor_Reportes.class.getName()).log(Level.SEVERE, null, ex);
-//        } finally {
-//            cerrarConexion();
-//        }
-//        return m;
-//    }
+    public ArrayList<Marca> obtenerTop5MarcasMasVendidas() {
+        ArrayList<Marca> lista = new ArrayList<>();
+        try {
+            abrirConexion();
+            Statement st = conexion.createStatement();
+            ResultSet rs = st.executeQuery("SELECT TOP 5  m.nombre,  COUNT(f.id_producto * f.cantidad)FROM Productos p JOIN Detalle_Facturas f ON p.id_producto = f.id_producto JOIN Marcas m ON p.id_marca = m.id_marca GROUP BY m.nombre ORDER BY COUNT(f.id_producto * f.cantidad) DESC");
+            while (rs.next()) {
+                Marca m = new Marca();
+                m.setNombre(rs.getString(1));
+                m.setId_categoria(rs.getInt(2));
+                lista.add(m);
+            }
+            rs.close();
+            st.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Gestor_Reportes.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            cerrarConexion();
+        }
+        return lista;
+    }
+    
+    public ArrayList<Factura> obtenerFacturacionMensual() {
+        ArrayList<Factura> lista = new ArrayList<>();
+        try {
+            abrirConexion();
+            Statement st = conexion.createStatement();
+            ResultSet rs = st.executeQuery("SELECT DISTINCT SUM(f.cantidad * f.importe), MONTH (fa.fecha) FROM Detalle_Facturas f JOIN Facturas fa ON fa.id_factura = fa.id_factura WHERE YEAR(fa.fecha) = 2021 GROUP BY MONTH (fa.fecha) ORDER BY SUM(f.cantidad * f.importe) DESC");
+            while (rs.next()) {
+                Factura f = new Factura();
+                f.setDescuento(rs.getFloat(1));
+                f.setId_factura(rs.getInt(2));
+                lista.add(f);
+            }
+            rs.close();
+            st.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Gestor_Reportes.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            cerrarConexion();
+        }
+        return lista;
+    }
+
 }

@@ -25,13 +25,14 @@ public class Servelet_Productos extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         //Variable global para asignar cantidad de filas de la tabla (Arranca por la fila N = 0)
         int filas = 9;
         request.getSession().setAttribute("servelet", "Productos");
         String modo = request.getParameter("modo");
         request.getSession().setAttribute("modificar", false);
         request.getSession().setAttribute("accion", "Registrar");
+        request.getSession().setAttribute("t", true);
 
         if (modo == null) {
 
@@ -45,6 +46,10 @@ public class Servelet_Productos extends HttpServlet {
                 } else {
                     request.getSession().setAttribute("da", "disabled");
                 }
+                request.setAttribute("listadoCategorias", gc.obtenerCategorias());
+                request.setAttribute("listadoMarcas", gm.obtenerMarcas());
+                request.getSession().setAttribute("id_categoria", 0);
+                request.getSession().setAttribute("id_marca", 0);
                 request.setAttribute("listadoProductos", gp.obtenerProductosDTO());
                 RequestDispatcher rd = getServletContext().getRequestDispatcher("/Productos/listado_Productos.jsp");
                 rd.forward(request, response);
@@ -58,9 +63,20 @@ public class Servelet_Productos extends HttpServlet {
 
         } else if (modo.equals("AM")) {
 
+            request.getSession().setAttribute("t", false);
+
             if (request.getParameter("id_producto") != null) {
-                request.getSession().setAttribute("modificar", true);
-                request.getSession().setAttribute("accion", "Editar");
+
+                try {
+                    if (request.getParameter("accion").equals("Registrar") == false) {
+                        request.getSession().setAttribute("modificar", true);
+                        request.getSession().setAttribute("accion", "Editar");
+                    }
+                } catch (Exception e) {
+                    request.getSession().setAttribute("modificar", true);
+                    request.getSession().setAttribute("accion", "Editar");
+                }
+
                 DTO_Producto p = gp.obtenerProductoDTO(Integer.parseInt(request.getParameter("id_producto")));
                 request.setAttribute("producto", p);
 
@@ -112,11 +128,20 @@ public class Servelet_Productos extends HttpServlet {
 
             }
 
+        } else if (modo.equals("Limpiar")) {
+
+            request.getSession().setAttribute("id_categoria", 0);
+            request.getSession().setAttribute("id_marca", 0);
+
         }
 
         request.getSession().setAttribute("n", filas);
-        request.getSession().setAttribute("cantidad", (Integer.parseInt(request.getParameter("cantidad"))));
+        if (request.getParameter("cantidad") != null) {
+            request.getSession().setAttribute("cantidad", (Integer.parseInt(request.getParameter("cantidad"))));
+        }
         request.setAttribute("listadoProductos", gp.obtenerProductosDTO());
+        request.setAttribute("listadoCategorias", gc.obtenerCategorias());
+        request.setAttribute("listadoMarcas", gm.obtenerMarcas());
         RequestDispatcher rd = getServletContext().getRequestDispatcher("/Productos/listado_Productos.jsp");
         rd.forward(request, response);
 
@@ -126,45 +151,90 @@ public class Servelet_Productos extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        if (request.getParameter("cmbCategorias") != null) {
-            
-            if (request.getParameter("txtIdProducto") != null && !request.getParameter("txtIdProducto").equals("0")) {
-                
-                request.getSession().setAttribute("modificar", true);
-                request.getSession().setAttribute("accion", "Editar");
-                DTO_Producto p = gp.obtenerProductoDTO(Integer.parseInt(request.getParameter("txtIdProducto")));
-                request.setAttribute("producto", p);
-                
+        if (request.getParameter("cmbCategoriass") == null) {
+
+            request.setAttribute("listadoCategorias", gc.obtenerCategorias());
+
+            if (Integer.parseInt(request.getParameter("cmbCategorias")) != 0 && Integer.parseInt(request.getParameter("cmbMarcas")) == 0) {
+
+                int id_categoria = Integer.parseInt(request.getParameter("cmbCategorias"));
+                request.getSession().setAttribute("id_marca", 0);
+                request.getSession().setAttribute("id_categoria", id_categoria);
+                request.setAttribute("listadoMarcas", gm.obtenerMarcasFiltro(id_categoria));
+                request.setAttribute("listadoProductos", gp.obtenerProductosCategoriaDTO(id_categoria));
+
+            } else if (Integer.parseInt(request.getParameter("cmbMarcas")) != 0 && Integer.parseInt(request.getParameter("cmbCategorias")) == 0) {
+
+                int id_marca = Integer.parseInt(request.getParameter("cmbMarcas"));
+                request.getSession().setAttribute("id_categoria", 0);
+                request.getSession().setAttribute("id_marca", id_marca);
+                request.setAttribute("listadoMarcas", gm.obtenerMarcas());
+                request.setAttribute("listadoProductos", gp.obtenerProductosMarcaDTO(id_marca));
+
+            } else if (Integer.parseInt(request.getParameter("cmbMarcas")) != 0 && Integer.parseInt(request.getParameter("cmbCategorias")) != 0) {
+
+                int id_marca = Integer.parseInt(request.getParameter("cmbMarcas"));
+                int id_categoria = gm.obtenerMarca(id_marca).getId_categoria();
+                request.getSession().setAttribute("id_categoria", id_categoria);
+                request.getSession().setAttribute("id_marca", id_marca);
+                request.setAttribute("listadoMarcas", gm.obtenerMarcas());
+                request.setAttribute("listadoProductos", gp.obtenerProductosMarcaDTO(id_marca));
+
+            } else {
+
+                request.getSession().setAttribute("activar", 9);
+                request.setAttribute("listadoProductos", gp.obtenerProductosDTO());
+                request.setAttribute("listadoCategorias", gc.obtenerCategorias());
+                request.setAttribute("listadoMarcas", gm.obtenerMarcas());
+                request.getSession().setAttribute("id_categoria", 0);
+                request.getSession().setAttribute("id_marca", 0);
+
             }
-            
-            request.setAttribute("listadoMarcas", gm.obtenerMarcasFiltro(Integer.parseInt(request.getParameter("cmbCategorias"))));
-            request.setAttribute("listadoDepositos", gd.obtenerDepositos());
-            RequestDispatcher rd = getServletContext().getRequestDispatcher("/Productos/AM_Producto.jsp");
-            rd.forward(request, response);
-            return;
-            
-        }
 
-        Producto p = new Producto();
-
-        p.setId_producto(Integer.parseInt(request.getParameter("txtIdProducto")));
-        p.setCodigo(request.getParameter("txtCodigo"));
-        p.setNombre(request.getParameter("txtNombre"));
-        p.setFecha_fab(request.getParameter("txtFechaElaboracion"));
-        p.setFecha_ven(request.getParameter("txtFechaVencimiento"));
-        p.setPrecio(Float.parseFloat(request.getParameter("txtPrecio")));
-        p.setDescripcion(request.getParameter("txtDescripcion"));
-        p.setStock(Float.parseFloat(request.getParameter("txtCantidad")));
-        p.setId_marca(Integer.parseInt(request.getParameter("cmbMarcas")));
-        p.setId_deposito(Integer.parseInt(request.getParameter("cmbDepositos")));
-
-        if (p.getId_producto() == 0) {
-            gp.agregarProducto(p);
         } else {
-            gp.actualizarProducto(p);
+
+            if (request.getParameter("cmbCategoriass") != null) {
+
+                if (request.getParameter("txtIdProducto") != null && !request.getParameter("txtIdProducto").equals("0")) {
+
+                    request.getSession().setAttribute("modificar", true);
+                    request.getSession().setAttribute("accion", "Editar");
+                    DTO_Producto p = gp.obtenerProductoDTO(Integer.parseInt(request.getParameter("txtIdProducto")));
+                    request.setAttribute("producto", p);
+
+                }
+
+                request.setAttribute("listadoMarcas", gm.obtenerMarcasFiltro(Integer.parseInt(request.getParameter("cmbCategoriass"))));
+                request.setAttribute("listadoDepositos", gd.obtenerDepositos());
+                RequestDispatcher rd = getServletContext().getRequestDispatcher("/Productos/AM_Producto.jsp");
+                rd.forward(request, response);
+                return;
+
+            }
+
+            Producto p = new Producto();
+
+            p.setId_producto(Integer.parseInt(request.getParameter("txtIdProducto")));
+            p.setCodigo(request.getParameter("txtCodigo"));
+            p.setNombre(request.getParameter("txtNombre"));
+            p.setFecha_fab(request.getParameter("txtFechaElaboracion"));
+            p.setFecha_ven(request.getParameter("txtFechaVencimiento"));
+            p.setPrecio(Float.parseFloat(request.getParameter("txtPrecio")));
+            p.setDescripcion(request.getParameter("txtDescripcion"));
+            p.setStock(Float.parseFloat(request.getParameter("txtCantidad")));
+            p.setId_marca(Integer.parseInt(request.getParameter("cmbMarcas")));
+            p.setId_deposito(Integer.parseInt(request.getParameter("cmbDepositos")));
+
+            if (p.getId_producto() == 0) {
+                gp.agregarProducto(p);
+            } else {
+                gp.actualizarProducto(p);
+            }
+
+            request.setAttribute("listadoProductos", gp.obtenerProductosDTO());
+
         }
 
-        request.setAttribute("listadoProductos", gp.obtenerProductosDTO());
         RequestDispatcher rd = getServletContext().getRequestDispatcher("/Productos/listado_Productos.jsp");
         rd.forward(request, response);
 

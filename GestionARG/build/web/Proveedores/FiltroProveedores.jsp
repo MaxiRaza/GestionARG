@@ -4,9 +4,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <jsp:include page="../Componentes\formato.jsp"/>
-        <jsp:include page="../Componentes\barraNavegacion.jsp"/>
         <jsp:useBean id="proveedor" class="Modelo.DTO.DTO_Proveedor" scope="request"></jsp:useBean>
         <title>GestionARG - ${accion} Proveedor</title>
     </head>
@@ -26,11 +24,15 @@
                             </select>
                         </div>
                     </div>
-                </div>
-            </div><br>
+                </div><br>
             <div class="row justify-content-md-center" >
-                <a href="Proveedores" class="btn btn-primary">Volver al listado</a>
-                <button type="submit" class="btn btn-success">Siguiente</button>  
+                    <div class="col-sm-2">
+                        <a href="Proveedores" class="btn btn-primary" style="width: 120px"><i class="bi bi-reply-fill" style="font-size: 22px"></i></a>
+                         </div>
+                        <div class="col-sm-2">
+                        <button type="submit" class="btn btn-success" style="width: 120px"><i class="bi bi-arrow-right" style="font-size: 22px"></i></button>  
+                    </div>
+                </div>
             </div>
         </form>
     </body>

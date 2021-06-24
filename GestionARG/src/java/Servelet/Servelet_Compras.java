@@ -1,13 +1,19 @@
 package Servelet;
 
 import Gestor.Gestor_Categorias;
-import Gestor.Gestor_Depositos;
+import Gestor.Gestor_Detalle_Facturas;
 import Gestor.Gestor_Facturas;
+import Gestor.Gestor_Formas_de_Pagos;
 import Gestor.Gestor_Marcas;
 import Gestor.Gestor_Productos;
-import Modelo.Producto;
+import Gestor.Gestor_Sucursales;
+import Gestor.Gestor_Usuarios;
+import Modelo.Carrito;
+import Modelo.Detalle_Factura;
+import Modelo.Factura;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,10 +25,14 @@ import javax.servlet.http.HttpServletResponse;
 public class Servelet_Compras extends HttpServlet {
 
     Gestor_Facturas gf = new Gestor_Facturas();
+    Gestor_Detalle_Facturas gdf = new Gestor_Detalle_Facturas();
     Gestor_Productos gp = new Gestor_Productos();
     Gestor_Categorias ga = new Gestor_Categorias();
     Gestor_Marcas gm = new Gestor_Marcas();
-    Gestor_Depositos gd = new Gestor_Depositos();
+    Gestor_Usuarios gu = new Gestor_Usuarios();
+    Gestor_Sucursales gs = new Gestor_Sucursales();
+    Gestor_Formas_de_Pagos gfdp = new Gestor_Formas_de_Pagos();
+    int id = 0;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -33,6 +43,8 @@ public class Servelet_Compras extends HttpServlet {
         String modo = request.getParameter("modo");
         request.getSession().setAttribute("modificar", false);
         request.getSession().setAttribute("accion", "Registrar");
+        request.getSession().setAttribute("a", false);
+        request.getSession().setAttribute("t", false);
 
         if (modo == null) {
 
@@ -46,6 +58,7 @@ public class Servelet_Compras extends HttpServlet {
                 } else {
                     request.getSession().setAttribute("da", "disabled");
                 }
+                request.setAttribute("listadoCarrito", gf.obtenerCarritoDTO());
                 request.setAttribute("listadoProductos", gp.obtenerProductosDTO());
                 request.setAttribute("listadoCategorias", ga.obtenerCategorias());
                 request.setAttribute("listadoMarcas", gm.obtenerMarcas());
@@ -86,26 +99,67 @@ public class Servelet_Compras extends HttpServlet {
             }
 
         } else if (modo.equals("carrito")) {
-            ArrayList<Producto> lista = new ArrayList<>();
+
             if (request.getParameter("a") != null) {
 
                 request.getSession().setAttribute("m", true);
                 request.getSession().setAttribute("id", Integer.parseInt(request.getParameter("id")));
 
-            } else if (request.getParameter("c") != null) {
+            } else if (request.getParameter("ND") != null) {
 
                 request.getSession().setAttribute("m", false);
-                lista.add(gp.obtenerProducto(Integer.parseInt(request.getParameter("id"))));
-                request.setAttribute("listadoCarrito", lista);
+                Carrito c = new Carrito();
+                c.setId_producto(gp.obtenerProducto(Integer.parseInt(request.getParameter("id"))).getId_producto());
+                c.setNombre(gp.obtenerProducto(Integer.parseInt(request.getParameter("id"))).getNombre());
+                c.setCantidad(1);
+                gf.agregarDetalleCarrito(c);
 
-            } else if (request.getParameter("b") != null) {
-                
-                lista.remove(Integer.parseInt(request.getParameter("id")));
-                 request.setAttribute("listadoCarrito", lista);
-                
+            } else if (request.getParameter("BD") != null) {
+
+                gf.eliminarDetalleCarrito(Integer.parseInt(request.getParameter("id")));
+
+            } else if (request.getParameter("v") != null) {
+
+                gf.eliminarCarrito();
+
             } else {
 
                 request.getSession().setAttribute("m", false);
+
+            }
+
+        } else if (modo.equals("comprar")) {
+
+            if (request.getParameter("BD") != null) {
+
+                gf.eliminarDetalleCarrito(Integer.parseInt(request.getParameter("id")));
+
+            } else if (request.getParameter("C") != null) {
+                
+                for (Carrito d : gf.obtenerCarritoDTO()) {
+
+                Carrito c = new Carrito();
+                c.setId_compra(d.getId_compra());
+                c.setCantidad(Integer.parseInt(request.getParameter("txtCantidad" + d.getId_compra())));
+                gf.actualizarDetalleCarrito(c);
+
+            }
+                
+            }
+
+            if (!gf.obtenerCarrito().isEmpty()) {
+
+                float total = 0;
+                for (Carrito d : gf.obtenerCarritoDTO()) {
+                    total += d.getCantidad() * d.getPrecio();
+                }
+                request.setAttribute("total", total);
+                id = Integer.parseInt(request.getParameter("usuario"));
+                request.setAttribute("listadoSucursales", gs.obtenerSucursales());
+                request.setAttribute("listadoFormasdePago", gfdp.obtenerFormasDePagos());
+                request.setAttribute("listadoCarrito", gf.obtenerCarritoDTO());
+                RequestDispatcher rd = getServletContext().getRequestDispatcher("/Ventas/confirmar_Compra.jsp");
+                rd.forward(request, response);
 
             }
 
@@ -115,6 +169,7 @@ public class Servelet_Compras extends HttpServlet {
         if (request.getParameter("cantidad") != null) {
             request.getSession().setAttribute("cantidad", (Integer.parseInt(request.getParameter("cantidad"))));
         }
+        request.setAttribute("listadoCarrito", gf.obtenerCarritoDTO());
         request.setAttribute("listadoProductos", gp.obtenerProductosDTO());
         request.setAttribute("listadoCategorias", ga.obtenerCategorias());
         request.setAttribute("listadoMarcas", gm.obtenerMarcas());
@@ -127,7 +182,7 @@ public class Servelet_Compras extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        if (true) {
+        if (request.getParameter("cmbFormasdePago") == null) {
 
             request.setAttribute("listadoCategorias", ga.obtenerCategorias());
 
@@ -167,13 +222,44 @@ public class Servelet_Compras extends HttpServlet {
 
             }
 
-            RequestDispatcher rd = getServletContext().getRequestDispatcher("/Ventas/listado_articulos.jsp");
-            rd.forward(request, response);
-            return;
+        } else {
+
+            Factura f = new Factura();
+            SimpleDateFormat sdf = new SimpleDateFormat("dd-M-yyyy HH:mm:ss");
+
+            f.setFecha(sdf.format(new Date()));
+            f.setDescuento(0);
+            f.setId_sucursal(Integer.parseInt(request.getParameter("cmbSucursales")));
+            f.setId_usuario(id);
+            f.setId_forma_de_pago(Integer.parseInt(request.getParameter("cmbFormasdePago")));
+            f.setId_cliente(1);
+            gf.agregarFactura(f);
+
+            for (Carrito d : gf.obtenerCarritoDTO()) {
+
+                Detalle_Factura df = new Detalle_Factura();
+
+                df.setId_factura(gf.obtenerUltimoIdFactura());
+                df.setCantidad(Integer.parseInt(request.getParameter("txtCantidad" + d.getId_compra())));
+                df.setImporte(d.getPrecio());
+                df.setId_producto(d.getId_producto());
+                gdf.agregarDetalleFactura(df);
+
+            }
+
+            gf.eliminarCarrito();
+            request.setAttribute("listadoProductos", gp.obtenerProductosDTO());
+            request.setAttribute("listadoCategorias", ga.obtenerCategorias());
+            request.setAttribute("listadoMarcas", gm.obtenerMarcas());
+            request.getSession().setAttribute("id_categoria", 0);
+            request.getSession().setAttribute("id_marca", 0);
+            request.setAttribute("a", true);
 
         }
 
-//        Factura f = new Factura();
+        RequestDispatcher rd = getServletContext().getRequestDispatcher("/Ventas/listado_articulos.jsp");
+        rd.forward(request, response);
+
     }
 
     @Override

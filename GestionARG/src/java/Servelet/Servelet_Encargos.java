@@ -29,7 +29,13 @@ public class Servelet_Encargos extends HttpServlet {
     Gestor_Productos gpro = new Gestor_Productos();
     Gestor_Marcas gm = new Gestor_Marcas();
     Gestor_Categorias gc = new Gestor_Categorias();
-    boolean b = false;
+    boolean f = false;
+    boolean check1 = false;
+    boolean check2 = false;
+    boolean check3 = false;
+    boolean check4 = false;
+    boolean check5 = false;
+    boolean check6 = false;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -40,6 +46,7 @@ public class Servelet_Encargos extends HttpServlet {
         String modo = request.getParameter("modo");
         request.getSession().setAttribute("modificar", false);
         request.getSession().setAttribute("accion", "Registrar");
+        request.getSession().setAttribute("t", true);
 
         if (modo == null) {
 
@@ -66,31 +73,72 @@ public class Servelet_Encargos extends HttpServlet {
             }
 
         } else if (modo.equals("AM")) {
+            
+            request.getSession().setAttribute("t", false);
 
             if (request.getParameter("id_detalle_encargo") != null) {
 
+                f = false;
+                request.setAttribute("lista", false);
+                request.setAttribute("f", false);
                 request.getSession().setAttribute("modificar", true);
-                b = false;
                 request.getSession().setAttribute("accion", "Editar Detalle");
-                int id_detalle_encargo = Integer.parseInt(request.getParameter("id_detalle_encargo"));
-                DTO_Encargo de = gde.obtenerProductoDTO(id_detalle_encargo);           
+                DTO_Encargo de = gde.obtenerDetalleEncargoDTO(Integer.parseInt(request.getParameter("id_detalle_encargo")));
                 request.setAttribute("detalle_encargo", de);
+                check1 = true;
+                check2 = true;
+                check3 = true;
+                check4 = true;
+                check5 = true;
+                check6 = true;
+                request.setAttribute("a", true);
+                request.setAttribute("b", true);
+                request.setAttribute("c", true);
+                request.setAttribute("d", true);
+                request.setAttribute("confirmar", "enabled");
+                request.setAttribute("btn1", "none");
 
             } else if (request.getParameter("id_encargo") != null) {
 
-                b = true;
+                f = true;
+                request.setAttribute("lista", true);
+                request.setAttribute("listadoDetalles", gde.obtenerDetalleEncargosIdDTO(Integer.parseInt(request.getParameter("id_encargo"))));
                 request.getSession().setAttribute("accion", "Agregar Detalle");
                 request.setAttribute("id", request.getParameter("id_encargo"));
-                request.setAttribute("b", true);
+                request.setAttribute("f", true);
+                check1 = true;
+                check2 = false;
+                check3 = false;
+                check4 = false;
+                check5 = false;
+                check6 = false;
+                request.setAttribute("a", false);
+                request.setAttribute("b", false);
+                request.setAttribute("c", false);
+                request.setAttribute("d", false);
+                request.setAttribute("confirmar", "disabled");
 
             } else {
 
-                b = false;
+                f = false;
+                request.setAttribute("lista", false);
                 request.getSession().setAttribute("accion", "Registrar Encargo");
+                request.setAttribute("f", false);
+                check1 = true;
+                check2 = false;
+                check3 = false;
+                check4 = false;
+                check5 = false;
+                check6 = false;
+                request.setAttribute("a", false);
                 request.setAttribute("b", false);
+                request.setAttribute("c", false);
+                request.setAttribute("d", false);
+                request.setAttribute("confirmar", "disabled");
 
             }
 
+            request.setAttribute("co", false);
             request.setAttribute("listadoProductos", gp.obtenerProductos());
             request.setAttribute("listadoProveedores", gpr.obtenerProveedores());
             request.setAttribute("listadoMarcas", gm.obtenerMarcas());
@@ -138,10 +186,26 @@ public class Servelet_Encargos extends HttpServlet {
 
             }
 
-            request.setAttribute("listadoEncargos", ge.obtenerEncargos());
-            request.setAttribute("listadoDetalles", gde.obtenerDetalleEncargosDTO());
-            RequestDispatcher rd = getServletContext().getRequestDispatcher("/Encargos/listado_Encargos.jsp");
-            rd.forward(request, response);
+            if (!f) {
+
+                request.setAttribute("listadoEncargos", ge.obtenerEncargos());
+                request.setAttribute("listadoDetalles", gde.obtenerDetalleEncargosDTO());
+                RequestDispatcher rd = getServletContext().getRequestDispatcher("/Encargos/listado_Encargos.jsp");
+                rd.forward(request, response);
+
+            } else {
+
+                request.setAttribute("lista", true);
+                request.setAttribute("listadoDetalles", gde.obtenerDetalleEncargosIdDTO(Integer.parseInt(request.getParameter("id_encargo"))));
+                request.setAttribute("co", false);
+                request.setAttribute("listadoProductos", gp.obtenerProductos());
+                request.setAttribute("listadoProveedores", gpr.obtenerProveedores());
+                request.setAttribute("listadoMarcas", gm.obtenerMarcas());
+                request.setAttribute("listadoCategorias", gc.obtenerCategorias());
+                RequestDispatcher rd = getServletContext().getRequestDispatcher("/Encargos/AM_Encargo.jsp");
+                rd.forward(request, response);
+
+            }
 
         } else if (modo.equals("limite")) {
 
@@ -177,40 +241,150 @@ public class Servelet_Encargos extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        Encargo e = new Encargo();
-        Detalle_Encargo de = new Detalle_Encargo();
-        SimpleDateFormat d = new SimpleDateFormat("dd-M-yyyy HH:mm:ss");
+        if (request.getParameter("txtIdEncargo") != null) {
+            request.setAttribute("f", true);
+            request.setAttribute("id", request.getParameter("txtIdEncargo"));
+        }
 
-        e.setId_encargo(Integer.parseInt(request.getParameter("txtIdEncargo")));
-        de.setId_detalle_encargo(Integer.parseInt(request.getParameter("txtIdDetalleEncargo")));
-        e.setFecha(d.format(new Date()));
-        de.setId_proveedor(Integer.parseInt(request.getParameter("cmbProveedores")));
-        de.setId_producto(Integer.parseInt(request.getParameter("cmbProductos")));
-        de.setCantidad(Float.parseFloat(request.getParameter("txtCantidad")));
-        de.setImporte(gpro.obtenerProducto(de.getId_producto()).getPrecio() * de.getCantidad());
+        if (f) {
+            
+            request.setAttribute("lista", true);
+            request.setAttribute("listadoDetalles", gde.obtenerDetalleEncargosIdDTO(Integer.parseInt(request.getParameter("txtIdEncargo"))));
+            
+        }
 
-        if (e.getId_encargo() == 0) {
+        if (check1 && !request.getParameter("cmbCategorias").equals("Seleccionar...")) {
 
-            ge.agregarEncargo(e);
-            de.setId_encargo(ge.obtenerUltimoIdEncargo());
-            gde.agregarDetalleEncargo(de);
+            request.setAttribute("btn1", "");
+            request.setAttribute("confirmar", "disabled");
+            request.setAttribute("a", true);
+            request.setAttribute("op1", "disabled");
+            request.setAttribute("listadoCategorias", gc.obtenerCategoriasID(Integer.parseInt(request.getParameter("cmbCategorias"))));
+            request.setAttribute("listadoMarcas", gm.obtenerMarcasFiltro(Integer.parseInt(request.getParameter("cmbCategorias"))));
 
-        } else if (b) {
+            if (check2 && !request.getParameter("cmbMarcas").equals("Seleccionar...")) {
 
-            de.setId_encargo(e.getId_encargo() / 10);
-            gde.agregarDetalleEncargo(de);
+                request.setAttribute("b", true);
+                request.setAttribute("op2", "disabled");
+                request.setAttribute("listadoMarcas", gm.obtenerMarcasID(Integer.parseInt(request.getParameter("cmbMarcas"))));
+                request.setAttribute("listadoProductos", gp.obtenerProductosMarcaDTO(Integer.parseInt(request.getParameter("cmbMarcas"))));
+
+                if (check3 && !request.getParameter("cmbProductos").equals("Seleccionar...")) {
+
+                    request.setAttribute("c", true);
+                    request.setAttribute("op3", "disabled");
+                    request.setAttribute("listadoProductos", gp.obtenerProductosID(Integer.parseInt(request.getParameter("cmbProductos"))));
+                    request.setAttribute("listadoProveedores", gpr.obtenerProveedoresFiltro(Integer.parseInt(request.getParameter("cmbMarcas"))));
+
+                    if (check4 && !request.getParameter("cmbProveedores").equals("Seleccionar...")) {
+
+                        request.setAttribute("d", true);
+                        request.setAttribute("op4", "disabled");
+                        request.setAttribute("btn1", "none");
+                        request.setAttribute("confirmar", "enabled");
+                        request.setAttribute("listadoProveedores", gpr.obtenerProveedoresID(Integer.parseInt(request.getParameter("cmbProveedores"))));
+                        check5 = true;
+
+                    }
+
+                    check4 = true;
+
+                }
+
+                check3 = true;
+
+            }
+
+            check2 = true;
 
         } else {
 
-            de.setId_encargo(e.getId_encargo());
-            gde.actualizarDetalleEncargo(de);
+            request.setAttribute("btn1", "Selecionar");
+            request.setAttribute("confirmar", "disabled");
 
         }
 
-        request.setAttribute("listadoEncargos", ge.obtenerEncargos());
-        request.setAttribute("listadoDetalles", gde.obtenerDetalleEncargosDTO());
-        RequestDispatcher rd = getServletContext().getRequestDispatcher("/Encargos/listado_Encargos.jsp");
+        if (check5) {
+
+            if (check6) {
+
+                Encargo e = new Encargo();
+                Detalle_Encargo de = new Detalle_Encargo();
+                SimpleDateFormat d = new SimpleDateFormat("dd-M-yyyy HH:mm:ss");
+
+                e.setId_encargo(Integer.parseInt(request.getParameter("txtIdEncargo")));
+                de.setId_detalle_encargo(Integer.parseInt(request.getParameter("txtIdDetalleEncargo")));
+                e.setFecha(d.format(new Date()));
+                de.setId_proveedor(Integer.parseInt(request.getParameter("cmbProveedores")));
+                de.setId_producto(Integer.parseInt(request.getParameter("cmbProductos")));
+                de.setCantidad(Float.parseFloat(request.getParameter("txtCantidad")));
+                de.setImporte(gpro.obtenerProducto(de.getId_producto()).getPrecio() * de.getCantidad());
+
+                if (e.getId_encargo() == 0) {
+
+                    ge.agregarEncargo(e);
+                    de.setId_encargo(ge.obtenerUltimoIdEncargo());
+                    gde.agregarDetalleEncargo(de);
+
+                } else if (this.f) {
+
+                    de.setId_encargo(e.getId_encargo());
+                    gde.agregarDetalleEncargo(de);
+
+                } else {
+
+                    de.setId_encargo(e.getId_encargo());
+                    gde.actualizarDetalleEncargo(de);
+
+                }
+
+                check1 = false;
+                check2 = false;
+                check3 = false;
+                check4 = false;
+                check5 = false;
+                check6 = false;
+                request.setAttribute("a", false);
+                request.setAttribute("b", false);
+                request.setAttribute("c", false);
+                request.setAttribute("d", false);
+                request.setAttribute("op1", "enabled");
+                request.setAttribute("op2", "enabled");
+                request.setAttribute("op3", "enabled");
+                request.setAttribute("op4", "enabled");
+                request.setAttribute("confirmar", "disabled");
+                request.setAttribute("listadoCategorias", gc.obtenerCategorias());
+                request.setAttribute("listadoMarcas", gm.obtenerMarcas());
+                request.setAttribute("listadoProductos", gp.obtenerProductos());
+                request.setAttribute("listadoProveedores", gpr.obtenerProveedores());
+                request.getSession().setAttribute("accion", "Agregar Detalle");
+                request.setAttribute("id", request.getParameter("txtIdEncargo"));
+                request.setAttribute("b", true);
+                request.setAttribute("co", true);
+                request.setAttribute("btn1", "");
+                request.setAttribute("lista", true);
+                request.setAttribute("listadoDetalles", gde.obtenerDetalleEncargosIdDTO(Integer.parseInt(request.getParameter("txtIdEncargo"))));
+
+                if (!f) {
+
+                    request.setAttribute("listadoEncargos", ge.obtenerEncargos());
+                    request.setAttribute("listadoDetalles", gde.obtenerDetalleEncargosDTO());
+                    RequestDispatcher rd = getServletContext().getRequestDispatcher("/Encargos/listado_Encargos.jsp");
+                    rd.forward(request, response);
+
+                }
+
+                this.f = true;
+
+            }
+
+            check6 = true;
+
+        }
+
+        RequestDispatcher rd = getServletContext().getRequestDispatcher("/Encargos/AM_Encargo.jsp");
         rd.forward(request, response);
+
     }
 
     @Override

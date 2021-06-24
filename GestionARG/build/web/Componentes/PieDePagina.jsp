@@ -27,7 +27,7 @@
             <div class="col-md-3 mb-md-0 mb-3">
                 <ul class="list-unstyled">
                     <li>
-                        <i class="fas fa-home mr-3"></i><a>Córdoba, Argentina</a>
+                        <i class="bi bi-house-door-fill"></i><a> Córdoba, Argentina</a>
                     </li>
                 </ul>
             </div>

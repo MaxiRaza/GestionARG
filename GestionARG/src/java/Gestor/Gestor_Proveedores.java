@@ -204,5 +204,50 @@ public class Gestor_Proveedores {
         }
         return lista;
     }
+    
+    public ArrayList<Proveedor> obtenerProveedoresFiltro(int id_marca) {
+        ArrayList<Proveedor> lista = new ArrayList<>();
+        try {
+            abrirConexion();
+            PreparedStatement ps = conexion.prepareStatement("SELECT id_proveedor, nombre FROM Proveedores WHERE vigencia = 1 AND id_marca = ?");
+            ps.setInt(1, id_marca);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Proveedor p = new Proveedor();
+                p.setId_proveedor(rs.getInt(1));
+                p.setNombre(rs.getString(2));
+                lista.add(p);
+            }
+            ps.close();
+            rs.close();           
+        } catch (SQLException ex) {
+            Logger.getLogger(Gestor_Proveedores.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            cerrarConexion();
+        }
+        return lista;
+    }
+    public ArrayList<Proveedor> obtenerProveedoresID(int id_proveedor) {
+        ArrayList<Proveedor> lista = new ArrayList<>();
+        try {
+            abrirConexion();
+            PreparedStatement ps = conexion.prepareStatement("SELECT id_proveedor, nombre FROM Proveedores WHERE vigencia = 1 AND id_proveedor = ?");
+            ps.setInt(1, id_proveedor);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Proveedor p = new Proveedor();
+                p.setId_proveedor(rs.getInt(1));
+                p.setNombre(rs.getString(2));
+                lista.add(p);
+            }
+            ps.close();
+            rs.close();           
+        } catch (SQLException ex) {
+            Logger.getLogger(Gestor_Proveedores.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            cerrarConexion();
+        }
+        return lista;
+    }
 
 }

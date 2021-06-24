@@ -125,31 +125,7 @@ public class Gestor_Marcas {
             cerrarConexion();
         }
     }
-    
-    public ArrayList<Marca> obtenerMarcasFiltro(int id_categoria) {
-        ArrayList<Marca> lista = new ArrayList<>();
-        try {
-            abrirConexion();
-            PreparedStatement ps = conexion.prepareStatement("SELECT id_marca, nombre, id_categoria FROM Marcas WHERE id_categoria = ? AND vigencia = 1");
-            ps.setInt(1, id_categoria);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                Marca m = new Marca();
-                m.setId_marca(rs.getInt(1));
-                m.setNombre(rs.getString(2));
-                m.setId_categoria(rs.getInt(3));
-                lista.add(m);
-            }
-            rs.close();
-            ps.close();
-        } catch (SQLException ex) {
-            Logger.getLogger(Gestor_Marcas.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            cerrarConexion();
-        }
-        return lista;
-    }
-    
+       
     public ArrayList<DTO_Marca> obtenerMarcasDTO() {
         ArrayList<DTO_Marca> lista = new ArrayList<>();
         try {
@@ -165,6 +141,52 @@ public class Gestor_Marcas {
             }
             rs.close();
             st.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Gestor_Marcas.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            cerrarConexion();
+        }
+        return lista;
+    }
+    
+    public ArrayList<Marca> obtenerMarcasFiltro(int id_categoria) {
+        ArrayList<Marca> lista = new ArrayList<>();
+        try {
+            abrirConexion();
+            PreparedStatement ps = conexion.prepareStatement("SELECT id_marca, nombre FROM Marcas WHERE id_categoria = ? AND vigencia = 1");
+            ps.setInt(1, id_categoria);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Marca m = new Marca();
+                m.setId_marca(rs.getInt(1));
+                m.setNombre(rs.getString(2));
+                lista.add(m);
+            }
+            rs.close();
+            ps.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Gestor_Marcas.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            cerrarConexion();
+        }
+        return lista;
+    }
+    
+    public ArrayList<Marca> obtenerMarcasID(int id_marca) {
+        ArrayList<Marca> lista = new ArrayList<>();
+        try {
+            abrirConexion();
+            PreparedStatement ps = conexion.prepareStatement("SELECT id_marca, nombre FROM Marcas WHERE id_marca = ? AND vigencia = 1");
+            ps.setInt(1, id_marca);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Marca m = new Marca();
+                m.setId_marca(rs.getInt(1));
+                m.setNombre(rs.getString(2));
+                lista.add(m);
+            }
+            rs.close();
+            ps.close();
         } catch (SQLException ex) {
             Logger.getLogger(Gestor_Marcas.class.getName()).log(Level.SEVERE, null, ex);
         } finally {

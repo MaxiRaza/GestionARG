@@ -4,9 +4,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <jsp:include page="../Componentes\formato.jsp"/>
-        <jsp:include page="../Componentes\barraNavegacion.jsp"/>
         <jsp:useBean id="producto" class="Modelo.DTO.DTO_Producto" scope="request"></jsp:useBean>
         <title>GestionARG - ${accion} Producto</title>
     </head>
@@ -19,18 +17,22 @@
                         <input type="hidden" name="txtIdProducto" value="<jsp:getProperty name="producto" property="id_producto"></jsp:getProperty>" />
                             <div class="form-group">
                                 <label for="recipient-name" class="col-form-label">Categoria (*)</label>
-                                <select name="cmbCategorias" required="required" class="form-control" id="recipient-name" >
+                                <select name="cmbCategoriass" required="required" class="form-control" id="recipient-name" >
                                 <c:forEach items="${listadoCategorias}" var="c">
                                     <option value="${c.id_categoria}" <c:if test="${c.id_categoria == producto.id_categoria}"> selected </c:if>> ${c.nombre} </option>                  
                                 </c:forEach>             
                             </select>
                         </div>
                     </div>
+                </div><br>
+                <div class="row justify-content-md-center" >
+                    <div class="col-sm-2">
+                        <a href="Productos" class="btn btn-primary" style="width: 100px"><i class="bi bi-reply-fill" style="font-size: 20px"></i></a>
+                    </div>
+                    <div class="col-sm-2">
+                        <button type="submit" class="btn btn-success" style="width: 100px"><i class="bi bi-arrow-right" style="font-size: 20px"></i></button>  
+                    </div>
                 </div>
-            </div><br>
-            <div class="row justify-content-md-center" >
-                <a href="Productos" class="btn btn-primary">Volver al listado</a>
-                <button type="submit" class="btn btn-success">Siguiente</button>  
             </div>
         </form>
     </body>

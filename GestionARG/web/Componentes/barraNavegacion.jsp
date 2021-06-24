@@ -49,7 +49,7 @@
                                 </li>
                             </ul>
                             <li class="nav-item">
-                                <a class="nav-link <c:if test="${activar == 19}">active</c:if>" href="Reportess">Reportes</a>
+                                <a class="nav-link <c:if test="${activar == 19}">active</c:if>" href="Reportess"> <i class="bi bi-graph-up"></i> Reportes</a>
                             </li>
                     </c:if>
                 </c:if>

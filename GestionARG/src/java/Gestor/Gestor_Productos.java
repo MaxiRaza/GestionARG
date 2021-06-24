@@ -275,5 +275,27 @@ public class Gestor_Productos {
         }
         return lista;
     }
+        
+        public ArrayList<Producto> obtenerProductosID(int id_producto) {
+        ArrayList<Producto> lista = new ArrayList<>();
+        try {
+            abrirConexion();
+            PreparedStatement ps = conexion.prepareStatement("SELECT p.id_producto, p.nombre FROM Productos p WHERE p. vigencia = 1 AND p.id_producto = ?");
+           ps.setInt(1, id_producto);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Producto p = new Producto();
+                p.setId_producto(rs.getInt(1));
+                p.setNombre(rs.getString(2));                
+                lista.add(p);
+            }
+            ps.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Gestor_Productos.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            cerrarConexion();
+        }
+        return lista;
+    }
     
 }

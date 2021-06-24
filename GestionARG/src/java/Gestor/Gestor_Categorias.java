@@ -120,4 +120,27 @@ public class Gestor_Categorias {
             cerrarConexion();
         }
     }
+    
+    public ArrayList<Categoria> obtenerCategoriasID(int id_categoria) {
+        ArrayList<Categoria> lista = new ArrayList<>();
+        try {
+            abrirConexion();
+            PreparedStatement ps = conexion.prepareStatement("SELECT id_categoria, nombre FROM Categorias WHERE vigencia = 1 AND id_categoria = ?");
+            ps.setInt(1, id_categoria);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Categoria c = new Categoria();
+                c.setId_categoria(rs.getInt(1));
+                c.setNombre(rs.getString(2));
+                lista.add(c);
+            }
+            rs.close();
+            ps.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Gestor_Categorias.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            cerrarConexion();
+        }
+        return lista;
+    }
 }

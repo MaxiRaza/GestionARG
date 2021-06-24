@@ -4,7 +4,6 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <jsp:include page="../Componentes\formato.jsp"/>
         <jsp:useBean id="marca" class="Modelo.Marca" scope="request"></jsp:useBean>
         <title>GestionARG - ${accion} Marca</title>
@@ -12,7 +11,7 @@
     <body>      
         <br><h1 class="row justify-content-md-center">${accion} Marca</h1><br>
         <form method="Post" action="Marcas">
-            <div class="container col-md-3">                  
+            <div class="container col-md-4">                  
                 <input type="hidden" name="txtIdMarca" value="<jsp:getProperty name="marca" property="id_marca"></jsp:getProperty>" />
                     <div class="form-group">
                         <label for="recipient-name" class="col-form-label">Nombre (*)</label>
@@ -25,11 +24,8 @@
                             <option value="${c.id_categoria}" <c:if test="${c.id_categoria == marca.id_categoria}"> selected </c:if>> ${c.nombre} </option>                  
                         </c:forEach>             
                     </select>                                   
-                </div>
-            </div><br>
-            <div class="row justify-content-md-center" >
-                <a href="Marcas" class="btn btn-primary">Volver al listado</a>
-                <button type="submit" class="btn btn-success">${accion} Marca</button>  
+                </div><br>
+                <jsp:include page="../Componentes\botonesAM.jsp"/>      
             </div>
         </form>
     </body>

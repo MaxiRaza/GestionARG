@@ -6,9 +6,7 @@
 <!DOCTYPE html>
 <html>
     <head>       
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
         <jsp:include page="../Componentes\formato.jsp"/>
-        <title>GestionARG - Listado Facturas</title>     
     </head>
     <body>             
         <br><h1  class="row justify-content-md-center">Listado de Facturas</h1><br>
@@ -31,9 +29,9 @@
                             <th scope="col"> # </th>
                             <th scope="col">Fecha </th>
                             <th scope="col">Sucursal </th>
-                            <th scope="col">Cliente </th>
                             <th scope="col">Vendedor </th>
                             <th scope="col">Forma de Pago </th>                    
+                            <th></th>
                             <th></th>
                         </tr>
                     </thead>
@@ -43,9 +41,9 @@
                             <td> ${f.id_factura}  </td>
                             <td> ${f.fecha}  </td>                           
                             <td> ${f.sucursal} </td>
-                            <td> ${f.cliente}  </td>
                             <td> ${f.usuario}  </td>
                             <td> ${f.forma_de_pago} </td>
+                            <td></td>
                             <td></td>
                         </tr>
                     <thead bgcolor="#002D3B">
@@ -67,7 +65,7 @@
                             <th scope="col">Cantidad </th>
                             <th scope="col"> Sub Total </th>
                         </tr>
-                    </thead>
+                    </thead>     
                     <c:forEach items="${listadoDetalles}" var="d">
                         <c:if test="${ id == d.id_factura}" >
                             <tr>
@@ -77,10 +75,17 @@
                                 <td> ${d.marca}  </td>
                                 <td> $ ${d.importe}  </td>
                                 <td> ${d.cantidad} /u  </td>
-                                <td> $ ${d.importe * d.cantidad} </td>  
+                                <td> $ ${d.importe * d.cantidad} </td>                            
                             </tr>   
                         </c:if>                       
-                    </c:forEach>   
+                    </c:forEach> 
+                    <td></td>    
+                    <td></td>    
+                    <td></td>    
+                    <td></td>    
+                    <td></td>   
+                    <td>Total</td>    
+                    <td>$ ${f.total}</td>                       
                 </c:forEach> 
         </div>      
     </tbody>

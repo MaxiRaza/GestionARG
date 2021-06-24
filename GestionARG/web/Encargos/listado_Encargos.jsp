@@ -6,15 +6,9 @@
 <!DOCTYPE html>
 <html>
     <head>       
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
         <jsp:include page="../Componentes\formato.jsp"/>
-        <title>GestionARG - Listado Encargos</title>     
     </head>
     <body>             
-        <br><h1  class="row justify-content-md-center">Listado de Encargos</h1><br>
-        <div style="padding-right: 75px" align = "right">
-            <a href="Encargos?modo=AM" class="btn btn-info">Registrar Encargo</a><br><br><br> 
-        </div>
         <div class="container-fluid">   
             <table class="table table-striped table-dark">
                 <c:forEach begin="0" end="${cantidad}"  items="${listadoEncargos}" var="e">
@@ -38,8 +32,8 @@
                             <td> Proveedor </td>
                             <td> Producto  </td>
                             <td> Cantidad  </td>
-                            <td><a href="Encargos?modo=AM&id_encargo=${e.id_encargo}" class="btn btn-success">Agregar Detalle</a></td>
-                            <td><c:if test="${rol != 4}"><a href="Encargos?modo=eliminar&a=a&id_e=${e.id_encargo}" class="btn btn-danger">Eliminar Encargo</a></c:if></td>
+                            <td><a href="Encargos?modo=AM&id_encargo=${e.id_encargo}" class="btn btn-success" style="width: 70px"><i class="bi bi-plus-lg" style="font-size: 18px"></i></a></td>
+                            <td><c:if test="${rol != 4}"><a href="Encargos?modo=eliminar&a=a&id_e=${e.id_encargo}" class="btn btn-danger" style="width: 70px"><i class="bi bi-trash" style="font-size:  18px"></i></a></c:if></td>
                         </tr>                   
                         <c:forEach items="${listadoDetalles}" var="d">
                             <c:if test="${ e.id_encargo == d.id_encargo}" >
@@ -50,8 +44,8 @@
                                     <td> ${d.proveedor}  </td>
                                     <td> ${d.producto}  </td>
                                     <td> ${d.cantidad}  </td>
-                                    <td><a href="Encargos?modo=AM&id_detalle_encargo=${d.id_detalle_encargo}" class="btn btn-warning"> Editar Detalle</a></td>
-                                    <td><c:if test="${rol != 4}"><a href="Encargos?modo=eliminar&a=a&id=${d.id_detalle_encargo}" class="btn btn-danger">Eliminar Detalle</a></c:if></td>                               
+                                    <td><a href="Encargos?modo=AM&id_detalle_encargo=${d.id_detalle_encargo}" class="btn btn-warning" style="width: 70px"><i class="bi bi-pencil" style="font-size: 18px"></i></a></td>
+                                    <td><c:if test="${rol != 4}"><a href="Encargos?modo=eliminar&a=a&id=${d.id_detalle_encargo}" class="btn btn-danger" style="width: 70px"><i class="bi bi-trash" style="font-size: 18px"></i></a></c:if></td>                               
                                 </tr>   
                             </c:if>                       
                         </c:forEach>              

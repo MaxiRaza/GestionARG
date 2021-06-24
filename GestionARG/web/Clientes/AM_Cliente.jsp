@@ -4,7 +4,6 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <jsp:include page="../Componentes\formato.jsp"/>
         <jsp:useBean id="cliente" class="Modelo.DTO.DTO_Cliente" scope="request"></jsp:useBean>
         <title>GestionARG - ${accion} Cliente</title>
@@ -56,12 +55,9 @@
                             </select>                                   
                         </div>
                     </div>     
-                </div>
-            </div><br>
-            <div class="row justify-content-md-center" >
-                <a href="Clientes" class="btn btn-primary">Volver al listado</a>
-                <button type="submit" class="btn btn-success">${accion} Cliente</button>  
-            </div>                   
+                </div><br>
+            <jsp:include page="../Componentes\botonesAM.jsp"/>            
+            </div>
         </form>       
     </body>
 </html>

@@ -42,7 +42,7 @@ public class Gestor_Usuarios {
             ps.setString(3, u.getDocumento());
             ps.setString(4, u.getFecha_nac());
             ps.setString(5, u.getDireccion());
-            ps.setInt(6, u.getId_rol());
+            ps.setInt(6, u.getId_rol());          
             ps.setInt(7, u.getId_contacto());
             ps.setString(8, u.getContrasenia());
             ps.setString(9, u.getAlias());
@@ -207,7 +207,7 @@ public class Gestor_Usuarios {
             abrirConexion();
             PreparedStatement ps = conexion.prepareStatement("SELECT u.id_usuario, u.nombre, u.apellido, u.documento, u.fecha_nac, u.direccion, r.nombre, c.correo, c.telefono, contrasenia, alias FROM Usuarios u JOIN Contactos c ON u.id_contacto = c.id_contacto JOIN Roles r ON u.id_rol = r.id_rol WHERE u.vigencia = 1");
             ResultSet rs = ps.executeQuery();
-             while (rs.next()) {
+            while (rs.next()) {
                 DTO_Usuario u = new DTO_Usuario();
                 u.setId_usuario(rs.getInt(1));
                 u.setNombre(rs.getString(2));
@@ -230,7 +230,7 @@ public class Gestor_Usuarios {
         }
         return lista;
     }
-    
+
     public int obtenerRolUsuario(String alias, String contrasenia) {
         int rol = 0;
         try {
@@ -251,4 +251,23 @@ public class Gestor_Usuarios {
         return rol;
     }
 
+    public int obtenerIdUsuario(String alias, String contrasenia) {
+        int id = 0;
+        try {
+            abrirConexion();
+            PreparedStatement ps = conexion.prepareStatement("SELECT id_usuario FROM Usuarios WHERE alias = ? AND contrasenia = ? AND vigencia = 1");
+            ps.setString(1, alias);
+            ps.setString(2, contrasenia);
+            ResultSet st = ps.executeQuery();
+            if (st.next()) {
+                id = st.getInt(1);
+            }
+            ps.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Gestor_Usuarios.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            cerrarConexion();
+        }
+        return id;
+    }
 }

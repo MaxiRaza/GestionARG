@@ -31,6 +31,7 @@ public class Servelet_Clientes extends HttpServlet {
         String modo = request.getParameter("modo");
         request.getSession().setAttribute("modificar", false);
         request.getSession().setAttribute("accion", "Registrar");
+        request.getSession().setAttribute("t", true);
 
         if (modo == null) {
 
@@ -56,6 +57,8 @@ public class Servelet_Clientes extends HttpServlet {
             }
 
         } else if (modo.equals("AM")) {
+            
+            request.getSession().setAttribute("t", false);
 
             if (request.getParameter("id_cliente") != null) {
 

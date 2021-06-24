@@ -11,19 +11,22 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet(name = "Reportess", urlPatterns = {"/Reportess"})
 public class Servelet_Reportes extends HttpServlet {
-    
+
     Gestor_Reportes gr = new Gestor_Reportes();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         String modo = request.getParameter("modo");
+        request.getSession().setAttribute("t", false);
 
         if (request.getSession().getAttribute("log") != null) {
 
             request.getSession().setAttribute("activar", 19);
-            request.setAttribute("listadoTopProductos", gr.obtenerTopProductos());
+            request.setAttribute("listadoTopProductos", gr.obtenerTop10ProductosVentas());
+            request.setAttribute("listadoTopMarcas", gr.obtenerTop5MarcasMasVendidas());
+            request.setAttribute("listadoGananciaMensual", gr.obtenerFacturacionMensual());
             RequestDispatcher rd = getServletContext().getRequestDispatcher("/Reportes/listado_Reportes.jsp");
             rd.forward(request, response);
 
@@ -33,7 +36,7 @@ public class Servelet_Reportes extends HttpServlet {
             rd.forward(request, response);
 
         }
-        
+
     }
 
     @Override

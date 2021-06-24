@@ -23,33 +23,34 @@ public class Servelet_Login extends HttpServlet {
         String modo = request.getParameter("modo");
 
         if (modo != null) {
-            
+
             if (modo.equals("iniciarSesion")) {
-                
+
                 request.getSession().setAttribute("rol", 0);
                 request.getSession().setAttribute("log", false);
                 request.getSession().setAttribute("alias", "");
                 request.getSession().setAttribute("contrasenia", "");
                 RequestDispatcher rd = getServletContext().getRequestDispatcher("/Login/login.jsp");
                 rd.forward(request, response);
-                
+
             } else if (modo.equals("registrarse")) {
-                
+
                 request.setAttribute("listadoRoles", gr.obtenerRoles());
                 request.getSession().setAttribute("accion", "Registrar");
                 RequestDispatcher rd = getServletContext().getRequestDispatcher("/Usuarios/AM_Usuario.jsp");
                 rd.forward(request, response);
-                
+
             }
-            
+
         } else {
-            
+
+            request.getSession().setAttribute("t", false);
             request.getSession().setAttribute("activar", 1);
             RequestDispatcher rd = getServletContext().getRequestDispatcher("/Inicio/inicio.jsp");
             rd.forward(request, response);
-            
+
         }
-        
+
     }
 
     @Override
@@ -62,6 +63,7 @@ public class Servelet_Login extends HttpServlet {
         if (gu.obtenerUsuario(alias, contrasenia)) {
 
             request.getSession().setAttribute("log", true);
+            request.getSession().setAttribute("usuario", gu.obtenerIdUsuario(alias, contrasenia));
             request.getSession().setAttribute("alias", alias);
             request.getSession().setAttribute("contrasenia", contrasenia);
             request.getSession().setAttribute("mostrar", "Bienvenido " + alias);
@@ -80,10 +82,11 @@ public class Servelet_Login extends HttpServlet {
                 default:
                     request.getSession().setAttribute("rol", 0);
             }
-            
+
+            request.getSession().setAttribute("t", false);
             RequestDispatcher rd = getServletContext().getRequestDispatcher("/Inicio/inicio.jsp");
             rd.forward(request, response);
-            
+
         } else {
 
             request.setAttribute("mensajeError", "Usuario o contraseña incorrectos");

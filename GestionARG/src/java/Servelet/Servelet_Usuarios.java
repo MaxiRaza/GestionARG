@@ -30,6 +30,7 @@ public class Servelet_Usuarios extends HttpServlet {
         String modo = request.getParameter("modo");
         request.getSession().setAttribute("modificar", false);
         request.getSession().setAttribute("accion", "Registrar");
+        request.getSession().setAttribute("t", true);
 
         if (modo == null) {
 
@@ -55,6 +56,8 @@ public class Servelet_Usuarios extends HttpServlet {
             }
 
         } else if (modo.equals("AM")) {
+            
+            request.getSession().setAttribute("t", false);
 
             if (request.getParameter("id_usuario") != null) {
 
@@ -141,8 +144,11 @@ public class Servelet_Usuarios extends HttpServlet {
         c.setTelefono(request.getParameter("txtTelefono"));
         u.setAlias(request.getParameter("txtAlias"));
         u.setContrasenia(request.getParameter("txtContrasenia"));
-        u.setId_rol(Integer.parseInt(request.getParameter("cmbRoles")));
-
+        try {
+            u.setId_rol(Integer.parseInt(request.getParameter("cmbRoles")));
+        } catch (Exception e) {
+            u.setId_rol(6);
+        }        
         if (u.getId_usuario() == 0) {
             if (gc.obtenerIdContacto(c.getCorreo(), c.getTelefono()) == 0) {
                 gc.agregarContacto(c);

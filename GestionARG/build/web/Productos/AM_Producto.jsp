@@ -4,7 +4,6 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <jsp:include page="../Componentes\formato.jsp"/>
         <jsp:useBean id="producto" class="Modelo.DTO.DTO_Producto" scope="request"></jsp:useBean>
         <title>GestionARG - ${accion} Producto</title>
@@ -63,11 +62,15 @@
                             </select>
                         </div> 
                     </div>
+                </div><br>
+                <div class="row justify-content-md-center" >
+                    <div class="col-md-2">
+                        <a href="Productos?modo=AM&accion=${accion}&id_producto=${producto.id_producto}" class="btn btn-primary" style="width: 120px"><i class="bi bi-reply-fill" style="font-size: 22px"></i></a>
+                    </div>  
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-success" style="width: 120px"><i class="bi bi-save2" style="font-size: 22px"></i></button>  
+                    </div>  
                 </div>
-            </div><br>
-            <div class="row justify-content-md-center" >
-                <a href="Productos?modo=AM&id_producto=${producto.id_producto}" class="btn btn-primary">Volver</a>
-                <button type="submit" class="btn btn-success">${accion} Producto</button>  
             </div>
         </form>
     </body>

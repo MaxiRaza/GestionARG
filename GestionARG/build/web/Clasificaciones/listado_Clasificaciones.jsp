@@ -5,15 +5,9 @@
 <!DOCTYPE html>
 <html>
     <head>       
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
         <jsp:include page="../Componentes\formato.jsp"/>
-        <title>GestionARG - Listado de Clasificaciónes</title>     
     </head>
     <body>             
-        <br><h1  class="row justify-content-md-center">Listado de Clasificaciones</h1><br>
-        <div style="padding-right: 75px" align = "right">
-            <a href="Clasificaciones?modo=AM" class="btn btn-info">Registrar Clasificación</a><br><br><br> 
-        </div>
         <div class="container-fluid">   
             <table class="table table-striped table-dark">
                 <thead>
@@ -29,8 +23,8 @@
                         <tr>
                             <td> ${c.id_clasificacion}  </td>
                             <td> ${c.nombre}  </td>
-                            <td><a href="Clasificaciones?modo=AM&id_clasificacion=${c.id_clasificacion}" class="btn btn-warning">Editar</a></td>
-                            <td><a href="Clasificaciones?modo=eliminar&a=a&id=${c.id_clasificacion}"class="btn btn-danger" >Eliminar</a></td>                                                                                                 
+                            <td><a href="Clasificaciones?modo=AM&id_clasificacion=${c.id_clasificacion}" class="btn btn-warning" style="width: 70px"><i class="bi bi-pencil" style="font-size: 18px"></i></a></td>
+                            <td><a href="Clasificaciones?modo=eliminar&a=a&id=${c.id_clasificacion}"class="btn btn-danger" style="width: 70px"><i class="bi bi-trash" style="font-size:  18px"></i></a></td>                                                                                                 
                         </tr> 
                     </c:forEach>                    
                 </tbody>

@@ -20,9 +20,10 @@ public class Servelet_Facturas extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //Variable global para asignar cantidad de filas de la tabla (Arranca por la fila N = 0)
-        int filas = 3;
+        int filas = 1;
         request.getSession().setAttribute("servelet", "Facturas");
         String modo = request.getParameter("modo");
+        request.getSession().setAttribute("t", false);
 
         if (modo == null) {
 

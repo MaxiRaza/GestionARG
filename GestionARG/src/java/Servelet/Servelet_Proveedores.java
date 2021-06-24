@@ -36,6 +36,7 @@ public class Servelet_Proveedores extends HttpServlet {
         String modo = request.getParameter("modo");
         request.getSession().setAttribute("modificar", false);
         request.getSession().setAttribute("accion", "Registrar");
+        request.getSession().setAttribute("t", true);
 
         if (modo == null) {
 
@@ -61,11 +62,21 @@ public class Servelet_Proveedores extends HttpServlet {
             }
 
         } else if (modo.equals("AM")) {
+            
+            request.getSession().setAttribute("t", false);
 
             if (request.getParameter("id_proveedor") != null) {
+                
+                try {
+                    if (request.getParameter("accion").equals("Registrar") == false) {
+                        request.getSession().setAttribute("modificar", true);
+                        request.getSession().setAttribute("accion", "Editar");
+                    }
+                } catch (Exception e) {
+                    request.getSession().setAttribute("modificar", true);
+                    request.getSession().setAttribute("accion", "Editar");
+                }
 
-                request.getSession().setAttribute("modificar", true);
-                request.getSession().setAttribute("accion", "Editar");
                 DTO_Proveedor p = gp.obtenerProveedorDTO(Integer.parseInt(request.getParameter("id_proveedor")));
                 request.setAttribute("proveedor", p);
 

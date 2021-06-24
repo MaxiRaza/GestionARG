@@ -4,7 +4,6 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <jsp:include page="../Componentes\formato.jsp"/>
         <jsp:useBean id="usuario" class="Modelo.DTO.DTO_Usuario" scope="request"></jsp:useBean>
         <title>GestionARG - ${accion} Usuario</title>
@@ -55,22 +54,28 @@
                                     <label class="col-form-label">Contraseña (*)</label>
                                     <input type="text" name="txtContrasenia" required="required" class="form-control" id="recipient-name" <c:if test="${modificar}"> value="<jsp:getProperty name="usuario" property="contrasenia"></jsp:getProperty>" </c:if>>
                                 </div>
-                                <div class="form-group">
-                                    <label for="recipient-name" class="col-form-label">Rol (*)</label>
-                                    <select name="cmbRoles" required="required" class="form-control" id="recipient-name" >
-                                <c:forEach items="${listadoRoles}" var="r">
-                                    <option value="${r.id_rol}" <c:if test="${r.id_rol == usuario.id_rol}"> selected </c:if> > ${r.nombre} </option>
-                                </c:forEach>             
-                            </select>                                   
-                        </div>
+                        <c:if test="${rol == 1}">
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">Rol (*)</label>
+                                <select name="cmbRoles" required="required" class="form-control" id="recipient-name" >
+                                    <c:forEach items="${listadoRoles}" var="r">
+                                        <option value="${r.id_rol}" <c:if test="${r.id_rol == usuario.id_rol}"> selected </c:if> > ${r.nombre} </option>
+                                    </c:forEach>             
+                                </select> 
+                            </div>
+                        </c:if>                        
                     </div>
-                </div>
-            </div><br>
-            <div class="row justify-content-md-center" >
-                <c:if test="${!admin}"><a href="Loginn?modo=iniciarSesion" class="btn btn-primary">Volver</a></c:if>
-                <c:if test="${admin}"><a href="Usuarios" class="btn btn-primary">Volver al listado</a></c:if>
-                <button type="submit" class="btn btn-success">${accion} Usuario</button>  
-            </div>                   
+                </div><br>
+                <div class="row justify-content-md-center" >
+                    <div class="col-md-2">
+                        <c:if test="${!log}"><a href="Loginn?modo=iniciarSesion" class="btn btn-primary" style="width: 120px"><i class="bi bi-reply-fill" style="font-size: 18px"></i></a></c:if>
+                        <c:if test="${log}"><a href="Usuarios" class="btn btn-primary" style="width: 120px"><i class="bi bi-reply-fill" style="font-size: 18px"></i></a></c:if>
+                    </div>
+                    <div class="col-md-2">         
+                        <button type="submit" class="btn btn-success" style="width: 120px"><i class="bi bi-save2" style="font-size: 18px"></i></button>  
+                    </div>
+                </div>     
+            </div>
         </form>       
     </body>
 </html>

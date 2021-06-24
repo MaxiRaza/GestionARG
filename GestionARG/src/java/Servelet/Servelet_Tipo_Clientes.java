@@ -24,6 +24,7 @@ public class Servelet_Tipo_Clientes extends HttpServlet {
         String modo = request.getParameter("modo");
         request.getSession().setAttribute("modificar", false);
         request.getSession().setAttribute("accion", "Registrar");
+        request.getSession().setAttribute("t", false);
 
         if (modo == null) {
 

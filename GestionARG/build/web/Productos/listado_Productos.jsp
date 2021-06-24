@@ -5,15 +5,45 @@
 <!DOCTYPE html>
 <html>
     <head>       
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
         <jsp:include page="../Componentes\formato.jsp"/>
-        <title>GestionARG - Listado Productos</title>     
     </head>
-    <body>             
-        <br><h1  class="row justify-content-md-center">Listado de Productos</h1><br>
-        <div style="padding-right: 75px" align = "right">
-            <a href="Productos?modo=AM" class="btn btn-info">Registrar Producto</a><br><br><br> 
-        </div>
+    <body>  
+
+        <form method="Post" action="Productos">
+            <div class="container ">
+                <div class="row m-6 justify-content-md-center">
+                    <div class="col-sm-1">
+                        <label for="recipient-name" class="col-form-label">Categoria</label>
+                    </div>
+                    <div class="col-md-3">                               
+                        <select name="cmbCategorias" required="required" class="form-control" id="recipient-name" >
+                            <option value="0"> Seleccionar </option>    
+                            <c:forEach items="${listadoCategorias}" var="c">                                            
+                                <option value="${c.id_categoria}" <c:if test="${c.id_categoria == id_categoria}"> selected </c:if>> ${c.nombre} </option>                  
+                            </c:forEach>             
+                        </select>
+                    </div>                                                
+                    <div class="col-sm-1">
+                        <label for="recipient-name" class="col-form-label">Marca</label>
+                    </div>
+                    <div class="col-md-3">
+                        <select name="cmbMarcas" required="required" class="form-control" id="recipient-name" >
+                            <option value="0"> Seleccionar </option>    
+                            <c:forEach items="${listadoMarcas}" var="m">                                   
+                                <option value="${m.id_marca}" <c:if test="${m.id_marca == id_marca}"> selected </c:if> > ${m.nombre} </option>
+                            </c:forEach>             
+                        </select>
+                    </div>
+                    <div class="col-sm-2">
+                        <button type="submit" class="btn btn-success" style="width: 120px"><i class="bi bi-search" style="size: 20px"></i></button>  
+                    </div>
+                    <div class="col-sm-2">
+                        <a href="Productos?modo=Limpiar" class="btn btn-info" style="width: 120px">Limpiar</a>
+                    </div>  
+                </div> 
+            </div>
+        </form><br><br>
+
         <div class="container-fluid">   
             <table class="table table-striped table-dark">
                 <thead>
@@ -41,14 +71,14 @@
                             <td> ${p.nombre}  </td>
                             <td> ${p.fecha_fab}  </td>
                             <td> ${p.fecha_ven}  </td>
-                            <td> ${p.precio}  </td>
+                            <td> $ ${p.precio}  </td>
                             <td> ${p.descripcion}  </td>
                             <td> ${p.stock}  </td>                        
                             <td> ${p.marca}  </td>
                             <td> ${p.categoria}  </td>
                             <td> ${p.deposito}  </td>
-                            <td><a href="Productos?modo=AM&id_producto=${p.id_producto}" class="btn btn-warning">Editar</a></td>
-                            <td><c:if test="${rol != 4}"><a href="Productos?modo=eliminar&a=a&id=${p.id_producto}" class="btn btn-danger">Eliminar</a></c:if></td>
+                            <td><a href="Productos?modo=AM&id_producto=${p.id_producto}" class="btn btn-warning" style="width: 70px"><i class="bi bi-pencil" style="font-size: 18px"></i></a></td>
+                            <td><c:if test="${rol != 4}"><a href="Productos?modo=eliminar&a=a&id=${p.id_producto}" class="btn btn-danger" style="width: 70px"><i class="bi bi-trash" style="font-size:  18px"></i></a></c:if></td>
                             </tr> 
                     </c:forEach>                              
                 </tbody>

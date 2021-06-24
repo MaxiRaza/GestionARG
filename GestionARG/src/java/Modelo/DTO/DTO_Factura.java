@@ -3,19 +3,20 @@ package Modelo.DTO;
 public class DTO_Factura {
 
     private int id_factura;
-    private String fecha, sucursal, cliente, usuario, forma_de_pago;
+    private String fecha, sucursal, cliente, usuario, forma_de_pago, total;
     private float descuento;
 
     public DTO_Factura() {
     }
 
-    public DTO_Factura(int id_factura, String fecha, String sucursal, String cliente, String usuario, String forma_de_pago, float descuento) {
+    public DTO_Factura(int id_factura, String fecha, String sucursal, String cliente, String usuario, String forma_de_pago, String total, float descuento) {
         this.id_factura = id_factura;
         this.fecha = fecha;
         this.sucursal = sucursal;
         this.cliente = cliente;
         this.usuario = usuario;
         this.forma_de_pago = forma_de_pago;
+        this.total = total;
         this.descuento = descuento;
     }
 
@@ -65,6 +66,14 @@ public class DTO_Factura {
 
     public void setForma_de_pago(String forma_de_pago) {
         this.forma_de_pago = forma_de_pago;
+    }
+
+    public String getTotal() {
+        return total;
+    }
+
+    public void setTotal(String total) {
+        this.total = total;
     }
 
     public float getDescuento() {
