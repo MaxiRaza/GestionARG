@@ -1,6 +1,6 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:if test="${e}">
-        <div style="position: absolute; margin-left:  40%; margin-right: 40%">
+        <div style="position: absolute; margin-left:  40%; margin-right: 40%; margin-top:  -2%">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">

@@ -2,25 +2,27 @@ package Modelo.DTO;
 
 public class DTO_Encargo {
         
-    private int id_encargo, id_proveedor, id_producto, id_detalle_encargo, id_categoria, id_marca;
-    private String fecha, proveedor, producto, categoria, marca;
+    private int id_encargo, id_proveedor, id_producto, id_detalle_encargo, id_categoria, id_marca, id_estado;
+    private String fecha, proveedor, producto, categoria, marca, estado;
     private float importe, cantidad;
 
     public DTO_Encargo() {
     }
 
-    public DTO_Encargo(int id_encargo, int id_proveedor, int id_producto, int id_detalle_encargo, int id_categoria, int id_marca, String fecha, String proveedor, String producto, String categoria, String marca, float importe, float cantidad) {
+    public DTO_Encargo(int id_encargo, int id_proveedor, int id_producto, int id_detalle_encargo, int id_categoria, int id_marca, int id_estado, String fecha, String proveedor, String producto, String categoria, String marca, String estado, float importe, float cantidad) {
         this.id_encargo = id_encargo;
         this.id_proveedor = id_proveedor;
         this.id_producto = id_producto;
         this.id_detalle_encargo = id_detalle_encargo;
         this.id_categoria = id_categoria;
         this.id_marca = id_marca;
+        this.id_estado = id_estado;
         this.fecha = fecha;
         this.proveedor = proveedor;
         this.producto = producto;
         this.categoria = categoria;
         this.marca = marca;
+        this.estado = estado;
         this.importe = importe;
         this.cantidad = cantidad;
     }
@@ -73,6 +75,14 @@ public class DTO_Encargo {
         this.id_marca = id_marca;
     }
 
+    public int getId_estado() {
+        return id_estado;
+    }
+
+    public void setId_estado(int id_estado) {
+        this.id_estado = id_estado;
+    }
+
     public String getFecha() {
         return fecha;
     }
@@ -111,6 +121,14 @@ public class DTO_Encargo {
 
     public void setMarca(String marca) {
         this.marca = marca;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 
     public float getImporte() {

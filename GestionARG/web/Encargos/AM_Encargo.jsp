@@ -19,7 +19,6 @@
                             <th>Proveedor </th>
                             <th>Producto</th>
                             <th>Cantidad</th>
-                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -29,7 +28,6 @@
                                 <th>${d.proveedor}</th>
                                 <td>${d.producto}</td>
                                 <td>${d.cantidad}</td>
-                                <td><a href="Encargos?modo=eliminar&a=a&id=${d.id_detalle_encargo}" class="btn btn-danger"><i class="bi bi-trash"></i></a></td>
                             </tr>
                         </c:forEach>
                     </tbody>
@@ -86,6 +84,17 @@
                                             <label class="col-form-label">Cantidad (*)</label>
                                             <input type="number" name="txtCantidad" required="required" class="form-control" id="recipient-name" <c:if test="${modificar}"> value="<jsp:getProperty name="detalle_encargo" property="cantidad"></jsp:getProperty>" </c:if>>
                                                 </div>
+                                    </c:if>
+                                    <c:if test="${es}">        
+                                        <div class="form-group">
+                                            <label for="recipient-name" class="col-form-label">Estado (*)</label>
+                                            <select name="cmbEstados" required="required" class="form-control" id="recipient-name">
+                                                <option>Seleccionar...</option>
+                                                <c:forEach items="${listadoEstados}" var="e">
+                                                    <option value="${e.id_estado}" <c:if test="${e.id_estado == id_estado}"> selected </c:if>> ${e.nombre} </option>
+                                                </c:forEach>             
+                                            </select>
+                                        </div>
                                     </c:if>
                                 </c:if>
                             </c:if>

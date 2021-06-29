@@ -142,7 +142,7 @@ public class Gestor_Detalle_Encargos {
         ArrayList<DTO_Encargo> lista = new ArrayList<>();
         try {
             abrirConexion();
-            PreparedStatement ps = conexion.prepareStatement("SELECT d.id_encargo, d.id_detalle_encargo, m.nombre, p.nombre, d.cantidad, pr.nombre  FROM Detalle_Encargos d JOIN Productos p ON p.id_producto = d.id_producto JOIN Proveedores pr ON pr.id_proveedor = d.id_proveedor JOIN Marcas m ON p.id_marca = m.id_marca JOIN Categorias c ON m.id_categoria = c.id_categoria WHERE d.vigencia = 1");
+            PreparedStatement ps = conexion.prepareStatement("SELECT d.id_encargo, d.id_detalle_encargo, m.nombre, p.nombre, d.cantidad, pr.nombre, p.precio  FROM Detalle_Encargos d JOIN Productos p ON p.id_producto = d.id_producto JOIN Proveedores pr ON pr.id_proveedor = d.id_proveedor JOIN Marcas m ON p.id_marca = m.id_marca JOIN Categorias c ON m.id_categoria = c.id_categoria WHERE d.vigencia = 1");
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 DTO_Encargo de = new DTO_Encargo();
@@ -152,7 +152,7 @@ public class Gestor_Detalle_Encargos {
                 de.setProducto(rs.getString(4));
                 de.setCantidad(rs.getFloat(5));
                 de.setProveedor(rs.getString(6));
-
+                de.setImporte(rs.getFloat(7));
                 lista.add(de);
             }
             ps.close();
@@ -190,7 +190,7 @@ public class Gestor_Detalle_Encargos {
         return de;
     }
 
-    public ArrayList<DTO_Encargo> obtenerDetalleEncargosIdDTO(int  id_encargo) {
+    public ArrayList<DTO_Encargo> obtenerDetalleEncargosIdDTO(int id_encargo) {
         ArrayList<DTO_Encargo> lista = new ArrayList<>();
         try {
             abrirConexion();

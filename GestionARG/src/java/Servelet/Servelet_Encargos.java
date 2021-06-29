@@ -5,6 +5,7 @@ import Gestor.Gestor_Encargos;
 import Gestor.Gestor_Productos;
 import Gestor.Gestor_Proveedores;
 import Gestor.Gestor_Detalle_Encargos;
+import Gestor.Gestor_Estados;
 import Gestor.Gestor_Marcas;
 import Modelo.DTO.DTO_Encargo;
 import Modelo.Detalle_Encargo;
@@ -29,6 +30,7 @@ public class Servelet_Encargos extends HttpServlet {
     Gestor_Productos gpro = new Gestor_Productos();
     Gestor_Marcas gm = new Gestor_Marcas();
     Gestor_Categorias gc = new Gestor_Categorias();
+    Gestor_Estados ges = new Gestor_Estados();
     boolean f = false;
     boolean check1 = false;
     boolean check2 = false;
@@ -47,6 +49,7 @@ public class Servelet_Encargos extends HttpServlet {
         request.getSession().setAttribute("modificar", false);
         request.getSession().setAttribute("accion", "Registrar");
         request.getSession().setAttribute("t", true);
+        request.getSession().setAttribute("co", false);
 
         if (modo == null) {
 
@@ -60,7 +63,7 @@ public class Servelet_Encargos extends HttpServlet {
                 } else {
                     request.getSession().setAttribute("da", "disabled");
                 }
-                request.setAttribute("listadoEncargos", ge.obtenerEncargos());
+                request.setAttribute("listadoEncargos", ge.obtenerEncargosDTO());
                 request.setAttribute("listadoDetalles", gde.obtenerDetalleEncargosDTO());
                 RequestDispatcher rd = getServletContext().getRequestDispatcher("/Encargos/listado_Encargos.jsp");
                 rd.forward(request, response);
@@ -73,7 +76,7 @@ public class Servelet_Encargos extends HttpServlet {
             }
 
         } else if (modo.equals("AM")) {
-            
+
             request.getSession().setAttribute("t", false);
 
             if (request.getParameter("id_detalle_encargo") != null) {
@@ -85,6 +88,8 @@ public class Servelet_Encargos extends HttpServlet {
                 request.getSession().setAttribute("accion", "Editar Detalle");
                 DTO_Encargo de = gde.obtenerDetalleEncargoDTO(Integer.parseInt(request.getParameter("id_detalle_encargo")));
                 request.setAttribute("detalle_encargo", de);
+                request.setAttribute("listadoEstados", ges.obtenerEstados());
+                request.setAttribute("id_estado", ge.obtenerEncargo(de.getId_encargo()).getId_estado());
                 check1 = true;
                 check2 = true;
                 check3 = true;
@@ -95,6 +100,7 @@ public class Servelet_Encargos extends HttpServlet {
                 request.setAttribute("b", true);
                 request.setAttribute("c", true);
                 request.setAttribute("d", true);
+                request.setAttribute("es", true);
                 request.setAttribute("confirmar", "enabled");
                 request.setAttribute("btn1", "none");
 
@@ -116,6 +122,7 @@ public class Servelet_Encargos extends HttpServlet {
                 request.setAttribute("b", false);
                 request.setAttribute("c", false);
                 request.setAttribute("d", false);
+                request.setAttribute("es", false);
                 request.setAttribute("confirmar", "disabled");
 
             } else {
@@ -134,6 +141,7 @@ public class Servelet_Encargos extends HttpServlet {
                 request.setAttribute("b", false);
                 request.setAttribute("c", false);
                 request.setAttribute("d", false);
+                request.setAttribute("es", false);
                 request.setAttribute("confirmar", "disabled");
 
             }
@@ -188,7 +196,7 @@ public class Servelet_Encargos extends HttpServlet {
 
             if (!f) {
 
-                request.setAttribute("listadoEncargos", ge.obtenerEncargos());
+                request.setAttribute("listadoEncargos", ge.obtenerEncargosDTO());
                 request.setAttribute("listadoDetalles", gde.obtenerDetalleEncargosDTO());
                 RequestDispatcher rd = getServletContext().getRequestDispatcher("/Encargos/listado_Encargos.jsp");
                 rd.forward(request, response);
@@ -226,11 +234,25 @@ public class Servelet_Encargos extends HttpServlet {
 
             }
 
+        } else if (modo.equals("tema")) {
+
+            if (request.getParameter("color").equals("oscuro")) {
+
+                request.getSession().setAttribute("color", "claro");
+
+            } else {
+
+                request.getSession().setAttribute("color", "oscuro");
+
+            }
+
         }
 
         request.getSession().setAttribute("n", filas);
-        request.getSession().setAttribute("cantidad", (Integer.parseInt(request.getParameter("cantidad"))));
-        request.setAttribute("listadoEncargos", ge.obtenerEncargos());
+        if (request.getParameter("cantidad") != null) {
+            request.getSession().setAttribute("cantidad", (Integer.parseInt(request.getParameter("cantidad"))));
+        }
+        request.setAttribute("listadoEncargos", ge.obtenerEncargosDTO());
         request.setAttribute("listadoDetalles", gde.obtenerDetalleEncargosDTO());
         RequestDispatcher rd = getServletContext().getRequestDispatcher("/Encargos/listado_Encargos.jsp");
         rd.forward(request, response);
@@ -247,10 +269,10 @@ public class Servelet_Encargos extends HttpServlet {
         }
 
         if (f) {
-            
+
             request.setAttribute("lista", true);
             request.setAttribute("listadoDetalles", gde.obtenerDetalleEncargosIdDTO(Integer.parseInt(request.getParameter("txtIdEncargo"))));
-            
+
         }
 
         if (check1 && !request.getParameter("cmbCategorias").equals("Seleccionar...")) {
@@ -299,6 +321,7 @@ public class Servelet_Encargos extends HttpServlet {
 
         } else {
 
+            request.setAttribute("listadoCategorias", gc.obtenerCategorias());
             request.setAttribute("btn1", "Selecionar");
             request.setAttribute("confirmar", "disabled");
 
@@ -326,14 +349,16 @@ public class Servelet_Encargos extends HttpServlet {
                     de.setId_encargo(ge.obtenerUltimoIdEncargo());
                     gde.agregarDetalleEncargo(de);
 
-                } else if (this.f) {
+                } else if (f) {
 
                     de.setId_encargo(e.getId_encargo());
                     gde.agregarDetalleEncargo(de);
 
                 } else {
 
+                    e.setId_estado(Integer.parseInt(request.getParameter("cmbEstados")));
                     de.setId_encargo(e.getId_encargo());
+                    ge.actualizarEncargo(e);
                     gde.actualizarDetalleEncargo(de);
 
                 }
@@ -348,6 +373,7 @@ public class Servelet_Encargos extends HttpServlet {
                 request.setAttribute("b", false);
                 request.setAttribute("c", false);
                 request.setAttribute("d", false);
+                request.setAttribute("e", false);
                 request.setAttribute("op1", "enabled");
                 request.setAttribute("op2", "enabled");
                 request.setAttribute("op3", "enabled");
@@ -367,8 +393,10 @@ public class Servelet_Encargos extends HttpServlet {
 
                 if (!f) {
 
-                    request.setAttribute("listadoEncargos", ge.obtenerEncargos());
+                    request.setAttribute("listadoEncargos", ge.obtenerEncargosDTO());
                     request.setAttribute("listadoDetalles", gde.obtenerDetalleEncargosDTO());
+                    request.getSession().setAttribute("t", true);
+                    request.getSession().setAttribute("co", true);
                     RequestDispatcher rd = getServletContext().getRequestDispatcher("/Encargos/listado_Encargos.jsp");
                     rd.forward(request, response);
 
@@ -381,7 +409,7 @@ public class Servelet_Encargos extends HttpServlet {
             check6 = true;
 
         }
-
+       
         RequestDispatcher rd = getServletContext().getRequestDispatcher("/Encargos/AM_Encargo.jsp");
         rd.forward(request, response);
 

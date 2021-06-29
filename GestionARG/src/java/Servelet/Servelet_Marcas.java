@@ -28,6 +28,7 @@ public class Servelet_Marcas extends HttpServlet {
         request.getSession().setAttribute("modificar", false);
         request.getSession().setAttribute("accion", "Registrar");
         request.getSession().setAttribute("t", true);
+        request.getSession().setAttribute("co", false);
 
         if (modo == null) {
 
@@ -53,7 +54,7 @@ public class Servelet_Marcas extends HttpServlet {
             }
 
         } else if (modo.equals("AM")) {
-            
+
             request.getSession().setAttribute("t", false);
 
             if (request.getParameter("id_marca") != null) {
@@ -112,10 +113,24 @@ public class Servelet_Marcas extends HttpServlet {
 
             }
 
+        } else if (modo.equals("tema")) {
+
+            if (request.getParameter("color").equals("oscuro")) {
+
+                request.getSession().setAttribute("color", "claro");
+
+            } else {
+
+                request.getSession().setAttribute("color", "oscuro");
+
+            }
+
         }
 
         request.getSession().setAttribute("n", filas);
-        request.getSession().setAttribute("cantidad", (Integer.parseInt(request.getParameter("cantidad"))));
+        if (request.getParameter("cantidad") != null) {
+            request.getSession().setAttribute("cantidad", (Integer.parseInt(request.getParameter("cantidad"))));
+        }
         request.setAttribute("listadoMarcas", gm.obtenerMarcasDTO());
         RequestDispatcher rd = getServletContext().getRequestDispatcher("/Marcas/listado_Marcas.jsp");
         rd.forward(request, response);
@@ -128,7 +143,7 @@ public class Servelet_Marcas extends HttpServlet {
 
         Marca m = new Marca();
 
-        m.setId_marca(Integer.parseInt(request.getParameter("txtIdRol")));
+        m.setId_marca(Integer.parseInt(request.getParameter("txtIdMarca")));
         m.setNombre(request.getParameter("txtNombre"));
         m.setId_categoria(Integer.parseInt(request.getParameter("cmbCategorias")));
 
@@ -138,6 +153,8 @@ public class Servelet_Marcas extends HttpServlet {
             gm.actualizarMarca(m);
         }
 
+        request.getSession().setAttribute("co", true);
+        request.getSession().setAttribute("t", true);
         request.setAttribute("listadoMarcas", gm.obtenerMarcasDTO());
         RequestDispatcher rd = getServletContext().getRequestDispatcher("/Marcas/listado_Marcas.jsp");
         rd.forward(request, response);

@@ -31,11 +31,12 @@ public class Servelet_Usuarios extends HttpServlet {
         request.getSession().setAttribute("modificar", false);
         request.getSession().setAttribute("accion", "Registrar");
         request.getSession().setAttribute("t", true);
+        request.getSession().setAttribute("co", false);
 
         if (modo == null) {
 
             if (request.getSession().getAttribute("log") != null) {
-                
+
                 request.getSession().setAttribute("activar", 8);
                 request.getSession().setAttribute("cantidad", filas);
                 request.getSession().setAttribute("db", "disabled");
@@ -56,7 +57,7 @@ public class Servelet_Usuarios extends HttpServlet {
             }
 
         } else if (modo.equals("AM")) {
-            
+
             request.getSession().setAttribute("t", false);
 
             if (request.getParameter("id_usuario") != null) {
@@ -65,6 +66,14 @@ public class Servelet_Usuarios extends HttpServlet {
                 request.getSession().setAttribute("accion", "Editar");
                 int id_usuario = Integer.parseInt(request.getParameter("id_usuario"));
                 DTO_Usuario u = gu.obtenerUsuarioDTO(id_usuario);
+                request.setAttribute("usuario", u);
+
+            } else if (request.getParameter("alias") != null) {
+
+                request.getSession().setAttribute("modificar", true);
+                request.getSession().setAttribute("accion", "Editar");
+                request.getSession().setAttribute("servelet", request.getParameter("s"));
+                DTO_Usuario u = gu.obtenerUsuarioAlias(request.getParameter("alias"));
                 request.setAttribute("usuario", u);
 
             }
@@ -115,10 +124,24 @@ public class Servelet_Usuarios extends HttpServlet {
 
             }
 
+        } else if (modo.equals("tema")) {
+
+            if (request.getParameter("color").equals("oscuro")) {
+
+                request.getSession().setAttribute("color", "claro");
+
+            } else {
+
+                request.getSession().setAttribute("color", "oscuro");
+
+            }
+
         }
 
         request.getSession().setAttribute("n", filas);
-        request.getSession().setAttribute("cantidad", (Integer.parseInt(request.getParameter("cantidad"))));
+        if (request.getParameter("cantidad") != null) {
+            request.getSession().setAttribute("cantidad", (Integer.parseInt(request.getParameter("cantidad"))));
+        }
         request.setAttribute("listadoUsuarios", gu.obtenerUsuariosDTO());
         RequestDispatcher rd = getServletContext().getRequestDispatcher("/Usuarios/listado_Usuarios.jsp");
         rd.forward(request, response);
@@ -148,7 +171,7 @@ public class Servelet_Usuarios extends HttpServlet {
             u.setId_rol(Integer.parseInt(request.getParameter("cmbRoles")));
         } catch (Exception e) {
             u.setId_rol(6);
-        }        
+        }
         if (u.getId_usuario() == 0) {
             if (gc.obtenerIdContacto(c.getCorreo(), c.getTelefono()) == 0) {
                 gc.agregarContacto(c);
@@ -160,8 +183,10 @@ public class Servelet_Usuarios extends HttpServlet {
             gu.actualizarUsuario(u);
         }
 
-        if (request.getSession().getAttribute("admin") != null) {
-            request.setAttribute("listadoUsuarios", gu.obtenerUsuariosDTO());
+        request.getSession().setAttribute("t", true);
+        request.getSession().setAttribute("co", true);
+        if (request.getSession().getAttribute("log") != null) {
+            request.setAttribute("listadoUsuarios", gu.obtenerUsuariosDTO());         
             RequestDispatcher rd = getServletContext().getRequestDispatcher("/Usuarios/listado_Usuarios.jsp");
             rd.forward(request, response);
         } else {

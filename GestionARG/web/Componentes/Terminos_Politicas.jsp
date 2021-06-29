@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <div class="modal fade" id="TyC" tabindex="-1" aria-labelledby="TyC" aria-hidden="true">
     <div class="modal-dialog modal-xl modal-dialog-scrollable">
         <div class="modal-content">
@@ -258,24 +259,72 @@
                     digital. Podrás llevar un control financiero sobre tus ventas, controlar el stock, informarte sobre tus clientes y consultar por proveedores.                                   
                 </p>
                 <h4>
-                    ¿ No me da opción de eliminar un registro ?
+                    ¿ Como hago para comprar un producto ?
                 </h4>
                 <p class="lead">
-                    Normalmente esto sude debido a los permisos que pose cada usuario dentro de  Gestion<font color="#5379fa">ARG</font>                            
+                    Debe dirigirse a la barra de navegación y selecionar la opción "Comprar", luego se le presentara un listado de los articulos que se encentren disponibles,
+                    sellecione en un articulo la opción "Comprar" y le saldra un mensaje de confirmación, si le da aceptarel articulo se agregara automáticamente a su carrito de compra, 
+                    el cual puede visualizar presionando el boton "Carrito" y eliminar si desae algún articulo.
                 </p>
                 <h4>
-                    ¿ Como agrego una Categoria/Marca/Depósito/Forma de Pago/ Clasificación?
+                    ¿ Como hago para confirmar la compra ?
+                </h4>
+                <p class="lead">
+                    Debe ir a su carrito y selecionar la opcion "Ir a pagar" y se mostrara una pestaña donde debe selecionar la sucursal donde desea retirar su compra o si es por via online 
+                    para luego acordar el envio, luego selecione la forma de pago y la cantidad de articulos por cada detalle, luego confirme la compra y se le notificara en la brevedad.                 
+                </p>
+                <h4>
+                    ¿ Que hago si me sale un mensaje diciendo que no hay mas Stock ?
+                </h4>
+                <p class="lead">
+                     Si visualiza este mensaje es porque el producto no cuenta con el stock sufucuente que usted selecciono, si quiere llevar a cabo la compra deberá modificar la cantidad
+                     solicitada de ese articulo y volver a intentarlo.              
+                </p>
+                <h4>
+                    ¿  Como hago para modificar mi datos ?
+                </h4>
+                <p class="lead">
+                     Si desea modificar su informacion debe ir a la parte superior derecha en la barra de navegacion y seleccionar la opcion "Ver Perfil" donde lo llevara a una pestaña que 
+                     visualize todos su datos y estarán habilitados para su edición, luego de modificarlos selecione "Guardar".               
+                </p>
+                <h4>
+                    ¿ Como hago para recuperar mi contraseña ?
+                </h4>
+                <p class="lead">
+                    Para recuperar su contraseña en caso de olvidarla debera enviarnos un mail con sus datos a  nuestro correo <a href=""> maxiraza24@gmail.com </a> y luego de confirmar
+                    su identidad se le enviaran las nuevas credenciales.
+                </p>
+                <h4>
+                    ¿ Como hago para cambiar  color del tema ?
+                </h4>
+                <p class="lead">
+                      Para cambiar el tema debe dirigirse al extremo superior derecho en la barra de navegación y seleccionar la opción "Cambiar".             
+                </p>
+                <c:if test="${rol != 6}">
+                <h4>
+                    ¿ Como hago para eliminar un registro ?
+                </h4>
+                <p class="lead">
+                    Esto sucede debido a los permisos que pose cada usuario dentro de Gestion<font color="#5379fa">ARG</font> por favor contactese con nosotros
+                    y le brindaremos una solución.
+                </p>
+                <h4>
+                    ¿ Como agrego una categoria u otras opciones al sistema?
                 </h4>
                 <p class="lead">
                     Para poder visualizar y/o modificar a esta información debe acceder con un usuario de tipo
-                    administrador y dirijirse a la pestaña correspondiente.
+                    "administrador" y dirijirse a la pestaña correspondiente para realizar la operación que solicite.
                 </p>
+                </c:if>
                 <h4>
                     ¿ No esta tu pregunta ?
                 </h4>
                 <p class="lead">
                     Envíanos un mail al correo <a href=""> maxiraza24@gmail.com </a> con tu consulta y te responderemos en la breveedad.                      
                 </p>
+                 <h4>
+                    Si tienes alguna sugerencia no dudes en comunicarnosla, Gestion<font color="#5379fa">ARG</font> esta en pleno crecimiento y necesitamos el aporte de sus usuarios para seguir mejorando !
+                </h4>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" data-dismiss="modal">Aceptar</button>
                 </div>

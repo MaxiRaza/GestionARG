@@ -1,7 +1,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <a class="navbar-brand">     
-        <Font size=5>Gestion<font color="#5379fa">ARG</font></font></a>      
+        <Font size=6>Gestion<font color="#5379fa">ARG</font></font></a>      
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
@@ -45,6 +45,7 @@
                                     <a class="nav-link <c:if test="${activar == 16}">active</c:if>" href="Clasificaciones">Clasificaciones</a>
                                     <a class="nav-link <c:if test="${activar == 17}">active</c:if>" href="Categorias">Categorias</a>
                                     <a class="nav-link <c:if test="${activar == 18}">active</c:if>" href="Contactos">Contactos</a>
+                                    <a class="nav-link <c:if test="${activar == 20}">active</c:if>" href="Estados">Estados</a>
                                     </div>
                                 </li>
                             </ul>
@@ -57,25 +58,24 @@
         </ul>               
     </div>
     <c:if test="${log}">
-        <ul class="navbar-nav ml-auto">           
+        <ul class="navbar-nav ml-auto"> 
             <li class="nav-item dropdown">        
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    ${mostrar}
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="Loginn?modo=iniciarSesion">Cerrar Sesion</a>
-                </div>
-            </li>
-        </ul>
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">${mostrar}</a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">  
+                    <a class="dropdown-item" href="Usuarios?modo=AM&alias=${alias}&s=${servelet}">Ver Perfil</a>
+                    <a class="dropdown-item" href="${servelet}?modo=tema&color=${color}" >Cambiar  <c:if test="${color == 'oscuro'}">  <i class="bi bi-brightness-high"></i></c:if><c:if test="${color == 'claro'}"><i class="bi bi-brightness-high-fill"></i></c:if></a>
+                        <a class="dropdown-item" href="Loginn?modo=iniciarSesion">Cerrar Sesion</a>
+                    </div>
+                </li>
+            </ul>
     </c:if>
     <c:if test="${!log}">
-        <ul class="navbar-nav ml-auto">  
+        <ul class="navbar-nav ml-auto"> 
             <li class="nav-item">
                 <a class="nav-link" href="Loginn?modo=iniciarSesion">Iniciar Sesion</a>
             </li>  
         </ul>  
     </c:if>
-
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>

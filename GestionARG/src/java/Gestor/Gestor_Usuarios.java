@@ -42,7 +42,7 @@ public class Gestor_Usuarios {
             ps.setString(3, u.getDocumento());
             ps.setString(4, u.getFecha_nac());
             ps.setString(5, u.getDireccion());
-            ps.setInt(6, u.getId_rol());          
+            ps.setInt(6, u.getId_rol());
             ps.setInt(7, u.getId_contacto());
             ps.setString(8, u.getContrasenia());
             ps.setString(9, u.getAlias());
@@ -269,5 +269,35 @@ public class Gestor_Usuarios {
             cerrarConexion();
         }
         return id;
+    }
+
+    public DTO_Usuario obtenerUsuarioAlias(String alias) {
+        DTO_Usuario u = null;
+        try {
+            abrirConexion();
+            PreparedStatement ps = conexion.prepareStatement("SELECT u.id_usuario, u.nombre, u.apellido, u.documento, u.fecha_nac, u.direccion, r.nombre, c.correo, c.telefono, contrasenia, alias FROM Usuarios u JOIN Contactos c ON u.id_contacto = c.id_contacto JOIN Roles r ON u.id_rol = r.id_rol WHERE alias = ?");
+            ps.setString(1, alias);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                u = new DTO_Usuario();
+                u.setId_usuario(rs.getInt(1));
+                u.setNombre(rs.getString(2));
+                u.setApellido(rs.getString(3));
+                u.setDocumento(rs.getString(4));
+                u.setFecha_nac(rs.getString(5));
+                u.setDireccion(rs.getString(6));
+                u.setRol(rs.getString(7));
+                u.setCorreo(rs.getString(8));
+                u.setTelefono(rs.getString(9));
+                u.setContrasenia(rs.getString(10));
+                u.setAlias(rs.getString(11));
+            }
+            ps.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Gestor_Usuarios.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            cerrarConexion();
+        }
+        return u;
     }
 }

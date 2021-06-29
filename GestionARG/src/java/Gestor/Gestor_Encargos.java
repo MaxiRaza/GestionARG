@@ -41,7 +41,7 @@ public class Gestor_Encargos {
     public void agregarEncargo(Encargo e) {
         try {
             abrirConexion();
-            PreparedStatement ps = conexion.prepareStatement("INSERT INTO Encargos (fecha, vigencia) VALUES (?,1)");
+            PreparedStatement ps = conexion.prepareStatement("INSERT INTO Encargos (fecha, vigencia, id_estado) VALUES (?,1,1)");
             ps.setString(1, e.getFecha());
             ps.executeUpdate();
             ps.close();
@@ -57,11 +57,36 @@ public class Gestor_Encargos {
         try {
             abrirConexion();
             Statement st = conexion.createStatement();
-            ResultSet rs = st.executeQuery("SELECT id_encargo, fecha FROM Encargos WHERE vigencia = 1");
+            ResultSet rs = st.executeQuery("SELECT id_encargo, fecha, id_estado FROM Encargos WHERE vigencia = 1 ORDER BY fecha DESC");
             while (rs.next()) {
                 Encargo e = new Encargo();
                 e.setId_encargo(rs.getInt(1));
                 e.setFecha(rs.getString(2));
+                e.setId_estado(rs.getInt(3));
+                lista.add(e);
+            }
+            rs.close();
+            st.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Gestor_Encargos.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            cerrarConexion();
+        }
+        return lista;
+    }
+    
+    public ArrayList<DTO_Encargo> obtenerEncargosDTO() {
+        ArrayList<DTO_Encargo> lista = new ArrayList<>();
+        try {
+            abrirConexion();
+            Statement st = conexion.createStatement();
+            ResultSet rs = st.executeQuery("SELECT e.id_encargo, e.fecha, es.nombre, SUM(d.importe * d.cantidad) FROM Encargos e JOIN Estados es ON e.id_estado = es.id_estado JOIN Detalle_Encargos d ON d.id_encargo = e.id_encargo WHERE e.vigencia = 1 GROUP BY e.id_encargo, e.fecha, es.nombre ORDER BY e.fecha DESC ");
+            while (rs.next()) {
+                DTO_Encargo e = new DTO_Encargo();
+                e.setId_encargo(rs.getInt(1));
+                e.setFecha(rs.getString(2));
+                e.setEstado(rs.getString(3));
+                e.setCantidad(rs.getInt(4));
                 lista.add(e);
             }
             rs.close();
@@ -78,13 +103,14 @@ public class Gestor_Encargos {
         Encargo e = null;
         try {
             abrirConexion();
-            PreparedStatement ps = conexion.prepareStatement("SELECT id_encargo, fecha FROM Encargos WHERE id_encargo = ?");
+            PreparedStatement ps = conexion.prepareStatement("SELECT id_encargo, fecha, id_estado FROM Encargos WHERE id_encargo = ?");
             ps.setInt(1, id_encargo);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 e = new Encargo();
                 e.setId_encargo(rs.getInt(1));
                 e.setFecha(rs.getString(2));
+                e.setId_estado(rs.getInt(3));
             }
             ps.close();
         } catch (SQLException ex) {
@@ -98,9 +124,10 @@ public class Gestor_Encargos {
     public void actualizarEncargo(Encargo e) {
         try {
             abrirConexion();
-            PreparedStatement ps = conexion.prepareStatement("UPDATE Encargos SET fecha = ? WHERE id_encargo = ?");
+            PreparedStatement ps = conexion.prepareStatement("UPDATE Encargos SET fecha = ?, id_estado = ? WHERE id_encargo = ?");
             ps.setString(1, e.getFecha());
-            ps.setInt(2, e.getId_encargo());
+            ps.setInt(2, e.getId_estado());
+            ps.setInt(3, e.getId_encargo());
             ps.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(Gestor_Encargos.class.getName()).log(Level.SEVERE, null, ex);

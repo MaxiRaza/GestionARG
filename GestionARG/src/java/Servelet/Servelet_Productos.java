@@ -21,6 +21,7 @@ public class Servelet_Productos extends HttpServlet {
     Gestor_Categorias gc = new Gestor_Categorias();
     Gestor_Marcas gm = new Gestor_Marcas();
     Gestor_Depositos gd = new Gestor_Depositos();
+    boolean a = false;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -33,6 +34,7 @@ public class Servelet_Productos extends HttpServlet {
         request.getSession().setAttribute("modificar", false);
         request.getSession().setAttribute("accion", "Registrar");
         request.getSession().setAttribute("t", true);
+        request.getSession().setAttribute("co", false);
 
         if (modo == null) {
 
@@ -133,6 +135,18 @@ public class Servelet_Productos extends HttpServlet {
             request.getSession().setAttribute("id_categoria", 0);
             request.getSession().setAttribute("id_marca", 0);
 
+        } else if (modo.equals("tema")) {
+
+            if (request.getParameter("color").equals("oscuro")) {
+
+                request.getSession().setAttribute("color", "claro");
+
+            } else {
+
+                request.getSession().setAttribute("color", "oscuro");
+
+            }
+
         }
 
         request.getSession().setAttribute("n", filas);
@@ -151,7 +165,7 @@ public class Servelet_Productos extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        if (request.getParameter("cmbCategoriass") == null) {
+        if (a && request.getParameter("cmbCategoriass") == null) {
 
             request.setAttribute("listadoCategorias", gc.obtenerCategorias());
 
@@ -189,7 +203,9 @@ public class Servelet_Productos extends HttpServlet {
                 request.getSession().setAttribute("id_categoria", 0);
                 request.getSession().setAttribute("id_marca", 0);
 
-            }
+            } 
+            
+            a=false;
 
         } else {
 
@@ -235,6 +251,8 @@ public class Servelet_Productos extends HttpServlet {
 
         }
 
+        request.getSession().setAttribute("co", true);
+        request.getSession().setAttribute("t", true);
         RequestDispatcher rd = getServletContext().getRequestDispatcher("/Productos/listado_Productos.jsp");
         rd.forward(request, response);
 

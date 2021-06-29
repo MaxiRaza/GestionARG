@@ -25,6 +25,7 @@ public class Servelet_Tipo_Proveedores extends HttpServlet {
         request.getSession().setAttribute("modificar", false);
         request.getSession().setAttribute("accion", "Registrar");
         request.getSession().setAttribute("t", false);
+        request.getSession().setAttribute("co", false);
 
         if (modo == null) {
 
@@ -107,10 +108,24 @@ public class Servelet_Tipo_Proveedores extends HttpServlet {
 
             }
 
-        }
+        } else if (modo.equals("tema")) {
+
+                if (request.getParameter("color").equals("oscuro")) {
+
+                    request.getSession().setAttribute("color", "claro");
+
+                } else {
+
+                    request.getSession().setAttribute("color", "oscuro");
+
+                }
+
+            }
 
         request.getSession().setAttribute("n", filas);
-        request.getSession().setAttribute("cantidad", (Integer.parseInt(request.getParameter("cantidad"))));
+        if (request.getParameter("cantidad") != null) {
+            request.getSession().setAttribute("cantidad", (Integer.parseInt(request.getParameter("cantidad"))));
+        }
         request.setAttribute("listadoTiposProveedores", gtp.obtenerTipoProveedores());
         RequestDispatcher rd = getServletContext().getRequestDispatcher("/Tipo_Proveedores/listado_Tipo_Proveedores.jsp");
         rd.forward(request, response);
@@ -131,6 +146,7 @@ public class Servelet_Tipo_Proveedores extends HttpServlet {
             gtp.actualizarTipoProveedor(tp);
         }
 
+        request.getSession().setAttribute("co", true);
         request.setAttribute("listadoTiposProveedores", gtp.obtenerTipoProveedores());
         RequestDispatcher rd = getServletContext().getRequestDispatcher("/Tipo_Proveedores/listado_Tipo_Proveedores.jsp");
         rd.forward(request, response);

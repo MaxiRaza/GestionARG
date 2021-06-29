@@ -20,22 +20,47 @@ public class Servelet_Reportes extends HttpServlet {
 
         String modo = request.getParameter("modo");
         request.getSession().setAttribute("t", false);
+        request.getSession().setAttribute("servelet", "Reportess");
+        request.getSession().setAttribute("co", false);
 
-        if (request.getSession().getAttribute("log") != null) {
+        if (modo == null) {
 
-            request.getSession().setAttribute("activar", 19);
-            request.setAttribute("listadoTopProductos", gr.obtenerTop10ProductosVentas());
-            request.setAttribute("listadoTopMarcas", gr.obtenerTop5MarcasMasVendidas());
-            request.setAttribute("listadoGananciaMensual", gr.obtenerFacturacionMensual());
-            RequestDispatcher rd = getServletContext().getRequestDispatcher("/Reportes/listado_Reportes.jsp");
-            rd.forward(request, response);
+            if (request.getSession().getAttribute("log") != null) {
 
-        } else {
+                request.getSession().setAttribute("activar", 19);
+                request.setAttribute("listadoTopProductos", gr.obtenerTop10ProductosVentas());
+                request.setAttribute("listadoTopMarcas", gr.obtenerTop5MarcasMasVendidas());
+                request.setAttribute("listadoGananciaMensual", gr.obtenerFacturacionMensual());
+                RequestDispatcher rd = getServletContext().getRequestDispatcher("/Reportes/listado_Reportes.jsp");
+                rd.forward(request, response);
 
-            RequestDispatcher rd = getServletContext().getRequestDispatcher("/Login/login.jsp");
-            rd.forward(request, response);
+            } else {
+
+                RequestDispatcher rd = getServletContext().getRequestDispatcher("/Login/login.jsp");
+                rd.forward(request, response);
+
+            }
+
+        } else if (modo.equals("tema")) {
+
+            if (request.getParameter("color").equals("oscuro")) {
+
+                request.getSession().setAttribute("color", "claro");
+
+            } else {
+
+                request.getSession().setAttribute("color", "oscuro");
+
+            }
 
         }
+
+        request.getSession().setAttribute("t", true);
+        request.setAttribute("listadoTopProductos", gr.obtenerTop10ProductosVentas());
+        request.setAttribute("listadoTopMarcas", gr.obtenerTop5MarcasMasVendidas());
+        request.setAttribute("listadoGananciaMensual", gr.obtenerFacturacionMensual());
+        RequestDispatcher rd = getServletContext().getRequestDispatcher("/Reportes/listado_Reportes.jsp");
+        rd.forward(request, response);
 
     }
 

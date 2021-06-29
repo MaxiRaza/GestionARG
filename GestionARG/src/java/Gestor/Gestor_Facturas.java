@@ -148,7 +148,7 @@ public class Gestor_Facturas {
         try {
             abrirConexion();
             Statement st = conexion.createStatement();
-            ResultSet rs = st.executeQuery("SELECT f.id_factura, fecha, descuento, s.nombre, c.nombre +' '+ c.apellido, u.nombre +' '+ u.apellido, fp.nombre, SUM (d.importe * d.cantidad) FROM Facturas f JOIN Sucursales s ON f.id_sucursal = s.id_sucursal JOIN Clientes c ON f.id_cliente = c.id_cliente JOIN Formas_de_Pagos fp ON f.id_forma_de_pago = fp.id_forma_de_pago JOIN Usuarios u ON f.id_usuario = u.id_usuario JOIN Detalle_Facturas d ON f.id_factura = d.id_factura WHERE f.vigencia = 1 GROUP BY f.id_factura, fecha, descuento, s.nombre, c.nombre +' '+ c.apellido, u.nombre +' '+ u.apellido, fp.nombre");
+            ResultSet rs = st.executeQuery("SELECT f.id_factura, fecha, descuento, s.nombre, c.nombre +' '+ c.apellido, u.nombre +' '+ u.apellido, fp.nombre, SUM (d.importe * d.cantidad) FROM Facturas f JOIN Sucursales s ON f.id_sucursal = s.id_sucursal JOIN Clientes c ON f.id_cliente = c.id_cliente JOIN Formas_de_Pagos fp ON f.id_forma_de_pago = fp.id_forma_de_pago JOIN Usuarios u ON f.id_usuario = u.id_usuario JOIN Detalle_Facturas d ON f.id_factura = d.id_factura WHERE f.vigencia = 1 GROUP BY f.id_factura, fecha, descuento, s.nombre, c.nombre +' '+ c.apellido, u.nombre +' '+ u.apellido, fp.nombre ORDER BY f.fecha DESC");
             while (rs.next()) {
                 DTO_Factura f = new DTO_Factura();
                 f.setId_factura(rs.getInt(1));

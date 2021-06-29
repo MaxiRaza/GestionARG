@@ -20,13 +20,11 @@
                             <th></th>
                             <th></th>
                             <th></th>
-                            <th></th>
-                            <th></th>                       
+                            <th></th>     
                         </tr>
                     </thead>
                     <thead
                         <tr>
-                            <th scope="col"> # </th>
                             <th scope="col">Fecha </th>
                             <th scope="col">Sucursal </th>
                             <th scope="col">Vendedor </th>
@@ -38,7 +36,6 @@
                     <tbody>                                         
                         <tr>
                             <c:set var="id" scope = "session" value="${f.id_factura}"/>
-                            <td> ${f.id_factura}  </td>
                             <td> ${f.fecha}  </td>                           
                             <td> ${f.sucursal} </td>
                             <td> ${f.usuario}  </td>
@@ -47,17 +44,15 @@
                             <td></td>
                         </tr>
                     <thead bgcolor="#002D3B">
-                    <th></th>
                     <th>Detalles</th>
                     <th></th>
                     <th></th>
                     <th></th>
                     <th></th>
-                    <th></th>   
+                    <th></th>
                     </thead>
                     <thead>
                         <tr>
-                            <th></th>
                             <th></th>
                             <th scope="col">Producto </th>
                             <th scope="col">Marca </th>
@@ -69,7 +64,6 @@
                     <c:forEach items="${listadoDetalles}" var="d">
                         <c:if test="${ id == d.id_factura}" >
                             <tr>
-                                <td></td>
                                 <td></td>    
                                 <td> ${d.producto}  </td>
                                 <td> ${d.marca}  </td>
@@ -83,7 +77,6 @@
                     <td></td>    
                     <td></td>    
                     <td></td>    
-                    <td></td>   
                     <td>Total</td>    
                     <td>$ ${f.total}</td>                       
                 </c:forEach> 

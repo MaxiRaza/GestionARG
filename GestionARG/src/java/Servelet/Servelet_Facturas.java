@@ -24,6 +24,7 @@ public class Servelet_Facturas extends HttpServlet {
         request.getSession().setAttribute("servelet", "Facturas");
         String modo = request.getParameter("modo");
         request.getSession().setAttribute("t", false);
+        request.getSession().setAttribute("co", false);
 
         if (modo == null) {
 
@@ -68,10 +69,24 @@ public class Servelet_Facturas extends HttpServlet {
 
             }
 
-        }
+        } else if (modo.equals("tema")) {
+
+                if (request.getParameter("color").equals("oscuro")) {
+
+                    request.getSession().setAttribute("color", "claro");
+
+                } else {
+
+                    request.getSession().setAttribute("color", "oscuro");
+
+                }
+
+            }
 
         request.getSession().setAttribute("n", filas);
-        request.getSession().setAttribute("cantidad", (Integer.parseInt(request.getParameter("cantidad"))));
+        if (request.getParameter("cantidad") != null) {
+            request.getSession().setAttribute("cantidad", (Integer.parseInt(request.getParameter("cantidad"))));
+        }
         request.setAttribute("listadoFacturas", gf.obtenerFacturasDTO());
         request.setAttribute("listadoDetalles", gdf.obtenerDetalleFacturasDTO());
         RequestDispatcher rd = getServletContext().getRequestDispatcher("/Facturas/listado_Facturas.jsp");

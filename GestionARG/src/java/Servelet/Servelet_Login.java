@@ -21,6 +21,7 @@ public class Servelet_Login extends HttpServlet {
             throws ServletException, IOException {
 
         String modo = request.getParameter("modo");
+        request.getSession().setAttribute("servelet", "Loginn");
 
         if (modo != null) {
 
@@ -40,16 +41,29 @@ public class Servelet_Login extends HttpServlet {
                 RequestDispatcher rd = getServletContext().getRequestDispatcher("/Usuarios/AM_Usuario.jsp");
                 rd.forward(request, response);
 
+            } else if (modo.equals("tema")) {
+
+                if (request.getParameter("color").equals("oscuro")) {
+
+                    request.getSession().setAttribute("color", "claro");
+
+                } else {
+
+                    request.getSession().setAttribute("color", "oscuro");
+
+                }
+
             }
 
         } else {
 
             request.getSession().setAttribute("t", false);
             request.getSession().setAttribute("activar", 1);
-            RequestDispatcher rd = getServletContext().getRequestDispatcher("/Inicio/inicio.jsp");
-            rd.forward(request, response);
 
         }
+
+        RequestDispatcher rd = getServletContext().getRequestDispatcher("/Inicio/inicio.jsp");
+        rd.forward(request, response);
 
     }
 
@@ -62,6 +76,7 @@ public class Servelet_Login extends HttpServlet {
 
         if (gu.obtenerUsuario(alias, contrasenia)) {
 
+            request.getSession().setAttribute("color", "claro");
             request.getSession().setAttribute("log", true);
             request.getSession().setAttribute("usuario", gu.obtenerIdUsuario(alias, contrasenia));
             request.getSession().setAttribute("alias", alias);

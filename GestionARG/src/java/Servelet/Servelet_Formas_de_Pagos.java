@@ -25,6 +25,8 @@ public class Servelet_Formas_de_Pagos extends HttpServlet {
         request.getSession().setAttribute("modificar", false);
         request.getSession().setAttribute("accion", "Registrar");
         request.getSession().setAttribute("t", false);
+        request.getSession().setAttribute("co", false);
+        
 
         if (modo == null) {
 
@@ -106,10 +108,24 @@ public class Servelet_Formas_de_Pagos extends HttpServlet {
 
             }
 
-        }
+        } else if (modo.equals("tema")) {
+
+                if (request.getParameter("color").equals("oscuro")) {
+
+                    request.getSession().setAttribute("color", "claro");
+
+                } else {
+
+                    request.getSession().setAttribute("color", "oscuro");
+
+                }
+
+            }
 
         request.getSession().setAttribute("n", filas);
-        request.getSession().setAttribute("cantidad", (Integer.parseInt(request.getParameter("cantidad"))));
+        if (request.getParameter("cantidad") != null) {
+            request.getSession().setAttribute("cantidad", (Integer.parseInt(request.getParameter("cantidad"))));
+        }
         request.setAttribute("listadoFormasDePago", gfp.obtenerFormasDePagos());
         RequestDispatcher rd = getServletContext().getRequestDispatcher("/Formas_de_Pagos/listado_Formas_de_Pagos.jsp");
         rd.forward(request, response);
@@ -131,6 +147,7 @@ public class Servelet_Formas_de_Pagos extends HttpServlet {
             gfp.actualizarFormaDePago(fp);
         }
 
+        request.getSession().setAttribute("co", true);
         request.setAttribute("listadoFormasDePago", gfp.obtenerFormasDePagos());
         RequestDispatcher rd = getServletContext().getRequestDispatcher("/Formas_de_Pagos/listado_Formas_de_Pagos.jsp");
         rd.forward(request, response);

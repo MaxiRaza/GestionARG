@@ -69,7 +69,7 @@
                 <div class="row justify-content-md-center" >
                     <div class="col-md-2">
                         <c:if test="${!log}"><a href="Loginn?modo=iniciarSesion" class="btn btn-primary" style="width: 120px"><i class="bi bi-reply-fill" style="font-size: 18px"></i></a></c:if>
-                        <c:if test="${log}"><a href="Usuarios" class="btn btn-primary" style="width: 120px"><i class="bi bi-reply-fill" style="font-size: 18px"></i></a></c:if>
+                        <c:if test="${log}"><a href="${servelet}" class="btn btn-primary" style="width: 120px"><i class="bi bi-reply-fill" style="font-size: 18px"></i></a></c:if>
                     </div>
                     <div class="col-md-2">         
                         <button type="submit" class="btn btn-success" style="width: 120px"><i class="bi bi-save2" style="font-size: 18px"></i></button>  

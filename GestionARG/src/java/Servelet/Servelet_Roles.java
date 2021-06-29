@@ -26,6 +26,7 @@ public class Servelet_Roles extends HttpServlet {
         request.getSession().setAttribute("accion", "Registrar");
         request.getSession().setAttribute("e", false);
         request.getSession().setAttribute("t", true);
+        request.getSession().setAttribute("co", false);
 
         if (modo == null) {
 
@@ -109,10 +110,24 @@ public class Servelet_Roles extends HttpServlet {
 
             }
 
-        }
+        } else if (modo.equals("tema")) {
+
+                if (request.getParameter("color").equals("oscuro")) {
+
+                    request.getSession().setAttribute("color", "claro");
+
+                } else {
+
+                    request.getSession().setAttribute("color", "oscuro");
+
+                }
+
+            }
 
         request.getSession().setAttribute("n", filas);
-        request.getSession().setAttribute("cantidad", (Integer.parseInt(request.getParameter("cantidad"))));
+        if (request.getParameter("cantidad") != null) {
+            request.getSession().setAttribute("cantidad", (Integer.parseInt(request.getParameter("cantidad"))));
+        }
         request.setAttribute("listadoRoles", gr.obtenerRoles());
         RequestDispatcher rd = getServletContext().getRequestDispatcher("/Roles/listado_Roles.jsp");
         rd.forward(request, response);
@@ -134,6 +149,8 @@ public class Servelet_Roles extends HttpServlet {
             gr.actualizarRol(r);
         }
 
+        request.getSession().setAttribute("co", true);
+        request.getSession().setAttribute("t", true);
         request.setAttribute("listadoRoles", gr.obtenerRoles());
         RequestDispatcher rd = getServletContext().getRequestDispatcher("/Roles/listado_Roles.jsp");
         rd.forward(request, response);

@@ -25,6 +25,7 @@ public class Servelet_Contactos extends HttpServlet {
         request.getSession().setAttribute("modificar", false);
         request.getSession().setAttribute("accion", "Registrar");
         request.getSession().setAttribute("t", true);
+        request.getSession().setAttribute("co", false);
 
         if (modo == null) {
 
@@ -108,10 +109,24 @@ public class Servelet_Contactos extends HttpServlet {
 
             }
 
-        }
+        } else if (modo.equals("tema")) {
+
+                if (request.getParameter("color").equals("oscuro")) {
+
+                    request.getSession().setAttribute("color", "claro");
+
+                } else {
+
+                    request.getSession().setAttribute("color", "oscuro");
+
+                }
+
+            }
 
         request.getSession().setAttribute("n", filas);
-        request.getSession().setAttribute("cantidad", (Integer.parseInt(request.getParameter("cantidad"))));
+        if (request.getParameter("cantidad") != null) {
+            request.getSession().setAttribute("cantidad", (Integer.parseInt(request.getParameter("cantidad"))));
+        }
         request.setAttribute("listadoContactos", gc.obtenerContactos());
         RequestDispatcher rd = getServletContext().getRequestDispatcher("/Contactos/listado_Contactos.jsp");
         rd.forward(request, response);
@@ -134,6 +149,8 @@ public class Servelet_Contactos extends HttpServlet {
             gc.actualizarContacto(c);
         }
 
+        request.getSession().setAttribute("co", true);
+        request.getSession().setAttribute("t", true);
         request.setAttribute("listadoContactos", gc.obtenerContactos());
         RequestDispatcher rd = getServletContext().getRequestDispatcher("/Contactos/listado_Contactos.jsp");
         rd.forward(request, response);

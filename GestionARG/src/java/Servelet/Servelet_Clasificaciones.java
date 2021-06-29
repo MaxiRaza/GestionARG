@@ -25,6 +25,7 @@ public class Servelet_Clasificaciones extends HttpServlet {
         request.getSession().setAttribute("modificar", false);
         request.getSession().setAttribute("accion", "Registrar");
         request.getSession().setAttribute("t", true);
+        request.getSession().setAttribute("co", false);
 
         if (modo == null) {
 
@@ -108,10 +109,24 @@ public class Servelet_Clasificaciones extends HttpServlet {
 
             }
 
-        }
+        } else if (modo.equals("tema")) {
+
+                if (request.getParameter("color").equals("oscuro")) {
+
+                    request.getSession().setAttribute("color", "claro");
+
+                } else {
+
+                    request.getSession().setAttribute("color", "oscuro");
+
+                }
+
+            }
 
         request.getSession().setAttribute("n", filas);
-        request.getSession().setAttribute("cantidad", (Integer.parseInt(request.getParameter("cantidad"))));
+        if (request.getParameter("cantidad") != null) {
+            request.getSession().setAttribute("cantidad", (Integer.parseInt(request.getParameter("cantidad"))));
+        }
         request.setAttribute("listadoClasificaciones", gc.obtenerClasificaciones());
         RequestDispatcher rd = getServletContext().getRequestDispatcher("/Clasificaciones/listado_Clasificaciones.jsp");
         rd.forward(request, response);
@@ -133,6 +148,8 @@ public class Servelet_Clasificaciones extends HttpServlet {
             gc.actualizarClasificacion(c);
         }
 
+        request.getSession().setAttribute("co", true);
+        request.getSession().setAttribute("t", true);
         request.setAttribute("listadoClasificaciones", gc.obtenerClasificaciones());
         RequestDispatcher rd = getServletContext().getRequestDispatcher("/Clasificaciones/listado_Clasificaciones.jsp");
         rd.forward(request, response);
