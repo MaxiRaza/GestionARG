@@ -31,7 +31,7 @@ public class Servelet_Encargos extends HttpServlet {
     Gestor_Marcas gm = new Gestor_Marcas();
     Gestor_Categorias gc = new Gestor_Categorias();
     Gestor_Estados ges = new Gestor_Estados();
-    boolean f = false;
+    boolean agregando = false;
     boolean check1 = false;
     boolean check2 = false;
     boolean check3 = false;
@@ -47,7 +47,6 @@ public class Servelet_Encargos extends HttpServlet {
         request.getSession().setAttribute("servelet", "Encargos");
         String modo = request.getParameter("modo");
         request.getSession().setAttribute("modificar", false);
-        request.getSession().setAttribute("accion", "Registrar");
         request.getSession().setAttribute("t", true);
         request.getSession().setAttribute("co", false);
 
@@ -81,7 +80,7 @@ public class Servelet_Encargos extends HttpServlet {
 
             if (request.getParameter("id_detalle_encargo") != null) {
 
-                f = false;
+                agregando = false;
                 request.setAttribute("lista", false);
                 request.setAttribute("f", false);
                 request.getSession().setAttribute("modificar", true);
@@ -96,21 +95,21 @@ public class Servelet_Encargos extends HttpServlet {
                 check4 = true;
                 check5 = true;
                 check6 = true;
-                request.setAttribute("a", true);
-                request.setAttribute("b", true);
-                request.setAttribute("c", true);
-                request.setAttribute("d", true);
-                request.setAttribute("es", true);
-                request.setAttribute("confirmar", "enabled");
+                request.setAttribute("aa", true);
+                request.setAttribute("bb", true);
+                request.setAttribute("cc", true);
+                request.setAttribute("dd", true);
+                request.setAttribute("ee", true);
+                request.setAttribute("confirmar", "");
                 request.setAttribute("btn1", "none");
 
             } else if (request.getParameter("id_encargo") != null) {
 
-                f = true;
+                agregando = true;
                 request.setAttribute("lista", true);
                 request.setAttribute("listadoDetalles", gde.obtenerDetalleEncargosIdDTO(Integer.parseInt(request.getParameter("id_encargo"))));
                 request.getSession().setAttribute("accion", "Agregar Detalle");
-                request.setAttribute("id", request.getParameter("id_encargo"));
+                request.setAttribute("id_en", request.getParameter("id_encargo"));
                 request.setAttribute("f", true);
                 check1 = true;
                 check2 = false;
@@ -118,16 +117,16 @@ public class Servelet_Encargos extends HttpServlet {
                 check4 = false;
                 check5 = false;
                 check6 = false;
-                request.setAttribute("a", false);
-                request.setAttribute("b", false);
-                request.setAttribute("c", false);
-                request.setAttribute("d", false);
-                request.setAttribute("es", false);
-                request.setAttribute("confirmar", "disabled");
+                request.setAttribute("aa", false);
+                request.setAttribute("bb", false);
+                request.setAttribute("cc", false);
+                request.setAttribute("dd", false);
+                request.setAttribute("ee", false);
+                request.setAttribute("confirmar", "none");
 
             } else {
 
-                f = false;
+                agregando = false;
                 request.setAttribute("lista", false);
                 request.getSession().setAttribute("accion", "Registrar Encargo");
                 request.setAttribute("f", false);
@@ -137,12 +136,12 @@ public class Servelet_Encargos extends HttpServlet {
                 check4 = false;
                 check5 = false;
                 check6 = false;
-                request.setAttribute("a", false);
-                request.setAttribute("b", false);
-                request.setAttribute("c", false);
-                request.setAttribute("d", false);
-                request.setAttribute("es", false);
-                request.setAttribute("confirmar", "disabled");
+                request.setAttribute("aa", false);
+                request.setAttribute("bb", false);
+                request.setAttribute("cc", false);
+                request.setAttribute("dd", false);
+                request.setAttribute("ee", false);
+                request.setAttribute("confirmar", "none");
 
             }
 
@@ -169,8 +168,8 @@ public class Servelet_Encargos extends HttpServlet {
                 } else {
 
                     request.getSession().setAttribute("c", 2);
-                    request.getSession().setAttribute("id", Integer.parseInt(request.getParameter("id")));
-                    request.getSession().setAttribute("nombre", "el detalle = " + gde.obtenerDetalleEncargo(Integer.parseInt(request.getParameter("id"))).getId_detalle_encargo());
+                    request.getSession().setAttribute("id", Integer.parseInt(request.getParameter("id_d")));
+                    request.getSession().setAttribute("nombre", "el detalle = " + gde.obtenerDetalleEncargo(Integer.parseInt(request.getParameter("id_d"))).getId_detalle_encargo());
 
                 }
 
@@ -191,27 +190,6 @@ public class Servelet_Encargos extends HttpServlet {
             } else {
 
                 request.getSession().setAttribute("e", false);
-
-            }
-
-            if (!f) {
-
-                request.setAttribute("listadoEncargos", ge.obtenerEncargosDTO());
-                request.setAttribute("listadoDetalles", gde.obtenerDetalleEncargosDTO());
-                RequestDispatcher rd = getServletContext().getRequestDispatcher("/Encargos/listado_Encargos.jsp");
-                rd.forward(request, response);
-
-            } else {
-
-                request.setAttribute("lista", true);
-                request.setAttribute("listadoDetalles", gde.obtenerDetalleEncargosIdDTO(Integer.parseInt(request.getParameter("id_encargo"))));
-                request.setAttribute("co", false);
-                request.setAttribute("listadoProductos", gp.obtenerProductos());
-                request.setAttribute("listadoProveedores", gpr.obtenerProveedores());
-                request.setAttribute("listadoMarcas", gm.obtenerMarcas());
-                request.setAttribute("listadoCategorias", gc.obtenerCategorias());
-                RequestDispatcher rd = getServletContext().getRequestDispatcher("/Encargos/AM_Encargo.jsp");
-                rd.forward(request, response);
 
             }
 
@@ -265,10 +243,10 @@ public class Servelet_Encargos extends HttpServlet {
 
         if (request.getParameter("txtIdEncargo") != null) {
             request.setAttribute("f", true);
-            request.setAttribute("id", request.getParameter("txtIdEncargo"));
+            request.setAttribute("id_en", request.getParameter("txtIdEncargo"));
         }
 
-        if (f) {
+        if (agregando) {
 
             request.setAttribute("lista", true);
             request.setAttribute("listadoDetalles", gde.obtenerDetalleEncargosIdDTO(Integer.parseInt(request.getParameter("txtIdEncargo"))));
@@ -278,32 +256,32 @@ public class Servelet_Encargos extends HttpServlet {
         if (check1 && !request.getParameter("cmbCategorias").equals("Seleccionar...")) {
 
             request.setAttribute("btn1", "");
-            request.setAttribute("confirmar", "disabled");
-            request.setAttribute("a", true);
+            request.setAttribute("confirmar", "none");
+            request.setAttribute("aa", true);
             request.setAttribute("op1", "disabled");
             request.setAttribute("listadoCategorias", gc.obtenerCategoriasID(Integer.parseInt(request.getParameter("cmbCategorias"))));
             request.setAttribute("listadoMarcas", gm.obtenerMarcasFiltro(Integer.parseInt(request.getParameter("cmbCategorias"))));
 
             if (check2 && !request.getParameter("cmbMarcas").equals("Seleccionar...")) {
 
-                request.setAttribute("b", true);
+                request.setAttribute("bb", true);
                 request.setAttribute("op2", "disabled");
                 request.setAttribute("listadoMarcas", gm.obtenerMarcasID(Integer.parseInt(request.getParameter("cmbMarcas"))));
                 request.setAttribute("listadoProductos", gp.obtenerProductosMarcaDTO(Integer.parseInt(request.getParameter("cmbMarcas"))));
 
                 if (check3 && !request.getParameter("cmbProductos").equals("Seleccionar...")) {
 
-                    request.setAttribute("c", true);
+                    request.setAttribute("cc", true);
                     request.setAttribute("op3", "disabled");
                     request.setAttribute("listadoProductos", gp.obtenerProductosID(Integer.parseInt(request.getParameter("cmbProductos"))));
                     request.setAttribute("listadoProveedores", gpr.obtenerProveedoresFiltro(Integer.parseInt(request.getParameter("cmbMarcas"))));
 
                     if (check4 && !request.getParameter("cmbProveedores").equals("Seleccionar...")) {
 
-                        request.setAttribute("d", true);
+                        request.setAttribute("dd", true);
                         request.setAttribute("op4", "disabled");
                         request.setAttribute("btn1", "none");
-                        request.setAttribute("confirmar", "enabled");
+                        request.setAttribute("confirmar", "");
                         request.setAttribute("listadoProveedores", gpr.obtenerProveedoresID(Integer.parseInt(request.getParameter("cmbProveedores"))));
                         check5 = true;
 
@@ -323,7 +301,7 @@ public class Servelet_Encargos extends HttpServlet {
 
             request.setAttribute("listadoCategorias", gc.obtenerCategorias());
             request.setAttribute("btn1", "Selecionar");
-            request.setAttribute("confirmar", "disabled");
+            request.setAttribute("confirmar", "none");
 
         }
 
@@ -349,7 +327,7 @@ public class Servelet_Encargos extends HttpServlet {
                     de.setId_encargo(ge.obtenerUltimoIdEncargo());
                     gde.agregarDetalleEncargo(de);
 
-                } else if (f) {
+                } else if (agregando) {
 
                     de.setId_encargo(e.getId_encargo());
                     gde.agregarDetalleEncargo(de);
@@ -363,53 +341,56 @@ public class Servelet_Encargos extends HttpServlet {
 
                 }
 
-                check1 = false;
+                check1 = true;
                 check2 = false;
                 check3 = false;
                 check4 = false;
                 check5 = false;
                 check6 = false;
-                request.setAttribute("a", false);
-                request.setAttribute("b", false);
-                request.setAttribute("c", false);
-                request.setAttribute("d", false);
-                request.setAttribute("e", false);
+                request.setAttribute("aa", false);
+                request.setAttribute("bb", false);
+                request.setAttribute("cc", false);
+                request.setAttribute("dd", false);
+                request.setAttribute("ee", false);
                 request.setAttribute("op1", "enabled");
                 request.setAttribute("op2", "enabled");
                 request.setAttribute("op3", "enabled");
                 request.setAttribute("op4", "enabled");
-                request.setAttribute("confirmar", "disabled");
+                request.setAttribute("confirmar", "none");
                 request.setAttribute("listadoCategorias", gc.obtenerCategorias());
                 request.setAttribute("listadoMarcas", gm.obtenerMarcas());
                 request.setAttribute("listadoProductos", gp.obtenerProductos());
                 request.setAttribute("listadoProveedores", gpr.obtenerProveedores());
-                request.getSession().setAttribute("accion", "Agregar Detalle");
-                request.setAttribute("id", request.getParameter("txtIdEncargo"));
-                request.setAttribute("b", true);
-                request.setAttribute("co", true);
+                request.setAttribute("accion", "Agregar Detalle");
+                request.setAttribute("id_en", request.getParameter("txtIdEncargo"));
                 request.setAttribute("btn1", "");
                 request.setAttribute("lista", true);
+                request.setAttribute("co", true);
                 request.setAttribute("listadoDetalles", gde.obtenerDetalleEncargosIdDTO(Integer.parseInt(request.getParameter("txtIdEncargo"))));
 
-                if (!f) {
+                if (!agregando) {
 
                     request.setAttribute("listadoEncargos", ge.obtenerEncargosDTO());
                     request.setAttribute("listadoDetalles", gde.obtenerDetalleEncargosDTO());
-                    request.getSession().setAttribute("t", true);
-                    request.getSession().setAttribute("co", true);
+                    request.getSession().setAttribute("t", true);             
                     RequestDispatcher rd = getServletContext().getRequestDispatcher("/Encargos/listado_Encargos.jsp");
                     rd.forward(request, response);
 
+                } else {
+                    
+                    request.setAttribute("ma", 1);
+                    request.setAttribute("am", "?modo=AM&id_encargo="+e.getId_encargo());
+                    
                 }
 
-                this.f = true;
-
+            } else {
+                
+                check6 = true;
+                
             }
 
-            check6 = true;
-
         }
-       
+
         RequestDispatcher rd = getServletContext().getRequestDispatcher("/Encargos/AM_Encargo.jsp");
         rd.forward(request, response);
 

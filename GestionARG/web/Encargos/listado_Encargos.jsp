@@ -51,7 +51,7 @@
                                     <td> ${d.cantidad}  </td>
                                     <td> $ ${d.cantidad * d.importe}  </td>
                                     <td><a href="Encargos?modo=AM&id_detalle_encargo=${d.id_detalle_encargo}" class="btn btn-warning" style="width: 70px"><i class="bi bi-pencil" style="font-size: 18px"></i></a></td>
-                                    <td><c:if test="${rol != 4}"><a href="Encargos?modo=eliminar&a=a&id=${d.id_detalle_encargo}" class="btn btn-danger" style="width: 70px"><i class="bi bi-trash" style="font-size: 18px"></i></a></c:if></td>                               
+                                    <td><c:if test="${rol != 4}"><a href="Encargos?modo=eliminar&a=a&id_d=${d.id_detalle_encargo}" class="btn btn-danger" style="width: 70px"><i class="bi bi-trash" style="font-size: 18px"></i></a></c:if></td>                               
                                 </tr>   
                                         </c:if>                       
                                     </c:forEach>  

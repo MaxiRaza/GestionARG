@@ -80,7 +80,7 @@ public class Gestor_Encargos {
         try {
             abrirConexion();
             Statement st = conexion.createStatement();
-            ResultSet rs = st.executeQuery("SELECT e.id_encargo, e.fecha, es.nombre, SUM(d.importe * d.cantidad) FROM Encargos e JOIN Estados es ON e.id_estado = es.id_estado JOIN Detalle_Encargos d ON d.id_encargo = e.id_encargo WHERE e.vigencia = 1 GROUP BY e.id_encargo, e.fecha, es.nombre ORDER BY e.fecha DESC ");
+            ResultSet rs = st.executeQuery("SELECT e.id_encargo, e.fecha, es.nombre, SUM(d.importe) FROM Encargos e JOIN Estados es ON e.id_estado = es.id_estado JOIN Detalle_Encargos d ON d.id_encargo = e.id_encargo WHERE e.vigencia = 1 AND d.vigencia = 1 GROUP BY e.id_encargo, e.fecha, es.nombre ORDER BY e.fecha DESC ");
             while (rs.next()) {
                 DTO_Encargo e = new DTO_Encargo();
                 e.setId_encargo(rs.getInt(1));

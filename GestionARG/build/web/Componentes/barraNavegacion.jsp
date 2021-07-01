@@ -1,7 +1,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <a class="navbar-brand">     
-        <Font size=6>Gestion<font color="#5379fa">ARG</font></font></a>      
+        <Font size=6>Gestión<font color="#5379fa">ARG</font></font></a>      
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">

@@ -38,7 +38,7 @@
             <div class="container">
                 <div class="row justify-content-md-center">                  
                     <div class="col col-4">
-                        <input type="hidden" name="txtIdEncargo" value="<c:if test="${f}" >${id}</c:if><c:if test="${!f}" ><jsp:getProperty name="detalle_encargo" property="id_encargo"></jsp:getProperty></c:if>" />
+                        <input type="hidden" name="txtIdEncargo" value="<c:if test="${f}" >${id_en}</c:if><c:if test="${!f}" ><jsp:getProperty name="detalle_encargo" property="id_encargo"></jsp:getProperty></c:if>" />
                         <input type="hidden" name="txtIdDetalleEncargo"  value="<jsp:getProperty name="detalle_encargo" property="id_detalle_encargo"></jsp:getProperty>" />
                             <div class="form-group">
                                 <label for="recipient-name" class="col-form-label">Categoria (*)</label>
@@ -49,7 +49,7 @@
                                 </c:forEach>         
                             </select>
                         </div> 
-                        <c:if test="${a}">                          
+                        <c:if test="${aa}">                          
                             <div class="form-group">
                                 <label for="recipient-name" class="col-form-label">Marca (*)</label>
                                 <select name="cmbMarcas" required="required" class="form-control" id="recipient-name">
@@ -59,7 +59,7 @@
                                     </c:forEach>                                   
                                 </select>
                             </div>
-                            <c:if test="${b}">                              
+                            <c:if test="${bb}">                              
                                 <div class="form-group">
                                     <label for="recipient-name" class="col-form-label">Producto (*)</label>
                                     <select name="cmbProductos" required="required" class="form-control" id="recipient-name">
@@ -69,7 +69,7 @@
                                         </c:forEach>             
                                     </select>                                   
                                 </div>
-                                <c:if test="${c}">
+                                <c:if test="${cc}">
                                     <div class="form-group">
                                         <label for="recipient-name" class="col-form-label">Proveedor (*)</label>
                                         <select name="cmbProveedores" required="required" class="form-control" id="recipient-name">
@@ -79,13 +79,13 @@
                                             </c:forEach>             
                                         </select>
                                     </div>
-                                    <c:if test="${d}">        
+                                    <c:if test="${dd}">        
                                         <div class="form-group">
                                             <label class="col-form-label">Cantidad (*)</label>
                                             <input type="number" name="txtCantidad" required="required" class="form-control" id="recipient-name" <c:if test="${modificar}"> value="<jsp:getProperty name="detalle_encargo" property="cantidad"></jsp:getProperty>" </c:if>>
                                                 </div>
                                     </c:if>
-                                    <c:if test="${es}">        
+                                    <c:if test="${ee}">        
                                         <div class="form-group">
                                             <label for="recipient-name" class="col-form-label">Estado (*)</label>
                                             <select name="cmbEstados" required="required" class="form-control" id="recipient-name">
