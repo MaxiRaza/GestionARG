@@ -23,7 +23,7 @@
                         <c:forEach items="${listadoCarrito}" var="c">
                             <tr>
                                 <th>${c.id_compra}</th>
-                                <td>${c.nombre}</td>
+                                <td>${c.nombre}</td>                             
                                 <td>${c.precio}</td>
                                 <td><a href="Compras?modo=carrito&BD=BD&id=${c.id_producto}" class="btn btn-danger" style="width: 50px"><i class="bi bi-trash" style="font-size:  18px"></i></a></td>
                             </tr>

@@ -13,7 +13,7 @@
             <div class="col-md-3 mb-md-0 mb-3">
                 <ul class="list-unstyled">
                     <li>
-                        <a href="" data-toggle="modal" data-target="#PdP">Politicas de Privacidad</a>
+                        <a href="" data-toggle="modal" data-target="#PdP">Políticas de Privacidad</a>
                     </li>
                 </ul>
             </div>

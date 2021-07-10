@@ -21,7 +21,7 @@ public class Servelet_Productos extends HttpServlet {
     Gestor_Categorias gc = new Gestor_Categorias();
     Gestor_Marcas gm = new Gestor_Marcas();
     Gestor_Depositos gd = new Gestor_Depositos();
-    boolean a = false;
+    boolean a = true;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -165,7 +165,7 @@ public class Servelet_Productos extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        if (a && request.getParameter("cmbCategoriass") == null) {
+        if (request.getParameter("bandera") == null) {
 
             request.setAttribute("listadoCategorias", gc.obtenerCategorias());
 
@@ -203,9 +203,7 @@ public class Servelet_Productos extends HttpServlet {
                 request.getSession().setAttribute("id_categoria", 0);
                 request.getSession().setAttribute("id_marca", 0);
 
-            } 
-            
-            a=false;
+            }                               
 
         } else {
 
@@ -248,10 +246,10 @@ public class Servelet_Productos extends HttpServlet {
             }
 
             request.setAttribute("listadoProductos", gp.obtenerProductosDTO());
-
+            request.getSession().setAttribute("co", true);            
+            
         }
 
-        request.getSession().setAttribute("co", true);
         request.getSession().setAttribute("t", true);
         RequestDispatcher rd = getServletContext().getRequestDispatcher("/Productos/listado_Productos.jsp");
         rd.forward(request, response);

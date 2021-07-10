@@ -1,6 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
-<html style="min-height: 100%; position: relative;">
+<html style="min-height: 91%; min-width: 100%; position: relative;">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
         <c:if test="${color == 'claro'}">

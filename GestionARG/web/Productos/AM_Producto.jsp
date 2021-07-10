@@ -14,7 +14,8 @@
             <div class="container">
                 <div class="row justify-content-md-center">
                     <div class="col col-md-4 ">
-                        <input type="hidden" name="txtIdProducto" value="<jsp:getProperty name="producto" property="id_producto"></jsp:getProperty>" />
+                        <input type="hidden" name="txtIdProducto" value="<jsp:getProperty name="producto" property="id_producto"></jsp:getProperty>" /> 
+                            <input type="hidden" name="bandera" value="0"/>
                             <div class="form-group">
                                 <div class="form-group">
                                     <label class="col-form-label">Código (*)</label>
@@ -71,7 +72,7 @@
                         <button type="submit" class="btn btn-success" style="width: 120px"><i class="bi bi-save2" style="font-size: 22px"></i></button>  
                     </div>  
                 </div>
-            </div>
+            </div>           
         </form>
     </body>
 </html>

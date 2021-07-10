@@ -300,4 +300,23 @@ public class Gestor_Usuarios {
         }
         return u;
     }
+    
+    public String obtenerContraUsuario(String correo) {
+        String pass = "";
+        try {
+            abrirConexion();
+            PreparedStatement ps = conexion.prepareStatement("SELECT u.contrasenia FROM Usuarios u JOIN Contactos c ON u.id_contacto = c.id_contacto WHERE c.correo = ?");
+            ps.setString(1, correo);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                pass = rs.getString(1);
+            }
+            ps.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Gestor_Usuarios.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            cerrarConexion();
+        }
+        return pass;
+    }
 }

@@ -8,9 +8,9 @@
         <title>GestionARG - Reportes</title>     
     </head>
     <body>             
-        <br><h1  class="row justify-content-md-center">Reportes</h1><br>       
+        <br><h1  class="row justify-content-md-center">Reportes</h1><br>                 
         <div class="row justify-content-md-center"><br><br> <br> 
-            <h4>Top diez Productos en  ventas</h4>
+            <h4>Top diéz Productos en  ventas</h4>
         </div>
         <div class="container-fluid">
             <table class="table table-striped table-dark">
@@ -19,7 +19,7 @@
                         <th scope="col">#</th>
                         <th scope="col">Producto</th>
                         <th scope="col">Marca</th>
-                        <th scope="col">Categoria</th>
+                        <th scope="col">Categoría</th>
                         <th scope="col">Cantidad de ventas</th>
                     </tr>
                 </thead>
@@ -35,6 +35,7 @@
                     </c:forEach>                
                 </tbody>
             </table>
+            <center><a href="Reportess?modo=barra"  class="btn btn-primary">Mostrar gráfico <i class="bi bi-bar-chart-line"></i></a></center>
         </div>
         <br> <div class="row justify-content-md-center"><br><br> <br> 
             <h4>Top cinco Marcas mas vendidas</h4>
@@ -56,9 +57,10 @@
                     </c:forEach>                
                 </tbody>
             </table>
+            <center><a href="Reportess?modo=torta"  class="btn btn-primary ">Ver gráfico <i class="bi bi-pie-chart-fill"></i></a></center>          
         </div>
         <br> <div class="row justify-content-md-center"><br><br> <br> 
-            <h4>Facturacion mensual</h4>
+            <h4>Facturación mensual (2021)</h4>
         </div>
         <div class="container-fluid">
             <table class="table table-striped table-dark">
@@ -76,7 +78,7 @@
                         </tr>    
                     </c:forEach>                
                 </tbody>
-            </table>
+            </table><center><a href="Reportess?modo=lineal"  class="btn btn-primary">Mostrar gráfico <i class="bi bi-graph-up"></i></a></center>            
         </div>
     </body>
 </html>

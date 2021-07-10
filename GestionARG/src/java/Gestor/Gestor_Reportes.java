@@ -106,5 +106,27 @@ public class Gestor_Reportes {
         }
         return lista;
     }
+    
+    public ArrayList<Factura> obtenerFacturacionMensualLineal() {
+        ArrayList<Factura> lista = new ArrayList<>();
+        try {
+            abrirConexion();
+            Statement st = conexion.createStatement();
+            ResultSet rs = st.executeQuery("SELECT DISTINCT SUM(f.cantidad * f.importe), MONTH (fa.fecha) FROM Detalle_Facturas f JOIN Facturas fa ON fa.id_factura = fa.id_factura WHERE YEAR(fa.fecha) = 2021 GROUP BY MONTH (fa.fecha) ORDER BY MONTH (fa.fecha) ");
+            while (rs.next()) {
+                Factura f = new Factura();
+                f.setDescuento(rs.getFloat(1));
+                f.setId_factura(rs.getInt(2));
+                lista.add(f);
+            }
+            rs.close();
+            st.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Gestor_Reportes.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            cerrarConexion();
+        }
+        return lista;
+    }
 
 }

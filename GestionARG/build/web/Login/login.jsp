@@ -28,7 +28,8 @@
                 </div>
                 <button type="submit" class="btn btn-primary btn-block btn-large">Iniciar Sesion</button><br>           
             </form>
-            <a href="Loginn?modo=registrarse" class="btn btn-primary btn-block btn-large">Registrarse</a>
+            <a href="Loginn?modo=registrarse" class="btn btn-primary btn-block btn-large">Registrarse</a><br>
+            <a style="font-size: 18px; color: blue;" href="Loginn?modo=recuperacion">Olvide mi contraseña</a>
         </div>
         <script  type="text/javascript" src="JS/Funcionalidad.js"></script>
     </body>

@@ -43,7 +43,7 @@
                                     <a class="nav-link <c:if test="${activar == 14}">active</c:if>" href="Formas_de_Pagos">Formas de Pagos</a>
                                     <a class="nav-link <c:if test="${activar == 15}">active</c:if>" href="Depositos">Depósitos</a>
                                     <a class="nav-link <c:if test="${activar == 16}">active</c:if>" href="Clasificaciones">Clasificaciones</a>
-                                    <a class="nav-link <c:if test="${activar == 17}">active</c:if>" href="Categorias">Categorias</a>
+                                    <a class="nav-link <c:if test="${activar == 17}">active</c:if>" href="Categorias">Categorías</a>
                                     <a class="nav-link <c:if test="${activar == 18}">active</c:if>" href="Contactos">Contactos</a>
                                     <a class="nav-link <c:if test="${activar == 20}">active</c:if>" href="Estados">Estados</a>
                                     </div>
@@ -72,7 +72,7 @@
     <c:if test="${!log}">
         <ul class="navbar-nav ml-auto"> 
             <li class="nav-item">
-                <a class="nav-link" href="Loginn?modo=iniciarSesion">Iniciar Sesion</a>
+                <a class="nav-link" href="Loginn?modo=iniciarSesion">Iniciar Sesión</a>
             </li>  
         </ul>  
     </c:if>

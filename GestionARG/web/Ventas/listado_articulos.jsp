@@ -7,10 +7,10 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
         <jsp:include page="../Componentes\formato.jsp"/>
         <jsp:useBean id="producto" class="Modelo.DTO.DTO_Producto" scope="request"></jsp:useBean>
-            <title>GestionARG - Listado de Articulos</title>
+            <title>GestionARG - Listado de Artículos</title>
         </head>
         <body>
-            <br><h1  class="row justify-content-md-center">Listado de Articulos</h1><br><br>
+            <br><h1  class="row justify-content-md-center">Listado de Artículos</h1><br><br>
             <div style="position: relative; float: right; padding-right: 60px;">
                 <button  type="button" class="btn btn-primary" style="width: 120px" data-toggle="modal" data-target="#micarrito"><i class="bi bi-cart4"></i> Carrito</button>
             </div> 

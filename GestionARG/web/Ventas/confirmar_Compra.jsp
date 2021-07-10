@@ -45,7 +45,7 @@
                                     <input style="width: 50px" type="number" name="txtCantidad${c.id_compra}" required="required" value="1" min="1" max="100">
                                 </td>
                                 <td>$ ${c.precio} /u</td>
-                                <td><a href="Compras?modo=comprar&BD=BD&id=${c.id_producto}" class="btn btn-danger" style="width: 50px"><i class="bi bi-trash" style="font-size:  18px"></i></a></td>
+                                <td><a href="Compras?modo=comprar&Bde=Bde&id_p=${c.id_producto}" class="btn btn-danger" style="width: 50px"><i class="bi bi-trash" style="font-size:  18px"></i></a></td>
                             </tr>
                         </c:forEach>
                     </tbody>

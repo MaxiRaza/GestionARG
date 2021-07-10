@@ -2,6 +2,7 @@ package Servelet;
 
 import Gestor.Gestor_Roles;
 import Gestor.Gestor_Usuarios;
+import Modelo.EnviarCorreo;
 import java.io.IOException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -22,6 +23,8 @@ public class Servelet_Login extends HttpServlet {
 
         String modo = request.getParameter("modo");
         request.getSession().setAttribute("servelet", "Loginn");
+         request.getSession().setAttribute("color", "claro");
+         request.getSession().setAttribute("t", false);
 
         if (modo != null) {
 
@@ -53,6 +56,11 @@ public class Servelet_Login extends HttpServlet {
 
                 }
 
+            } else if (modo.equals("recuperacion")) {
+
+                RequestDispatcher rd = getServletContext().getRequestDispatcher("/Login/recuperarContrasenia.jsp");
+                rd.forward(request, response);
+
             }
 
         } else {
@@ -70,6 +78,21 @@ public class Servelet_Login extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+        if (request.getParameter("txtCorreo") != null) {
+
+            try {
+
+                EnviarCorreo.enviarMail("smtp.gmail.com", "587", "gestionargcontacto@gmail.com", "kb4240423180", request.getParameter("txtCorreo"), "Recuperación de contraseña", "Usted solicito una recuperación de contraseña, su código es: " + gu.obtenerContraUsuario(request.getParameter("txtCorreo")));
+
+            } catch (Exception e) {
+
+            }
+
+            RequestDispatcher rd = getServletContext().getRequestDispatcher("/Login/login.jsp");
+            rd.forward(request, response);
+            
+        }
 
         String alias = request.getParameter("txtAlias");
         String contrasenia = request.getParameter("txtContrasenia");

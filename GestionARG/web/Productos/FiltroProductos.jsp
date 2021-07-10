@@ -15,6 +15,7 @@
                 <div class="row justify-content-md-center">
                     <div class="col col-md-4 ">
                         <input type="hidden" name="txtIdProducto" value="<jsp:getProperty name="producto" property="id_producto"></jsp:getProperty>" />
+                            <input type="hidden" name="bandera" value="0"/>
                             <div class="form-group">
                                 <label for="recipient-name" class="col-form-label">Categoria (*)</label>
                                 <select name="cmbCategoriass" required="required" class="form-control" id="recipient-name" >

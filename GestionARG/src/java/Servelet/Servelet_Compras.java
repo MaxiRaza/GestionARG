@@ -114,7 +114,16 @@ public class Servelet_Compras extends HttpServlet {
                 c.setId_producto(gp.obtenerProducto(Integer.parseInt(request.getParameter("id"))).getId_producto());
                 c.setNombre(gp.obtenerProducto(Integer.parseInt(request.getParameter("id"))).getNombre());
                 c.setCantidad(1);
-                gf.agregarDetalleCarrito(c);
+                boolean test = true;
+                for (Carrito d : gf.obtenerCarritoDTO()) {
+                    if (d.getId_producto() == c.getId_producto()) {
+                        test = false;
+                        break;
+                    }
+                }
+                if (test) {
+                    gf.agregarDetalleCarrito(c);
+                }
 
             } else if (request.getParameter("BD") != null) {
 
@@ -132,9 +141,9 @@ public class Servelet_Compras extends HttpServlet {
 
         } else if (modo.equals("comprar")) {
 
-            if (request.getParameter("BD") != null) {
+            if (request.getParameter("Bde") != null) {
 
-                gf.eliminarDetalleCarrito(Integer.parseInt(request.getParameter("id")));
+                gf.eliminarDetalleCarrito(Integer.parseInt(request.getParameter("id_p")));
 
             } else if (request.getParameter("C") != null) {
 
@@ -156,7 +165,9 @@ public class Servelet_Compras extends HttpServlet {
                     total += d.getCantidad() * d.getPrecio();
                 }
                 request.setAttribute("total", total);
-                id = Integer.parseInt(request.getParameter("usuario"));
+                if (request.getParameter("usuario") != null) {
+                     id = Integer.parseInt(request.getParameter("usuario"));
+                }             
                 request.setAttribute("listadoSucursales", gs.obtenerSucursales());
                 request.setAttribute("listadoFormasdePago", gfdp.obtenerFormasDePagos());
                 request.setAttribute("listadoCarrito", gf.obtenerCarritoDTO());

@@ -33,23 +33,26 @@
                 <div class="col col-xl-4" style="margin-top: 55px">
                     <div id="carouselExampleInterval" class="carousel slide" data-ride="carousel">
                         <div class="carousel-inner">
-                            <div class="carousel-item active" data-interval="10000">
-                                <img src="Imagenes/c.jpg" class="d-block w-100" alt="" height="530">
+                            <div class="carousel-item active" data-interval="4000">
+                                <img src="Imagenes/c.jpg" class="d-block w-100 img-fluid" alt="" >
                             </div>
                             <div class="carousel-item" data-interval="4000">
-                                <img src="Imagenes/a.jpg" class="d-block w-100" alt="" height="530">
+                                <img src="Imagenes/a.jpg" class="d-block w-100 img-fluid" alt="" >
                             </div>
-                            <div class="carousel-item" data-interval="8000">
-                                <img src="Imagenes/b.jpeg" class="d-block w-100" alt="" height="530">
+                            <div class="carousel-item" data-interval="4000">
+                                <img src="Imagenes/b.jpeg" class="d-block w-100 img-fluid" alt="">
+                            </div>
+                            <div class="carousel-item" data-interval="4000">
+                                <img src="Imagenes/d.jpg" class="d-block w-100 img-fluid" alt="">
                             </div>
                         </div>
                         <a class="carousel-control-prev" type="button" data-target="#carouselExampleInterval" data-slide="prev">
                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Anterior</span>
+                            <span class="visually-hidden"></span>
                         </a>
                         <a class="carousel-control-next" type="button" data-target="#carouselExampleInterval" data-slide="next">
                             <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Siguiente</span>
+                            <span class="visually-hidden"></span>
                         </a>
                     </div>
                 </div>
@@ -69,7 +72,7 @@
                     </div>
                     <div class="col-md-6">
                         <div class="h-100 p-5  jumbotron rounded-3">
-                            <h2>La plataforma de "MercadoPago" esta en camino !</h2>
+                            <h2>La plataforma de "MercadoPago" está en camino !</h2>
                             <p>
                                 Les informamos que nuestro equipo de desarrollo ya está trabajando en la nueva forma de pago que permitirá
                                 a los clientes poder abonar de manera online mediante dicha plataforma.
