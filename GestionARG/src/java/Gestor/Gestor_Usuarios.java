@@ -305,7 +305,7 @@ public class Gestor_Usuarios {
         String pass = "";
         try {
             abrirConexion();
-            PreparedStatement ps = conexion.prepareStatement("SELECT u.contrasenia FROM Usuarios u JOIN Contactos c ON u.id_contacto = c.id_contacto WHERE c.correo = ?");
+            PreparedStatement ps = conexion.prepareStatement("SELECT u.contrasenia FROM Usuarios u JOIN Contactos c ON u.id_contacto = c.id_contacto WHERE c.correo = ? and u.vigencia = 1");
             ps.setString(1, correo);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
